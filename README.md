@@ -3,4 +3,4 @@ some of my testing repository with multiple software projects inside it for lear
 
 ## Block Buster
 
-[BLOCKBUSTER](blockBuster/README.md)
+[BLOCKBUSTER](blockBuster/)
