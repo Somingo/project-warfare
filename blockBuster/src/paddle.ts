@@ -8,19 +8,23 @@ import {KeyCodes} from "./keyCodes";
 
 export default class Paddle implements GameObject {
     position: Vector;
-    size: Vector = new Vector(150, 30);
+    size: Vector = new Vector(150, 150);
     game: Game;
-
-    speed: number = 200;
-
-    color: string = Colors.BLUE;
 
     constructor(game: Game) {
         this.game = game;
         this.position = new Vector(
             game.size.x / 2 - this.size.x / 2,
-            game.size.y - this.size.y - 10
+            game.size.y - this.size.y + 110,
         );
+    }
+
+    speed: number = 200;
+
+    color: string = Colors.BLUE;
+
+    get anchor(): Vector {
+        return this.position.clone().add(this.size.clone().divideConst(2));
     }
 
     get bound(): Rectangle {
