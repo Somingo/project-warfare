@@ -3,18 +3,21 @@ import Vector from "./vector";
 import Game from "./game";
 import Rectangle from "./rectangle";
 import Colors from "./colors";
+import {KeyCodes} from "./keyCodes";
 
 
 export default class Paddle implements GameObject {
     position: Vector;
-    size: Vector = Vector.create(150, 300);
+    size: Vector = new Vector(150, 30);
     game: Game;
+
+    speed: number = 200;
 
     color: string = Colors.BLUE;
 
     constructor(game: Game) {
         this.game = game;
-        this.position = Vector.create(
+        this.position = new Vector(
             game.size.x / 2 - this.size.x / 2,
             game.size.y - this.size.y - 10
         );
@@ -24,11 +27,17 @@ export default class Paddle implements GameObject {
         return new Rectangle(this.position, this.position.clone().add(this.size));
     }
 
-    update(deltaTime: number) {
-        this.color = this.bound.isInside(this.game.ball.bounds) ? Colors.RED : Colors.BLUE;
-        this.color = this.bound.hasCollision(this.game.ball.bounds)
-            ? Colors.GREEN
-            : this.color;
+    update(deltaTime: number, keyMap: { [p: number]: boolean }) {
+        const speedVector: Vector = new Vector(0, 0);
+        if (keyMap[KeyCodes.LEFT] === true) {
+            speedVector.x -= this.speed;
+        }
+        if (keyMap[KeyCodes.RIGHT] === true) {
+            speedVector.x += this.speed;
+        }
+        this.position.add(speedVector.divideConst(deltaTime));
+        if (this.position.x < 0) this.position.x = 0;
+        if (this.position.x > this.game.size.x - this.size.x) this.position.x = this.game.size.x - this.size.x;
     }
 
     draw(ctx: CanvasRenderingContext2D) {

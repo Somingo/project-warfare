@@ -5,6 +5,7 @@ import Paddle from "./paddle";
 import Ball from "./ball";
 import Rectangle from "./rectangle";
 import Bounded from "./bounded";
+import InputHandler from "./inputHandler";
 
 export default class Game implements GameObject, Bounded {
     position: Vector = Vector.create(0, 0);
@@ -13,9 +14,11 @@ export default class Game implements GameObject, Bounded {
 
     paddle: Paddle;
     ball: Ball;
+    inputHandler: InputHandler;
 
     constructor(canvasSize: Vector) {
         this.size = canvasSize;
+        this.inputHandler = new InputHandler()
     }
 
     get bounds(): Rectangle {
@@ -31,7 +34,7 @@ export default class Game implements GameObject, Bounded {
     }
 
     update(deltaTime: number) {
-        this.gameObjects.forEach(g => g.update(deltaTime));
+        this.gameObjects.forEach(g => g.update(deltaTime, this.inputHandler.keyMap));
     }
 
     draw(ctx: CanvasRenderingContext2D) {
