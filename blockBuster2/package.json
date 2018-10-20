@@ -1,0 +1,15 @@
+{
+  "name": "blockbuster2",
+  "version": "0.0.1",
+  "description": "blockbuster webpack + typescript implementation",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "blockbuster",
+    "version2"
+  ],
+  "author": "Soma Soros aranytestuisten@gmail.com",
+  "license": "MIT"
+}
