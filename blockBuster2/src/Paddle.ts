@@ -3,6 +3,7 @@ import {Rectangle} from './engine/collision/Rectangle';
 import {UpdateEvent} from './engine/UpdateEvent';
 import {Vector} from './engine/Vector';
 import {Game} from './Game';
+import {Keys} from './engine/Keys';
 
 export class Paddle extends Rectangle implements Sprite {
 
@@ -28,7 +29,17 @@ export class Paddle extends Rectangle implements Sprite {
     }
 
     update(e: UpdateEvent): void {
+        let updateX = 0;
+        if (e.keyMap[Keys.leftArrow]) {
+            updateX -= this.speed;
+        }
+        if (e.keyMap[Keys.rightArrow]) {
+            updateX += this.speed;
+        }
+        this.position.x += updateX / e.deltaTime;
 
+        if (this.position.x < 0) this.position.x = 0;
+        if (this.bottomRight.x > this.game.width) this.position.x = this.game.width - this.width;
     }
 
 }

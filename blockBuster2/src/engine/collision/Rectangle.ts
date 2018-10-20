@@ -22,7 +22,7 @@ export class Rectangle implements Shape {
         return this.size.y;
     }
 
-    get bottomLeft(): Vector {
+    get bottomRight(): Vector {
         return new Vector(this.position.x + this.size.x, this.position.y + this.size.y);
     }
 
