@@ -4,7 +4,8 @@
   "description": "blockbuster webpack + typescript implementation",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [
     "blockbuster",
