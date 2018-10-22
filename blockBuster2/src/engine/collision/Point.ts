@@ -6,4 +6,7 @@ export class Point extends Vector implements Shape {
         return "Point";
     }
 
+    static fromVector(v:Vector):Point {
+        return new Point(v.x,v.y);
+    }
 }

@@ -18,7 +18,7 @@ export class Game implements Sprite {
     paddle: Paddle;
     ball: Ball;
 
-    hitboxToBall: Rectangle;
+    hitBoxToBall: Rectangle;
     blocks: Block[] = [];
 
     bg: HTMLImageElement;
@@ -32,7 +32,7 @@ export class Game implements Sprite {
         this.sprites.push(new FpsMeter());
         this.sprites.push(this.paddle);
         this.sprites.push(this.ball);
-        this.hitboxToBall = new Rectangle(new Vector(this.ball.radius, this.ball.radius), new Vector(width - 2 * this.ball.radius, height - 2 * this.ball.radius));
+        this.hitBoxToBall = new Rectangle(new Vector(this.ball.radius, this.ball.radius), new Vector(width - 2 * this.ball.radius, height - 2 * this.ball.radius));
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 5; j++) {
                 this.blocks.push(new Block(new Vector(i * 80, j * 40 + 100), new Vector(80, 40), this));
@@ -52,9 +52,11 @@ export class Game implements Sprite {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        //ctx.clearRect(0, 0, this.width, this.height);
         ctx.drawImage(this.bg, 0, 0);
         this.sprites.forEach(sprite => sprite.draw(ctx));
+
+        ctx.strokeStyle = '#fff';
+        ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
     }
 
 }

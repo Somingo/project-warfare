@@ -1,5 +1,6 @@
 import {Shape} from './Shape';
 import {Vector} from '../Vector';
+import {Line} from './Line';
 
 export class Rectangle implements Shape {
 
@@ -23,7 +24,19 @@ export class Rectangle implements Shape {
     }
 
     get bottomRight(): Vector {
-        return new Vector(this.position.x + this.size.x, this.position.y + this.size.y);
+        return this.position.clone().addY(this.height).addX(this.width);
+    }
+
+    get topLeft(): Vector {
+        return this.position.clone();
+    }
+
+    get bottomLeft(): Vector {
+        return this.position.clone().addY(this.height);
+    }
+
+    get topRight(): Vector {
+        return this.position.clone().addX(this.width);
     }
 
     get center(): Vector {
@@ -39,5 +52,15 @@ export class Rectangle implements Shape {
         return "NOT_ROTATED_RECTANGLE";
     }
 
+    static fromNumbers(x1: number, y1: number, x2: number, y2: number): Rectangle {
+        return new Rectangle(new Vector(Math.min(x1, x2), Math.min(y1, y2)), new Vector(Math.max(x1, x2), Math.max(y1, y2)));
+    }
+
+    getLines(): Line[] {
+        return [Line.fromVectors(this.topLeft, this.topRight)
+            , Line.fromVectors(this.topLeft, this.bottomLeft)
+            , Line.fromVectors(this.bottomRight, this.topRight)
+            , Line.fromVectors(this.bottomLeft, this.bottomRight)];
+    }
 
 }

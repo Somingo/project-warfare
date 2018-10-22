@@ -20,16 +20,28 @@ export class Block extends Rectangle implements Sprite {
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.strokeStyle = '#fff';
+        ctx.strokeRect(this.hitBoxToBall.x,this.hitBoxToBall.y,this.hitBoxToBall.width,this.hitBoxToBall.height);
     }
 
     init(): void {
         const rad = this.game.ball.radius;
         this.color = BlockColors.getRandomColor();
-        this.hitBoxToBall = new Rectangle(this.position.clone().addX(-rad).addY(-rad), new Vector(this.width + 2 * rad, this.height + 2 * rad));
-
+        this.hitBoxToBall = this.hitBox;
     }
 
     update(e: UpdateEvent): void {
+    }
+
+    get hitBox(): Rectangle {
+        const r = this.game.ball.radius;
+        const topleft = this.position.clone();
+        topleft.x -= r;
+        topleft.y -= r;
+        const size = this.size.clone();
+        size.x += 2 * r;
+        size.y += 2 * r;
+        return new Rectangle(topleft, size);
     }
 
 }
