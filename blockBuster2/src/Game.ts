@@ -5,6 +5,7 @@ import {Paddle} from './Paddle';
 import {Ball} from './ball/Ball';
 import {Rectangle} from './engine/collision/Rectangle';
 import {Vector} from './engine/Vector';
+import {Block} from './Block';
 
 export class Game implements Sprite {
 
@@ -18,6 +19,7 @@ export class Game implements Sprite {
     ball: Ball;
 
     hitboxToBall: Rectangle;
+    blocks: Block[] = [];
 
     constructor(width: number, height: number) {
         this.width = width;
@@ -28,7 +30,13 @@ export class Game implements Sprite {
         this.sprites.push(new FpsMeter());
         this.sprites.push(this.paddle);
         this.sprites.push(this.ball);
-        this.hitboxToBall = new Rectangle(new Vector(this.ball.radius, this.ball.radius), new Vector(width - 2 * this.ball.radius, height - 2 * this.ball.radius))
+        this.hitboxToBall = new Rectangle(new Vector(this.ball.radius, this.ball.radius), new Vector(width - 2 * this.ball.radius, height - 2 * this.ball.radius));
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 5; j++) {
+                this.blocks.push(new Block(new Vector(i * 80, j * 40 + 100), new Vector(80, 40), this));
+            }
+        }
+        this.blocks.forEach(block => this.sprites.push(block));
     }
 
     init(): void {
