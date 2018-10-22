@@ -6,7 +6,7 @@ export class FpsMeter implements Sprite {
     fps: string = '';
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.fillStyle = '#000';
+        ctx.fillStyle = '#fff';
         ctx.fillText(this.fps, 10, 20);
     }
 

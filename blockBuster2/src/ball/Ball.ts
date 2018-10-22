@@ -5,7 +5,7 @@ import {Game} from '../Game';
 import {Vector} from '../engine/Vector';
 import {Point} from '../engine/collision/Point';
 import {Collision} from '../engine/collision/Collision';
-
+import * as _ from 'lodash';
 export class Ball extends Circle implements Sprite {
 
     speed: number;
@@ -14,7 +14,7 @@ export class Ball extends Circle implements Sprite {
     image: HTMLImageElement;
 
     constructor(game: Game) {
-        super(new Point(game.width / 2, game.height / 2), 8);
+        super(new Point(game.width / 2, game.height -150), 8);
         this.speed = 100;
         this.speedVector = Vector.getRandomVector().getUnit().divideWithConst(1 / this.speed);
         this.game = game;
@@ -42,8 +42,13 @@ export class Ball extends Circle implements Sprite {
         }
 
         if (Collision.collisionPointToRectangle(this.center, this.game.paddle)) {
-            this.speedVector = this.center.clone().substract(this.game.paddle.center.addY(this.game.paddle.width/2)).getUnit().divideWithConst(1/this.speed);
+            this.speedVector = this.center.clone().substract(this.game.paddle.center.addY(this.game.paddle.width / 2)).getUnit().divideWithConst(1 / this.speed);
         }
+
+        const blockToRemove = this.game.blocks.filter(value => Collision.collisionRectangleToPoint(value.hitBoxToBall, this.center));
+
+        _.pullAll(this.game.sprites, blockToRemove);
+        _.pullAll(this.game.blocks, blockToRemove);
 
     }
 

@@ -21,6 +21,8 @@ export class Game implements Sprite {
     hitboxToBall: Rectangle;
     blocks: Block[] = [];
 
+    bg: HTMLImageElement;
+
     constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
@@ -40,6 +42,8 @@ export class Game implements Sprite {
     }
 
     init(): void {
+        this.bg = new Image();
+        this.bg.src = '/assets/bg.jpg';
         this.sprites.forEach(sprite => sprite.init());
     }
 
@@ -48,7 +52,8 @@ export class Game implements Sprite {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.clearRect(0, 0, this.width, this.height);
+        //ctx.clearRect(0, 0, this.width, this.height);
+        ctx.drawImage(this.bg, 0, 0);
         this.sprites.forEach(sprite => sprite.draw(ctx));
     }
 
