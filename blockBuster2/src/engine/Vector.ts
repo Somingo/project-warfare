@@ -7,31 +7,47 @@ export class Vector {
         this.y = y;
     }
 
-    static getRandomVector():Vector {
+    static getRandomVector(): Vector {
         return new Vector(Math.random(), Math.random());
     }
 
     clone(): Vector {
-        return new Vector(this.x,this.y);
+        return new Vector(this.x, this.y);
     }
 
-    length():number {
-        return Math.sqrt(this.x*this.x+this.y*this.y);
+    length(): number {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
-    add(v:Vector):Vector {
+    add(v: Vector): Vector {
         this.x += v.x;
         this.y += v.y;
         return this;
     }
 
-    divideWithConst(c:number):Vector {
+    substract(v: Vector): Vector {
+        this.x -= v.x;
+        this.y -= v.y;
+        return this;
+    }
+
+    divideWithConst(c: number): Vector {
         this.x /= c;
         this.y /= c;
         return this;
     }
 
-    getUnit():Vector {
+    getUnit(): Vector {
         return this.clone().divideWithConst(this.length());
+    }
+
+    addX(x: number): Vector {
+        this.x += x;
+        return this;
+    }
+
+    addY(y: number): Vector {
+        this.y += y;
+        return this;
     }
 }
