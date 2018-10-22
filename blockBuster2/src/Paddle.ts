@@ -11,6 +11,17 @@ export class Paddle extends Rectangle implements Sprite {
     game: Game;
     color: string;
 
+    get hitBox(): Rectangle {
+        const r = this.game.ball.radius;
+        const topleft = this.position.clone();
+        topleft.x -= r;
+        topleft.y -= r;
+        const size = this.size.clone();
+        size.x += 2 * r;
+        size.y += 2 * r;
+        return new Rectangle(topleft, size);
+    }
+
     constructor(game: Game) {
         const size = new Vector(130, 15);
         super(new Vector(game.width / 2 - size.x / 2, game.height - size.y - 10), size);
