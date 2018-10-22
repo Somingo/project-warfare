@@ -6,8 +6,12 @@ import {Ball} from './ball/Ball';
 import {Rectangle} from './engine/collision/Rectangle';
 import {Vector} from './engine/Vector';
 import {Block} from './Block';
+import {Keys} from './engine/Keys';
 
 export class Game implements Sprite {
+
+    renderHitBoxes: boolean = false;
+    lastH = false;
 
     width: number;
     height: number;
@@ -48,15 +52,20 @@ export class Game implements Sprite {
     }
 
     update(updateEvent: UpdateEvent): void {
+        if (updateEvent.keyMap[Keys.h]&&!this.lastH){
+            this.renderHitBoxes=!this.renderHitBoxes;
+        }
+        this.lastH = updateEvent.keyMap[Keys.h];
         this.sprites.forEach(sprite => sprite.update(updateEvent));
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.drawImage(this.bg, 0, 0);
         this.sprites.forEach(sprite => sprite.draw(ctx));
-
-        ctx.strokeStyle = '#fff';
-        ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
+        if (this.renderHitBoxes) {
+            ctx.strokeStyle = '#fff';
+            ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
+        }
     }
 
 }

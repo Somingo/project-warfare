@@ -24,8 +24,10 @@ export class Ball extends Circle implements Sprite {
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.drawImage(this.image, this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
 
-        ctx.strokeStyle = '#fff';
-        ctx.strokeRect(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+        if (this.game.renderHitBoxes) {
+            ctx.strokeStyle = '#fff';
+            ctx.strokeRect(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+        }
     }
 
     init(): void {

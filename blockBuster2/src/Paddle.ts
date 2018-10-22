@@ -35,10 +35,11 @@ export class Paddle extends Rectangle implements Sprite {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
 
-        ctx.strokeStyle = '#fff';
-        const h = this.hitBox;
-        ctx.strokeRect(h.x, h.y, h.width, h.height);
-
+        if(this.game.renderHitBoxes) {
+            ctx.strokeStyle = '#fff';
+            const h = this.hitBox;
+            ctx.strokeRect(h.x, h.y, h.width, h.height);
+        }
     }
 
     init(): void {
