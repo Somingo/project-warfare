@@ -78,11 +78,11 @@ export class Ball extends Circle implements Sprite {
             }
         }
 
-        blockToRemove.forEach((b:Block) => {
+        blockToRemove.forEach((b: Block) => {
             let scoreEarned = this.game.scoreBase * this.game.scoreMultiplier;
             this.game.score += scoreEarned;
-            this.game.sprites.push(new EarnPoint(this.game,b.center,scoreEarned));
-            this.game.scoreMultiplier++;
+            this.game.sprites.push(new EarnPoint(this.game, b.center, Math.round(scoreEarned)));
+            this.game.scoreMultiplier += this.game.scoreLevelMultiplier;
         });
 
         _.pullAll(this.game.sprites, blockToRemove);

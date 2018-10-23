@@ -16,6 +16,7 @@ export class Game implements Sprite {
 
     renderHitBoxes: boolean = false;
     lastH = false;
+    lastU = false;
 
     scoreBase = 10;
     scoreMultiplier = 1;
@@ -39,7 +40,7 @@ export class Game implements Sprite {
     bg: HTMLImageElement;
 
     levelText: LevelText;
-    level = 1;
+    level = 0;
 
     markedSprites: Sprite[] = [];
 
@@ -48,9 +49,17 @@ export class Game implements Sprite {
         this.width = width;
         this.height = height;
         this.fpsMeter = new FpsMeter();
-        this.levelText = new LevelText(`Level ${this.level}`);
         this.scoreDisplay = new ScoreDisplay(this);
 
+        this.levelUp();
+    }
+
+    levelUp() {
+        this.level++;
+        this.scoreLevelMultiplier = 1 + (this.level-1) / 5;
+        this.scoreMultiplier = this.scoreLevelMultiplier;
+        this.levelText = new LevelText(`Level ${this.level}`);
+        this.sprites.length = 0;
         this.sprites.push(this.fpsMeter);
         this.sprites.push(this.levelText);
         this.sprites.push(this.scoreDisplay);
@@ -100,6 +109,10 @@ export class Game implements Sprite {
             this.renderHitBoxes = !this.renderHitBoxes;
         }
         this.lastH = updateEvent.keyMap[Keys.h];
+        if (updateEvent.keyMap[Keys.u] && !this.lastU) {
+            this.levelUp();
+        }
+        this.lastU = updateEvent.keyMap[Keys.u];
 
         // if level animation finished
         if (this.levelText.stage === 4) {
@@ -110,6 +123,10 @@ export class Game implements Sprite {
         // update sprites on scene
         this.sprites.forEach(sprite => sprite.update(updateEvent));
         _.pullAll(this.sprites, this.markedSprites);
+
+        if (this.levelText.stage === 5 && this.blocks.length === 0) {
+            this.levelUp();
+        }
     }
 
     draw(ctx: CanvasRenderingContext2D): void {

@@ -19,7 +19,7 @@ export class FpsMeter implements Sprite {
     }
 
     update(e: UpdateEvent): void {
-        this.fpsText.text = `${Math.floor(1000 / e.deltaTime)}`;
+        this.fpsText.text = `Fps: ${Math.floor(1000 / e.deltaTime)}`;
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
