@@ -14,7 +14,7 @@ export class Ball extends Circle implements Sprite {
     game: Game;
     image: HTMLImageElement;
 
-    constructor(game: Game, startPoint:Point) {
+    constructor(game: Game, startPoint: Point) {
         super(startPoint, 8);
         this.speed = 100;
         this.speedVector = Vector.getRandomVector().getUnit().divideWithConst(3 / this.speed);
@@ -52,6 +52,7 @@ export class Ball extends Circle implements Sprite {
 
         if (Collision.collisionPointToRectangle(this.center, this.game.paddle.hitBox)) {
             this.speedVector = this.center.clone().substract(this.game.paddle.center.addY(this.game.paddle.width / 2)).getUnit().divideWithConst(1 / this.speed);
+            this.game.scoreMultiplier = this.game.scoreLevelMultiplier;
         }
 
         const blockToRemove = this.game.blocks.filter(value => Collision.collisionPointToRectangle(this.center, value.hitBoxToBall));
@@ -74,6 +75,11 @@ export class Ball extends Circle implements Sprite {
                 this.speedVector = this.center.clone().substract(target.center).getUnit().divideWithConst(1 / this.speed);
             }
         }
+
+        blockToRemove.forEach(() => {
+            this.game.score += this.game.scoreBase * this.game.scoreMultiplier;
+            this.game.scoreMultiplier++;
+        });
 
         _.pullAll(this.game.sprites, blockToRemove);
         _.pullAll(this.game.blocks, blockToRemove);

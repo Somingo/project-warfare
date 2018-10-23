@@ -16,6 +16,9 @@ export class Game implements Sprite {
     renderHitBoxes: boolean = false;
     lastH = false;
 
+    scoreBase = 10;
+    scoreMultiplier = 1;
+    scoreLevelMultiplier = 1;
     score = 0;
     scoreDisplay: ScoreDisplay;
 
