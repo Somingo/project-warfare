@@ -1,6 +1,9 @@
 import {Sprite} from './engine/Sprite';
 import {UpdateEvent} from './engine/UpdateEvent';
-import {Game} from './Game';
+import {DisplayText} from './engine/DisplayText';
+import {TextAlign} from './engine/TextAlign';
+import {TextBaseLine} from './engine/TextBaseLine';
+import {Vector} from './engine/Vector';
 
 export class LevelText implements Sprite {
 
@@ -8,19 +11,22 @@ export class LevelText implements Sprite {
 
     alpha: number = 0.1;
     sleepTime: number = 5;
-    color: string;
 
-    text = 'Level 1';
+    displayText: DisplayText = new DisplayText();
 
     constructor(text: string) {
-        this.text = text;
+        this.displayText
+            .setFontSize(65)
+            .setFontFace('spaceFont')
+            .setAlign(TextAlign.CENTER)
+            .setBaseLine(TextBaseLine.MIDDLE)
+            .setPosition(new Vector(400, 300))
+            .setText(text);
+
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.font = '65px  spaceFont';
-        ctx.fillStyle = this.color;
-        let textMetrics = ctx.measureText(this.text);
-        ctx.fillText(this.text, (800 - textMetrics.width) / 2, 300);
+        this.displayText.draw(ctx);
     }
 
     init(): void {
@@ -34,7 +40,7 @@ export class LevelText implements Sprite {
                 this.alpha = 0;
                 this.stage++;
             }
-            this.color = `rgba(255,100,1,${this.alpha}`;
+            this.displayText.color = `rgba(255,100,1,${this.alpha}`;
         }
         if (this.stage === 2) {
             this.sleepTime -= 1 / e.deltaTime;
@@ -42,7 +48,7 @@ export class LevelText implements Sprite {
                 this.sleepTime = 0;
                 this.stage++;
             }
-            this.color = `rgba(255,100,1,${this.alpha}`;
+            this.displayText.color = `rgba(255,100,1,${this.alpha}`;
         }
         if (this.stage === 1) {
             this.alpha += 1 / e.deltaTime;
@@ -50,7 +56,7 @@ export class LevelText implements Sprite {
                 this.alpha = 1;
                 this.stage++;
             }
-            this.color = `rgba(255,100,1,${this.alpha}`;
+            this.displayText.color = `rgba(255,100,1,${this.alpha}`;
         }
     }
 

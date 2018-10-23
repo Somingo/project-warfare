@@ -30,7 +30,7 @@ export class Game implements Sprite {
 
     bg: HTMLImageElement;
 
-    displayText: LevelText;
+    levelText: LevelText;
     level = 1;
 
 
@@ -38,8 +38,9 @@ export class Game implements Sprite {
         this.width = width;
         this.height = height;
         this.fpsMeter = new FpsMeter();
-        this.displayText = new LevelText(`Level ${this.level}`);
-        this.sprites.push(this.displayText);
+        this.levelText = new LevelText(`Level ${this.level}`);
+        this.sprites.push(this.fpsMeter);
+        this.sprites.push(this.levelText);
     }
 
     level1(game:Game): Block[] {
@@ -75,6 +76,7 @@ export class Game implements Sprite {
     init(): void {
         this.bg = new Image();
         this.bg.src = '/assets/bg.jpg';
+        this.sprites.forEach(sprite => sprite.init());
     }
 
     update(updateEvent: UpdateEvent): void {
@@ -85,8 +87,8 @@ export class Game implements Sprite {
         this.lastH = updateEvent.keyMap[Keys.h];
 
         // if level animation finished
-        if (this.displayText.stage === 4) {
-            this.displayText.stage++;
+        if (this.levelText.stage === 4) {
+            this.levelText.stage++;
             this.initLevel(this.level1);
         }
 
