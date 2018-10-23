@@ -2,6 +2,10 @@
     font-family: spaceFont;
     src: url(/assets/Red_Seven.otf);
 }
+@font-face {
+    font-family: monoFont;
+    src: url(/assets/NotoMono-Regular.ttf);
+}
 
 body {
     background-color: #000;
