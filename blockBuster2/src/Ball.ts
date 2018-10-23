@@ -18,7 +18,7 @@ export class Ball extends Circle implements Sprite {
 
     constructor(game: Game, startPoint: Point) {
         super(startPoint, 8);
-        this.speed = 100;
+        this.speed = 100 + game.level;
         this.speedVector = Vector.getRandomVector().getUnit().divideWithConst(3 / this.speed);
         this.game = game;
     }
