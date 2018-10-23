@@ -1,10 +1,10 @@
-import {Sprite} from './engine/Sprite';
-import {UpdateEvent} from './engine/UpdateEvent';
-import {Game} from './Game';
-import {DisplayText} from './engine/DisplayText';
-import {TextAlign} from './engine/TextAlign';
-import {TextBaseLine} from './engine/TextBaseLine';
-import {Vector} from './engine/Vector';
+import {Sprite} from '../engine/Sprite';
+import {UpdateEvent} from '../engine/UpdateEvent';
+import {Game} from '../Game';
+import {DisplayText} from '../engine/DisplayText';
+import {TextAlign} from '../engine/TextAlign';
+import {TextBaseLine} from '../engine/TextBaseLine';
+import {Vector} from '../engine/Vector';
 
 export class ScoreDisplay implements Sprite {
     private game: Game;

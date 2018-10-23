@@ -1,6 +1,5 @@
 import {Sprite} from './engine/Sprite';
 import {UpdateEvent} from './engine/UpdateEvent';
-import {FpsMeter} from './engine/FpsMeter';
 import {Paddle} from './Paddle';
 import {Ball} from './Ball';
 import {Rectangle} from './engine/collision/Rectangle';
@@ -9,12 +8,11 @@ import {Block} from './Block';
 import {Keys} from './engine/Keys';
 import {Point} from './engine/collision/Point';
 import {LevelText} from './LevelText';
-import {ScoreDisplay} from './ScoreDisplay';
 import * as _ from 'lodash';
-import {BallCounter} from './BallCounter';
 import {DisplayText} from './engine/DisplayText';
 import {TextAlign} from './engine/TextAlign';
 import {TextBaseLine} from './engine/TextBaseLine';
+import HUD from './hud/HUD';
 
 export class Game implements Sprite {
 
@@ -28,7 +26,6 @@ export class Game implements Sprite {
     scoreMultiplier = 1;
     scoreLevelMultiplier = 1;
     score = 0;
-    scoreDisplay: ScoreDisplay;
 
     width: number;
     height: number;
@@ -38,7 +35,6 @@ export class Game implements Sprite {
     // named Sprites
     paddle: Paddle;
     ball: Ball;
-    fpsMeter: FpsMeter;
 
     hitBoxToBall: Rectangle;
     blocks: Block[] = [];
@@ -48,17 +44,15 @@ export class Game implements Sprite {
     levelText: LevelText;
     level = 0;
 
-    ballCounter: BallCounter;
     ballLost: LevelText;
 
+    hud: HUD;
 
     constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
-        this.fpsMeter = new FpsMeter();
-        this.scoreDisplay = new ScoreDisplay(this);
-        this.ballCounter = new BallCounter(this);
         this.ballLost = new LevelText(`Ball lost!`);
+        this.hud = new HUD(this);
 
         this.levelUp();
     }
@@ -71,8 +65,7 @@ export class Game implements Sprite {
         this.levelText = new LevelText(`Level ${this.level}`);
         this.sprites.length = 0;
         this.sprites.push(this.levelText);
-        this.sprites.push(this.scoreDisplay);
-        this.sprites.push(this.ballCounter);
+        this.sprites.push(this.hud);
     }
 
     level1(game: Game): Block[] {
@@ -101,10 +94,9 @@ export class Game implements Sprite {
 
         this.sprites.length = 0;
         this.sprites.push(this.paddle);
-        this.sprites.push(this.ballCounter);
         this.sprites.push(this.ball);
         this.blocks.forEach(block => this.sprites.push(block));
-        this.sprites.push(this.scoreDisplay);
+        this.sprites.push(this.hud);
 
         this.sprites.forEach(sprite => sprite.init());
     }
@@ -170,7 +162,6 @@ export class Game implements Sprite {
             ctx.strokeStyle = '#fff';
             ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
         }
-        this.fpsMeter.draw(ctx);
     }
 
     handleBallLost() {
@@ -185,8 +176,8 @@ export class Game implements Sprite {
         }
     }
 
-    removeSprite(sprite:Sprite) {
-        _.pull(this.sprites,sprite);
+    removeSprite(sprite: Sprite) {
+        _.pull(this.sprites, sprite);
     }
 
     handleGameOver() {
