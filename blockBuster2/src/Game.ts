@@ -10,6 +10,7 @@ import {Keys} from './engine/Keys';
 import {Point} from './engine/collision/Point';
 import {LevelText} from './LevelText';
 import {ScoreDisplay} from './ScoreDisplay';
+import * as _ from 'lodash';
 
 export class Game implements Sprite {
 
@@ -39,6 +40,8 @@ export class Game implements Sprite {
 
     levelText: LevelText;
     level = 1;
+
+    markedSprites: Sprite[] = [];
 
 
     constructor(width: number, height: number) {
@@ -91,6 +94,7 @@ export class Game implements Sprite {
     }
 
     update(updateEvent: UpdateEvent): void {
+        this.markedSprites.length = 0;
         // handle hit box toggle
         if (updateEvent.keyMap[Keys.h] && !this.lastH) {
             this.renderHitBoxes = !this.renderHitBoxes;
@@ -105,6 +109,7 @@ export class Game implements Sprite {
 
         // update sprites on scene
         this.sprites.forEach(sprite => sprite.update(updateEvent));
+        _.pullAll(this.sprites, this.markedSprites);
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
@@ -116,4 +121,7 @@ export class Game implements Sprite {
         }
     }
 
+    markToRemove(sprite: Sprite) {
+        this.markedSprites.push(sprite);
+    }
 }
