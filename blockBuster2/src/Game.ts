@@ -9,11 +9,15 @@ import {Block} from './Block';
 import {Keys} from './engine/Keys';
 import {Point} from './engine/collision/Point';
 import {LevelText} from './LevelText';
+import {ScoreDisplay} from './ScoreDisplay';
 
 export class Game implements Sprite {
 
     renderHitBoxes: boolean = false;
     lastH = false;
+
+    score = 0;
+    scoreDisplay: ScoreDisplay;
 
     width: number;
     height: number;
@@ -39,11 +43,14 @@ export class Game implements Sprite {
         this.height = height;
         this.fpsMeter = new FpsMeter();
         this.levelText = new LevelText(`Level ${this.level}`);
+        this.scoreDisplay = new ScoreDisplay(this);
+
         this.sprites.push(this.fpsMeter);
         this.sprites.push(this.levelText);
+        this.sprites.push(this.scoreDisplay);
     }
 
-    level1(game:Game): Block[] {
+    level1(game: Game): Block[] {
         const blocks = [];
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 5; j++) {
@@ -54,7 +61,7 @@ export class Game implements Sprite {
         return blocks;
     }
 
-    initLevel(blockInitCallbck: (game:Game) => Block[]) {
+    initLevel(blockInitCallbck: (game: Game) => Block[]) {
         this.paddle = new Paddle(this);
         this.ball = new Ball(this, new Point(this.width / 2, this.height - 150));
         this.hitBoxToBall = new Rectangle(
@@ -69,6 +76,7 @@ export class Game implements Sprite {
         this.sprites.push(this.paddle);
         this.sprites.push(this.ball);
         this.blocks.forEach(block => this.sprites.push(block));
+        this.sprites.push(this.scoreDisplay);
 
         this.sprites.forEach(sprite => sprite.init());
     }
