@@ -12,6 +12,9 @@ import {LevelText} from './LevelText';
 import {ScoreDisplay} from './ScoreDisplay';
 import * as _ from 'lodash';
 import {BallCounter} from './BallCounter';
+import {DisplayText} from './engine/DisplayText';
+import {TextAlign} from './engine/TextAlign';
+import {TextBaseLine} from './engine/TextBaseLine';
 
 export class Game implements Sprite {
 
@@ -99,8 +102,7 @@ export class Game implements Sprite {
 
         this.blocks = blockInitCallbck(this);
 
-        this.sprites = [];
-
+        this.sprites.length = 0;
         this.sprites.push(this.fpsMeter);
         this.sprites.push(this.paddle);
         this.sprites.push(this.ballCounter);
@@ -165,10 +167,27 @@ export class Game implements Sprite {
     }
 
     handleBallLost() {
-        this.markToRemove(this.ball);
-        this.ballLost = new LevelText('Ball lost!');
-        this.ballLost.displayText.setFontSize(48);
         this.balls--;
-        this.sprites.push(this.ballLost);
+        if (this.balls < 0) {
+            this.handleGameOver();
+        } else {
+            this.markToRemove(this.ball);
+            this.ballLost = new LevelText('Ball lost!');
+            this.ballLost.displayText.setFontSize(48);
+            this.sprites.push(this.ballLost);
+        }
+    }
+
+    handleGameOver() {
+        this.sprites.length = 0;
+        this.sprites.push(this.fpsMeter);
+        this.sprites.push((new DisplayText())
+            .setAlign(TextAlign.CENTER)
+            .setBaseLine(TextBaseLine.MIDDLE)
+            .setText('GAME OVER')
+            .setPosition(new Vector(400, 300))
+            .setFontSize(50)
+            .setFontFace('spaceFont')
+            .setColor('#f50'));
     }
 }
