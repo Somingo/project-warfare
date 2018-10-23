@@ -6,6 +6,8 @@ import {Vector} from './engine/Vector';
 import {Point} from './engine/collision/Point';
 import {Collision} from './engine/collision/Collision';
 import * as _ from 'lodash';
+import {EarnPoint} from './EarnPoint';
+import {Block} from './Block';
 
 export class Ball extends Circle implements Sprite {
 
@@ -76,8 +78,10 @@ export class Ball extends Circle implements Sprite {
             }
         }
 
-        blockToRemove.forEach(() => {
-            this.game.score += this.game.scoreBase * this.game.scoreMultiplier;
+        blockToRemove.forEach((b:Block) => {
+            let scoreEarned = this.game.scoreBase * this.game.scoreMultiplier;
+            this.game.score += scoreEarned;
+            this.game.sprites.push(new EarnPoint(this.game,b.center,scoreEarned));
             this.game.scoreMultiplier++;
         });
 
