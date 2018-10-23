@@ -14,6 +14,8 @@ import {TextAlign} from './engine/TextAlign';
 import {TextBaseLine} from './engine/TextBaseLine';
 import HUD from './hud/HUD';
 import Score from './Score';
+import Map from './Map';
+import {Maps} from './Maps';
 
 export class Game implements Sprite {
 
@@ -66,17 +68,6 @@ export class Game implements Sprite {
         this.sprites.push(this.hud);
     }
 
-    level1(game: Game): Block[] {
-        const blocks = [];
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 5; j++) {
-                blocks.push(new Block(new Vector(i * 80, j * 40 + 100), new Vector(80, 40), game));
-            }
-        }
-
-        return blocks;
-    }
-
     createNewBall() {
         this.ball = new Ball(this, new Point(this.width / 2, this.height - 150));
         this.hitBoxToBall = new Rectangle(
@@ -84,11 +75,11 @@ export class Game implements Sprite {
             new Vector(this.width - 2 * this.ball.radius, this.height - 2 * this.ball.radius));
     }
 
-    initLevel(blockInitCallbck: (game: Game) => Block[]) {
+    initLevel() {
         this.paddle = new Paddle(this);
         this.createNewBall();
 
-        this.blocks = blockInitCallbck(this);
+        this.blocks = Map.loadMap(this, Maps[0]);
 
         this.sprites.length = 0;
         this.sprites.push(this.paddle);
@@ -132,7 +123,7 @@ export class Game implements Sprite {
         // if level animation finished
         if (this.levelText.stage === 4) {
             this.levelText.stage++;
-            this.initLevel(this.level1);
+            this.initLevel();
         }
     }
 

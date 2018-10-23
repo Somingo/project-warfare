@@ -10,11 +10,10 @@ export class Block extends Rectangle implements Sprite {
     color: string;
     game: Game;
 
-    hitBoxToBall: Rectangle;
-
-    constructor(position: Vector, size: Vector, game: Game) {
+    constructor(position: Vector, size: Vector, game: Game, color?: string) {
         super(position, size);
         this.game = game;
+        this.color = color || BlockColors.getRandomColor();
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
@@ -27,23 +26,20 @@ export class Block extends Rectangle implements Sprite {
     }
 
     init(): void {
-        const rad = this.game.ball.radius;
-        this.color = BlockColors.getRandomColor();
-        this.hitBoxToBall = this.hitBox;
     }
 
     update(e: UpdateEvent): void {
     }
 
-    get hitBox(): Rectangle {
+    get hitBoxToBall(): Rectangle {
         const r = this.game.ball.radius;
-        const topleft = this.position.clone();
-        topleft.x -= r;
-        topleft.y -= r;
+        const topLeft = this.position.clone();
+        topLeft.x -= r;
+        topLeft.y -= r;
         const size = this.size.clone();
         size.x += 2 * r;
         size.y += 2 * r;
-        return new Rectangle(topleft, size);
+        return new Rectangle(topLeft, size);
     }
 
 }
