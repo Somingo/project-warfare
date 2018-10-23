@@ -1,10 +1,10 @@
-import {Circle} from '../engine/collision/Circle';
-import {Sprite} from '../engine/Sprite';
-import {UpdateEvent} from '../engine/UpdateEvent';
-import {Game} from '../Game';
-import {Vector} from '../engine/Vector';
-import {Point} from '../engine/collision/Point';
-import {Collision} from '../engine/collision/Collision';
+import {Circle} from './engine/collision/Circle';
+import {Sprite} from './engine/Sprite';
+import {UpdateEvent} from './engine/UpdateEvent';
+import {Game} from './Game';
+import {Vector} from './engine/Vector';
+import {Point} from './engine/collision/Point';
+import {Collision} from './engine/collision/Collision';
 import * as _ from 'lodash';
 
 export class Ball extends Circle implements Sprite {
@@ -14,10 +14,10 @@ export class Ball extends Circle implements Sprite {
     game: Game;
     image: HTMLImageElement;
 
-    constructor(game: Game) {
-        super(new Point(game.width / 2, game.height - 150), 8);
+    constructor(game: Game, startPoint:Point) {
+        super(startPoint, 8);
         this.speed = 100;
-        this.speedVector = Vector.getRandomVector().getUnit().divideWithConst(1 / this.speed);
+        this.speedVector = Vector.getRandomVector().getUnit().divideWithConst(3 / this.speed);
         this.game = game;
     }
 

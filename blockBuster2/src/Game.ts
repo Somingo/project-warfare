@@ -2,11 +2,13 @@ import {Sprite} from './engine/Sprite';
 import {UpdateEvent} from './engine/UpdateEvent';
 import {FpsMeter} from './engine/FpsMeter';
 import {Paddle} from './Paddle';
-import {Ball} from './ball/Ball';
+import {Ball} from './Ball';
 import {Rectangle} from './engine/collision/Rectangle';
 import {Vector} from './engine/Vector';
 import {Block} from './Block';
 import {Keys} from './engine/Keys';
+import {Point} from './engine/collision/Point';
+import {LevelText} from './LevelText';
 
 export class Game implements Sprite {
 
@@ -21,41 +23,74 @@ export class Game implements Sprite {
     // named Sprites
     paddle: Paddle;
     ball: Ball;
+    fpsMeter: FpsMeter;
 
     hitBoxToBall: Rectangle;
     blocks: Block[] = [];
 
     bg: HTMLImageElement;
 
+    displayText: LevelText;
+    level = 1;
+
+
     constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
-        this.paddle = new Paddle(this);
-        this.ball = new Ball(this);
+        this.fpsMeter = new FpsMeter();
+        this.displayText = new LevelText(`Level ${this.level}`);
+        this.sprites.push(this.displayText);
+    }
 
-        this.sprites.push(new FpsMeter());
-        this.sprites.push(this.paddle);
-        this.sprites.push(this.ball);
-        this.hitBoxToBall = new Rectangle(new Vector(this.ball.radius, this.ball.radius), new Vector(width - 2 * this.ball.radius, height - 2 * this.ball.radius));
+    level1(game:Game): Block[] {
+        const blocks = [];
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 5; j++) {
-                this.blocks.push(new Block(new Vector(i * 80, j * 40 + 100), new Vector(80, 40), this));
+                blocks.push(new Block(new Vector(i * 80, j * 40 + 100), new Vector(80, 40), game));
             }
         }
+
+        return blocks;
+    }
+
+    initLevel(blockInitCallbck: (game:Game) => Block[]) {
+        this.paddle = new Paddle(this);
+        this.ball = new Ball(this, new Point(this.width / 2, this.height - 150));
+        this.hitBoxToBall = new Rectangle(
+            new Vector(this.ball.radius, this.ball.radius),
+            new Vector(this.width - 2 * this.ball.radius, this.height - 2 * this.ball.radius));
+
+        this.blocks = blockInitCallbck(this);
+
+        this.sprites = [];
+
+        this.sprites.push(this.fpsMeter);
+        this.sprites.push(this.paddle);
+        this.sprites.push(this.ball);
         this.blocks.forEach(block => this.sprites.push(block));
+
+        this.sprites.forEach(sprite => sprite.init());
     }
 
     init(): void {
         this.bg = new Image();
         this.bg.src = '/assets/bg.jpg';
-        this.sprites.forEach(sprite => sprite.init());
     }
 
     update(updateEvent: UpdateEvent): void {
-        if (updateEvent.keyMap[Keys.h]&&!this.lastH){
-            this.renderHitBoxes=!this.renderHitBoxes;
+        // handle hit box toggle
+        if (updateEvent.keyMap[Keys.h] && !this.lastH) {
+            this.renderHitBoxes = !this.renderHitBoxes;
         }
         this.lastH = updateEvent.keyMap[Keys.h];
+
+        // if level animation finished
+        if (this.displayText.stage === 4) {
+            this.displayText.stage++;
+            this.initLevel(this.level1);
+        }
+
+        // update sprites on scene
         this.sprites.forEach(sprite => sprite.update(updateEvent));
     }
 
