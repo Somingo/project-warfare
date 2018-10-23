@@ -12,16 +12,23 @@ module.exports = {
                 test: /\.ts?$/,
                 use: 'ts-loader',
                 exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                use: [
+                    {loader: "style-loader/url"},
+                    {loader: "file-loader"}
+                ]
             }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        extensions: ['.tsx', '.ts', '.js', '.css']
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({title: 'Block BUSTER!'}),
-        new CopyWebpackPlugin([{ from: 'assets/**/*', to: './', force: true }])
+        new CopyWebpackPlugin([{from: 'assets/**/*', to: './', force: true}])
     ],
     output: {
         filename: '[name].bundle.js',
