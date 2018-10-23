@@ -23,6 +23,11 @@ export class DisplayText implements Sprite {
         return this._fontSize;
     }
 
+    setColor(color:string):DisplayText {
+        this.color = color;
+        return this;
+    }
+
     setPosition(pos:Vector):DisplayText {
         this.position = pos;
         return this;
