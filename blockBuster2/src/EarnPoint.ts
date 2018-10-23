@@ -35,7 +35,7 @@ export class EarnPoint implements Sprite {
         this.elapsedTime += 1 / e.deltaTime;
         const percent = this.elapsedTime / this.spriteLength;
         if (percent > 1) {
-            this.game.markToRemove(this);
+            this.game.removeSprite(this);
         }
         this.pointDisplay.setFontSize(this.maxFontSize * percent).setColor(Colors.rgba(255, 255, 100, 1 - percent));
     }

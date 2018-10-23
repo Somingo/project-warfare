@@ -48,8 +48,6 @@ export class Game implements Sprite {
     levelText: LevelText;
     level = 0;
 
-    markedSprites: Sprite[] = [];
-
     ballCounter: BallCounter;
     ballLost: LevelText;
 
@@ -72,7 +70,6 @@ export class Game implements Sprite {
         this.scoreMultiplier = this.scoreLevelMultiplier;
         this.levelText = new LevelText(`Level ${this.level}`);
         this.sprites.length = 0;
-        this.sprites.push(this.fpsMeter);
         this.sprites.push(this.levelText);
         this.sprites.push(this.scoreDisplay);
         this.sprites.push(this.ballCounter);
@@ -103,7 +100,6 @@ export class Game implements Sprite {
         this.blocks = blockInitCallbck(this);
 
         this.sprites.length = 0;
-        this.sprites.push(this.fpsMeter);
         this.sprites.push(this.paddle);
         this.sprites.push(this.ballCounter);
         this.sprites.push(this.ball);
@@ -119,34 +115,48 @@ export class Game implements Sprite {
         this.sprites.forEach(sprite => sprite.init());
     }
 
-    update(updateEvent: UpdateEvent): void {
-        this.markedSprites.length = 0;
-        // handle hit box toggle
+    handleHitBoxToggle(updateEvent: UpdateEvent) {
         if (updateEvent.keyMap[Keys.h] && !this.lastH) {
             this.renderHitBoxes = !this.renderHitBoxes;
         }
         this.lastH = updateEvent.keyMap[Keys.h];
+    }
+
+    handleLevelUpCheat(updateEvent: UpdateEvent) {
         if (updateEvent.keyMap[Keys.u] && !this.lastU) {
             this.levelUp();
         }
         this.lastU = updateEvent.keyMap[Keys.u];
+    }
 
-        // if level animation finished
-        if (this.levelText.stage === 4) {
-            this.levelText.stage++;
-            this.initLevel(this.level1);
-        }
-
+    handleBallLostDisplayFinished() {
         if (this.ballLost.stage === 4) {
             this.ballLost.stage++;
             this.createNewBall();
             this.ball.init();
             this.sprites.push(this.ball);
         }
+    }
+
+    handleNextLevelDisplayFinished() {
+        // if level animation finished
+        if (this.levelText.stage === 4) {
+            this.levelText.stage++;
+            this.initLevel(this.level1);
+        }
+    }
+
+    update(updateEvent: UpdateEvent): void {
+        // handle hit box toggle
+        this.handleHitBoxToggle(updateEvent);
+        this.handleLevelUpCheat(updateEvent);
+
+        this.handleBallLostDisplayFinished();
+        this.handleNextLevelDisplayFinished();
+
 
         // update sprites on scene
         this.sprites.forEach(sprite => sprite.update(updateEvent));
-        _.pullAll(this.sprites, this.markedSprites);
 
         if (this.levelText.stage === 5 && this.blocks.length === 0) {
             this.levelUp();
@@ -160,10 +170,7 @@ export class Game implements Sprite {
             ctx.strokeStyle = '#fff';
             ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
         }
-    }
-
-    markToRemove(sprite: Sprite) {
-        this.markedSprites.push(sprite);
+        this.fpsMeter.draw(ctx);
     }
 
     handleBallLost() {
@@ -171,16 +178,19 @@ export class Game implements Sprite {
         if (this.balls < 0) {
             this.handleGameOver();
         } else {
-            this.markToRemove(this.ball);
+            this.removeSprite(this.ball);
             this.ballLost = new LevelText('Ball lost!');
             this.ballLost.displayText.setFontSize(48);
             this.sprites.push(this.ballLost);
         }
     }
 
+    removeSprite(sprite:Sprite) {
+        _.pull(this.sprites,sprite);
+    }
+
     handleGameOver() {
         this.sprites.length = 0;
-        this.sprites.push(this.fpsMeter);
         this.sprites.push((new DisplayText())
             .setAlign(TextAlign.CENTER)
             .setBaseLine(TextBaseLine.MIDDLE)
