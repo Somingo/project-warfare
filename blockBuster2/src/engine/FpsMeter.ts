@@ -13,9 +13,9 @@ export class FpsMeter implements Sprite {
         this.fpsText
             .setFontFace('sans-serif')
             .setFontSize(11)
-            .setBaseLine(TextBaseLine.TOP)
-            .setAlign(TextAlign.LEFT)
-            .setPosition(new Vector(10, 10));
+            .setBaseLine(TextBaseLine.BOTTOM)
+            .setAlign(TextAlign.RIGHT)
+            .setPosition(new Vector(790, 590));
     }
 
     update(e: UpdateEvent): void {

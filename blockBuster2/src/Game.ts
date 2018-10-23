@@ -11,12 +11,15 @@ import {Point} from './engine/collision/Point';
 import {LevelText} from './LevelText';
 import {ScoreDisplay} from './ScoreDisplay';
 import * as _ from 'lodash';
+import {BallCounter} from './BallCounter';
 
 export class Game implements Sprite {
 
     renderHitBoxes: boolean = false;
     lastH = false;
     lastU = false;
+
+    balls = 2;
 
     scoreBase = 10;
     scoreMultiplier = 1;
@@ -44,25 +47,32 @@ export class Game implements Sprite {
 
     markedSprites: Sprite[] = [];
 
+    ballCounter: BallCounter;
+    ballLost: LevelText;
+
 
     constructor(width: number, height: number) {
         this.width = width;
         this.height = height;
         this.fpsMeter = new FpsMeter();
         this.scoreDisplay = new ScoreDisplay(this);
+        this.ballCounter = new BallCounter(this);
+        this.ballLost = new LevelText(`Ball lost!`);
 
         this.levelUp();
     }
 
     levelUp() {
+        this.balls++;
         this.level++;
-        this.scoreLevelMultiplier = 1 + (this.level-1) / 5;
+        this.scoreLevelMultiplier = 1 + (this.level - 1) / 5;
         this.scoreMultiplier = this.scoreLevelMultiplier;
         this.levelText = new LevelText(`Level ${this.level}`);
         this.sprites.length = 0;
         this.sprites.push(this.fpsMeter);
         this.sprites.push(this.levelText);
         this.sprites.push(this.scoreDisplay);
+        this.sprites.push(this.ballCounter);
     }
 
     level1(game: Game): Block[] {
@@ -76,12 +86,16 @@ export class Game implements Sprite {
         return blocks;
     }
 
-    initLevel(blockInitCallbck: (game: Game) => Block[]) {
-        this.paddle = new Paddle(this);
+    createNewBall() {
         this.ball = new Ball(this, new Point(this.width / 2, this.height - 150));
         this.hitBoxToBall = new Rectangle(
             new Vector(this.ball.radius, this.ball.radius),
             new Vector(this.width - 2 * this.ball.radius, this.height - 2 * this.ball.radius));
+    }
+
+    initLevel(blockInitCallbck: (game: Game) => Block[]) {
+        this.paddle = new Paddle(this);
+        this.createNewBall();
 
         this.blocks = blockInitCallbck(this);
 
@@ -89,6 +103,7 @@ export class Game implements Sprite {
 
         this.sprites.push(this.fpsMeter);
         this.sprites.push(this.paddle);
+        this.sprites.push(this.ballCounter);
         this.sprites.push(this.ball);
         this.blocks.forEach(block => this.sprites.push(block));
         this.sprites.push(this.scoreDisplay);
@@ -120,6 +135,13 @@ export class Game implements Sprite {
             this.initLevel(this.level1);
         }
 
+        if (this.ballLost.stage === 4) {
+            this.ballLost.stage++;
+            this.createNewBall();
+            this.ball.init();
+            this.sprites.push(this.ball);
+        }
+
         // update sprites on scene
         this.sprites.forEach(sprite => sprite.update(updateEvent));
         _.pullAll(this.sprites, this.markedSprites);
@@ -140,5 +162,13 @@ export class Game implements Sprite {
 
     markToRemove(sprite: Sprite) {
         this.markedSprites.push(sprite);
+    }
+
+    handleBallLost() {
+        this.markToRemove(this.ball);
+        this.ballLost = new LevelText('Ball lost!');
+        this.ballLost.displayText.setFontSize(48);
+        this.balls--;
+        this.sprites.push(this.ballLost);
     }
 }

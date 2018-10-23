@@ -48,9 +48,14 @@ export class Ball extends Circle implements Sprite {
             this.speedVector.x *= -1;
         }
 
-        if (!Collision.isOnInterval(this.y, this.game.hitBoxToBall.y, this.game.hitBoxToBall.height)) {
+        if (this.y < this.game.hitBoxToBall.y) {
             this.speedVector.y *= -1;
         }
+
+        if (this.y > this.game.hitBoxToBall.y + this.game.hitBoxToBall.height) {
+            this.game.handleBallLost();
+        }
+
 
         if (Collision.collisionPointToRectangle(this.center, this.game.paddle.hitBox)) {
             this.speedVector = this.center.clone().substract(this.game.paddle.center.addY(this.game.paddle.width / 2)).getUnit().divideWithConst(1 / this.speed);
