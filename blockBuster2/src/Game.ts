@@ -13,6 +13,7 @@ import {DisplayText} from './engine/DisplayText';
 import {TextAlign} from './engine/TextAlign';
 import {TextBaseLine} from './engine/TextBaseLine';
 import HUD from './hud/HUD';
+import Score from './Score';
 
 export class Game implements Sprite {
 
@@ -22,10 +23,7 @@ export class Game implements Sprite {
 
     balls = 2;
 
-    scoreBase = 10;
-    scoreMultiplier = 1;
-    scoreLevelMultiplier = 1;
-    score = 0;
+    score: Score;
 
     width: number;
     height: number;
@@ -53,6 +51,7 @@ export class Game implements Sprite {
         this.height = height;
         this.ballLost = new LevelText(`Ball lost!`);
         this.hud = new HUD(this);
+        this.score = new Score();
 
         this.levelUp();
     }
@@ -60,8 +59,7 @@ export class Game implements Sprite {
     levelUp() {
         this.balls++;
         this.level++;
-        this.scoreLevelMultiplier = 1 + (this.level - 1) / 5;
-        this.scoreMultiplier = this.scoreLevelMultiplier;
+        this.score.levelUp(this.level);
         this.levelText = new LevelText(`Level ${this.level}`);
         this.sprites.length = 0;
         this.sprites.push(this.levelText);

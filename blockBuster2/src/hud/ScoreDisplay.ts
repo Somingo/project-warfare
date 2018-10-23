@@ -30,7 +30,7 @@ export class ScoreDisplay implements Sprite {
     }
 
     update(e: UpdateEvent): void {
-        this.scoreDisplay.text = `Score: ${this.game.score}`;
+        this.scoreDisplay.text = `Score: ${this.game.score.score}`;
     }
 
 }

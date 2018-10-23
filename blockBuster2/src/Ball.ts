@@ -59,7 +59,7 @@ export class Ball extends Circle implements Sprite {
 
         if (Collision.collisionPointToRectangle(this.center, this.game.paddle.hitBox)) {
             this.speedVector = this.center.clone().substract(this.game.paddle.center.addY(this.game.paddle.width / 2)).getUnit().divideWithConst(1 / this.speed);
-            this.game.scoreMultiplier = this.game.scoreLevelMultiplier;
+            this.game.score.clearComboMultiplier();
         }
 
         const blockToRemove = this.game.blocks.filter(value => Collision.collisionPointToRectangle(this.center, value.hitBoxToBall));
@@ -84,10 +84,7 @@ export class Ball extends Circle implements Sprite {
         }
 
         blockToRemove.forEach((b: Block) => {
-            let scoreEarned = this.game.scoreBase * this.game.scoreMultiplier;
-            this.game.score += scoreEarned;
-            this.game.sprites.push(new EarnPoint(this.game, b.center, Math.round(scoreEarned)));
-            this.game.scoreMultiplier += this.game.scoreLevelMultiplier;
+            this.game.sprites.push(new EarnPoint(this.game, b.center, Math.round(this.game.score.earnScore())));
         });
 
         _.pullAll(this.game.sprites, blockToRemove);
