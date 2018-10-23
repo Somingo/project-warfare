@@ -1,0 +1,15 @@
+@font-face {
+    font-family: spaceFont;
+    src: url(/assets/Red_Seven.otf);
+}
+
+body {
+    background-color: #000;
+    text-align: center;
+}
+
+canvas {
+    display:inline-block;
+    margin: auto;
+    border: solid 1px #444;
+}

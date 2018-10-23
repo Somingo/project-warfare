@@ -1,6 +1,8 @@
 import {Game} from './Game';
 import {UpdateEvent} from './engine/UpdateEvent';
 import {KeyboardInputHandler} from './engine/KeyboardInputHandler';
+import './index.css';
+
 
 const GAME_WIDTH = 800;
 const GAME_HEIGHT = 600;
@@ -9,7 +11,6 @@ const gameCanvas = document.createElement('canvas');
 gameCanvas.id = 'game-canvas';
 gameCanvas.width = GAME_WIDTH;
 gameCanvas.height = GAME_HEIGHT;
-gameCanvas.style.border = '1px solid black';
 document.body.appendChild(gameCanvas);
 
 const gameContext: CanvasRenderingContext2D = gameCanvas.getContext("2d");

@@ -17,10 +17,10 @@ export class LevelText implements Sprite {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.font = '100px  Calibri';
+        ctx.font = '65px  spaceFont';
         ctx.fillStyle = this.color;
         let textMetrics = ctx.measureText(this.text);
-        ctx.fillText(this.text, (800 - textMetrics.width) / 2, 350);
+        ctx.fillText(this.text, (800 - textMetrics.width) / 2, 300);
     }
 
     init(): void {
