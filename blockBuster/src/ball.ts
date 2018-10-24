@@ -3,6 +3,7 @@ import Vector from "./vector";
 import Rectangle from "./rectangle";
 import Game from "./game";
 import Bounded from "./bounded";
+import Brick from "~brick";
 
 const SPEED = 72;
 
@@ -11,10 +12,11 @@ export default class Ball implements GameObject, Bounded {
     position: Vector = Vector.create(200, 300);
     speed: Vector = Vector.create(50, 50);
     game: Game;
-    image;
+    image: HTMLElement;
     ping: HTMLAudioElement = new Audio("../assets/sound/ping.mp3");
     pong: HTMLAudioElement = new Audio("../assets/sound/pong.mp3");
-    ping2: HTMLAudioElement = new Audio("../assets/sound/ping.mp3");
+
+//    ping2: HTMLAudioElement = new Audio("../assets/sound/ping.mp3");
 
     get anchor(): Vector {
         return this.position.clone().add(this.size.clone().divideConst(2));
@@ -31,7 +33,7 @@ export default class Ball implements GameObject, Bounded {
         return new Rectangle(this.position, this.position.clone().add(this.size));
     }
 
-    update(deltaTime) {
+    update(deltaTime: number) {
         this.position.add(this.speed.clone().divideConst(deltaTime));
 
         if (!this.game.bounds.isInsideX(this.bounds)) {
@@ -50,6 +52,14 @@ export default class Ball implements GameObject, Bounded {
             this.speed = this.anchor.add(this.game.paddle.anchor.divideConst(-1)).unit.divideConst(1 / SPEED);
         }
 
+        this.game.bricks = this.game.bricks.filter((value: Brick) => {
+            const res = value.hasCollision(this.bounds);
+            if (res) {
+
+            }
+            return !res;
+        });
+
     }
 
     handleHitPaddle(deltaTime: number) {
@@ -65,6 +75,7 @@ export default class Ball implements GameObject, Bounded {
         if (c !== "FFFF")
             if (c === "TFFF" || c === "FTFF" || c === "FFTF" || c === "FFFT") {
                 this.speed.y = 0 - this.speed.y;
+                this.speed.x = 0 - this.speed.x;
                 this.position.add(this.speed.clone().divideConst(deltaTime));
             } else if (c === "TTFF" || c === "FFTT") {
                 this.speed.y = 0 - this.speed.y;
@@ -77,6 +88,7 @@ export default class Ball implements GameObject, Bounded {
 
     draw(ctx: CanvasRenderingContext2D) {
         ctx.drawImage(
+            // @ts-ignore
             this.image,
             this.position.x,
             this.position.y,

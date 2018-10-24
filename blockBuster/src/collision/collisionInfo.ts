@@ -1,20 +1,21 @@
-import Shape, {Shapes} from "./shape";
-import Vector from "./vector";
+import Shape, {Shapes} from "../shape";
+import Vector from "../vector";
 
-type DetectorFn = (s1: Shape, s2: Shape) => boolean;
-
-class Detector {
+export interface Detector {
     s1: Shapes;
     s2: Shapes;
-    fn: DetectorFn;
-};
-type VectorCalculatorFn = (s1: Shape, s2: Shape) => Vector;
 
-class VectorCalculator {
+    fn(s1: Shape, s2: Shape)
+        : boolean;
+}
+
+
+export interface VectorCalculator {
     s1: Shapes;
     s2: Shapes;
-    fn: VectorCalculatorFn;
-};
+
+    fn(s1: Shape, s2: Shape): Vector;
+}
 
 
 export default class CollisionInfo {
