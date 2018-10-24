@@ -16,12 +16,14 @@ import HUD from './hud/HUD';
 import Score from './Score';
 import Map from './Map';
 import {Maps} from './Maps';
+import Pause from "./Pause";
 
 export class Game implements Sprite {
 
     renderHitBoxes: boolean = false;
     lastH = false;
     lastU = false;
+    lastP = false;
 
     balls = 2;
 
@@ -47,6 +49,12 @@ export class Game implements Sprite {
     ballLost: LevelText;
 
     hud: HUD;
+    isPaused: boolean = false;
+    pause:Pause;
+
+    get center(): Vector {
+        return new Vector(this.width / 2, this.height / 2);
+    }
 
     constructor(width: number, height: number) {
         this.width = width;
@@ -54,6 +62,7 @@ export class Game implements Sprite {
         this.ballLost = new LevelText(`Ball lost!`);
         this.hud = new HUD(this);
         this.score = new Score();
+        this.pause = new Pause(this);
 
         this.levelUp();
     }
@@ -94,6 +103,7 @@ export class Game implements Sprite {
         this.bg = new Image();
         this.bg.src = '/assets/bg.jpg';
         this.sprites.forEach(sprite => sprite.init());
+        this.pause.init();
     }
 
     handleHitBoxToggle(updateEvent: UpdateEvent) {
@@ -108,6 +118,13 @@ export class Game implements Sprite {
             this.levelUp();
         }
         this.lastU = updateEvent.keyMap[Keys.u];
+    }
+
+    handlePauseToggle(updateEvent: UpdateEvent) {
+        if (updateEvent.keyMap[Keys.p] && !this.lastP) {
+            this.isPaused = !this.isPaused;
+        }
+        this.lastP = updateEvent.keyMap[Keys.p];
     }
 
     handleBallLostDisplayFinished() {
@@ -129,18 +146,21 @@ export class Game implements Sprite {
 
     update(updateEvent: UpdateEvent): void {
         // handle hit box toggle
-        this.handleHitBoxToggle(updateEvent);
-        this.handleLevelUpCheat(updateEvent);
+        this.handlePauseToggle(updateEvent);
+        if (!this.isPaused) {
+            this.handleHitBoxToggle(updateEvent);
+            this.handleLevelUpCheat(updateEvent);
 
-        this.handleBallLostDisplayFinished();
-        this.handleNextLevelDisplayFinished();
+            this.handleBallLostDisplayFinished();
+            this.handleNextLevelDisplayFinished();
 
 
-        // update sprites on scene
-        this.sprites.forEach(sprite => sprite.update(updateEvent));
+            // update sprites on scene
+            this.sprites.forEach(sprite => sprite.update(updateEvent));
 
-        if (this.levelText.stage === 5 && this.blocks.length === 0) {
-            this.levelUp();
+            if (this.levelText.stage === 5 && this.blocks.length === 0) {
+                this.levelUp();
+            }
         }
     }
 
@@ -151,6 +171,7 @@ export class Game implements Sprite {
             ctx.strokeStyle = '#fff';
             ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
         }
+        if (this.isPaused) this.pause.draw(ctx);
     }
 
     handleBallLost() {
