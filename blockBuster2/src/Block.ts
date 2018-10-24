@@ -19,6 +19,31 @@ export class Block extends Rectangle implements Sprite {
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
+        let gradient = ctx.createRadialGradient(this.x, this.y-200, 0, this.x, this.y-200, 240);
+        gradient.addColorStop(0, 'rgba(255,255,255,0)');
+        gradient.addColorStop(0.95, 'rgba(255,255,255,.3)');
+        gradient.addColorStop(1, 'rgba(255,255,255,.0)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+
+        gradient = ctx.createRadialGradient(this.x + 80, this.y + 40, 0, this.x + 80, this.y + 40, 90);
+        gradient.addColorStop(0, 'rgba(255,255,255,.0)');
+        gradient.addColorStop(0.8, 'rgba(255,255,255,.0)');
+        gradient.addColorStop(1, 'rgba(255,255,255,.2)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(this.x, this.y, 40, 40);
+
+        gradient = ctx.createRadialGradient(this.x + this.width- 80, this.y , 0, this.x + this.width- 80, this.y, 90);
+        gradient.addColorStop(0, 'rgba(0,0,0,.0)');
+        gradient.addColorStop(0.8, 'rgba(0,0,0,.0)');
+        gradient.addColorStop(1, 'rgba(0,0,0,.3)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(this.x + this.width- 80, this.y,80, this.height);
+
+        ctx.filter = 'none';
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
         if (this.game.renderHitBoxes) {
             ctx.strokeStyle = '#fff';
             ctx.strokeRect(this.hitBoxToBall.x, this.hitBoxToBall.y, this.hitBoxToBall.width, this.hitBoxToBall.height);
