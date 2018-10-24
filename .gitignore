@@ -450,3 +450,7 @@ typings/
 
 
 # End of https://www.gitignore.io/api/node,maven,clion,clion+iml,clion+all,webstorm+all,webstorm+iml,intellij+all,intellij+iml
+
+**/dist
+blockBuster/src/**/*.js
+blockBuster/src/**/*.js.map
