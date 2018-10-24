@@ -21,9 +21,6 @@ import Pause from "./Pause";
 export class Game implements Sprite {
 
     renderHitBoxes: boolean = false;
-    lastH = false;
-    lastU = false;
-    lastP = false;
 
     balls = 2;
 
@@ -107,24 +104,21 @@ export class Game implements Sprite {
     }
 
     handleHitBoxToggle(updateEvent: UpdateEvent) {
-        if (updateEvent.keyMap[Keys.h] && !this.lastH) {
+        if (updateEvent.keyDown[Keys.h]) {
             this.renderHitBoxes = !this.renderHitBoxes;
         }
-        this.lastH = updateEvent.keyMap[Keys.h];
     }
 
     handleLevelUpCheat(updateEvent: UpdateEvent) {
-        if (updateEvent.keyMap[Keys.u] && !this.lastU) {
+        if (updateEvent.keyDown[Keys.u]) {
             this.levelUp();
         }
-        this.lastU = updateEvent.keyMap[Keys.u];
     }
 
     handlePauseToggle(updateEvent: UpdateEvent) {
-        if (updateEvent.keyMap[Keys.p] && !this.lastP) {
+        if (updateEvent.keyDown[Keys.p]) {
             this.isPaused = !this.isPaused;
         }
-        this.lastP = updateEvent.keyMap[Keys.p];
     }
 
     handleBallLostDisplayFinished() {

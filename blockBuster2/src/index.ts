@@ -2,6 +2,7 @@ import {Game} from './Game';
 import {UpdateEvent} from './engine/UpdateEvent';
 import {KeyboardInputHandler} from './engine/KeyboardInputHandler';
 import './index.css';
+import {KeyMap} from "./engine/KeyMap";
 
 
 const GAME_WIDTH = 800;
@@ -26,7 +27,7 @@ const gameLoop = (timeStamp: number) => {
     const deltaTime = timeStamp - lastUpdated;
     lastUpdated = timeStamp;
 
-    game.update(new UpdateEvent(deltaTime, keyboardInputHandler.keyMap));
+    game.update(new UpdateEvent(deltaTime, keyboardInputHandler.updatedKeyMaps));
     game.draw(gameContext);
 
     requestAnimationFrame(gameLoop);

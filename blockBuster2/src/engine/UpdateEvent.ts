@@ -1,10 +1,17 @@
+import {KeyboardState} from "./KeyboardState";
+import {KeyMap} from "./KeyMap";
+
 export class UpdateEvent {
     deltaTime: number;
-    keyMap: { [key: number]: boolean };
+    keyMap: KeyMap;
+    keyDown: KeyMap;
+    keyUp: KeyMap;
 
-    constructor(deltaTime: number, keyMap: { [p: number]: boolean }) {
+    constructor(deltaTime: number, keyboardState: KeyboardState) {
         this.deltaTime = deltaTime;
-        this.keyMap = keyMap;
+        this.keyMap = keyboardState.keyMap;
+        this.keyDown = keyboardState.keyDown;
+        this.keyUp = keyboardState.keyUp;
     }
 
 }
