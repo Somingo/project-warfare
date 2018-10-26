@@ -1,6 +1,8 @@
 import * as _ from 'lodash';
 import {KeyMapState} from "./KeyMapState";
 import {KeyboardState} from "./KeyboardState";
+import {KeyCodes} from "../../../blockBuster/src/keyCodes";
+import {Keys} from "./Keys";
 
 
 export class KeyboardInputHandler {
@@ -15,6 +17,7 @@ export class KeyboardInputHandler {
 
     keyDownHandler = (e: KeyboardEvent) => {
         this.keyMap[e.keyCode] = 1;
+        if (e.keyCode === Keys.f5) return;
         e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation();
@@ -22,6 +25,7 @@ export class KeyboardInputHandler {
 
     keyUpHandler = (e: KeyboardEvent) => {
         this.keyMap[e.keyCode] = 3;
+        if (e.keyCode === Keys.f5) return;
         e.preventDefault();
         e.stopImmediatePropagation();
         e.stopPropagation();
