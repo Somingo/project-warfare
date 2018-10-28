@@ -4,12 +4,12 @@ import {UpdateEvent} from './engine/UpdateEvent';
 import {Vector} from './engine/Vector';
 import {Game} from './Game';
 import {Keys} from './engine/Keys';
+import DrawLibrary from "./engine/DrawLibrary";
 
 export class Paddle extends Rectangle implements Sprite {
 
     speed: number;
     game: Game;
-    color: string;
 
     get hitBox(): Rectangle {
         const r = this.game.ball.radius;
@@ -27,13 +27,17 @@ export class Paddle extends Rectangle implements Sprite {
         super(new Vector(game.width / 2 - size.x / 2, game.height - size.y - 10), size);
         this.speed = 200;
         this.game = game;
-        this.color = '#00f';
     }
 
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.fillStyle = this.color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+        ctx.lineWidth =1.5;
+        ctx.strokeStyle = 'rgba(0,0,0,.2)';
+
+        ctx.fillStyle = '#555';
+        DrawLibrary.roundedRect(ctx, this.x, this.y, this.width, this.height);
+        ctx.fill();
+        ctx.stroke();
 
         if(this.game.renderHitBoxes) {
             ctx.strokeStyle = '#fff';
