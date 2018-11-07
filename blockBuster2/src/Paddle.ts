@@ -3,7 +3,7 @@ import {Rectangle} from './engine/collision/Rectangle';
 import {UpdateEvent} from './engine/UpdateEvent';
 import {Vector} from './engine/Vector';
 import {Game} from './Game';
-import {Keys} from './engine/Keys';
+import {Keys} from './engine/keyboard/Keys';
 import DrawLibrary from "./engine/DrawLibrary";
 
 export class Paddle extends Rectangle implements Sprite {

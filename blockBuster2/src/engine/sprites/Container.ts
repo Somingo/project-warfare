@@ -1,5 +1,5 @@
-import {Sprite} from './Sprite';
-import {UpdateEvent} from './UpdateEvent';
+import {Sprite} from '../Sprite';
+import {UpdateEvent} from '../UpdateEvent';
 import * as _ from 'lodash';
 
 export default class Container implements Sprite {

@@ -1,8 +1,8 @@
 import {Sprite} from './engine/Sprite';
 import {UpdateEvent} from './engine/UpdateEvent';
-import {DisplayText} from './engine/DisplayText';
-import {TextAlign} from './engine/TextAlign';
-import {TextBaseLine} from './engine/TextBaseLine';
+import {DisplayText} from './engine/sprites/DisplayText';
+import {TextAlign} from './engine/sprites/TextAlign';
+import {TextBaseLine} from './engine/sprites/TextBaseLine';
 import {Vector} from './engine/Vector';
 
 export class LevelText implements Sprite {

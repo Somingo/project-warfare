@@ -1,5 +1,5 @@
-import {KeyboardState} from "./KeyboardState";
-import {KeyMap} from "./KeyMap";
+import {KeyboardState} from "./keyboard/KeyboardState";
+import {KeyMap} from "./keyboard/KeyMap";
 
 export class UpdateEvent {
     deltaTime: number;

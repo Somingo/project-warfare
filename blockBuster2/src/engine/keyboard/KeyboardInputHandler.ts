@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import {KeyMapState} from "./KeyMapState";
 import {KeyboardState} from "./KeyboardState";
-import {KeyCodes} from "../../../blockBuster/src/keyCodes";
+import {KeyCodes} from "../../../../blockBuster/src/keyCodes";
 import {Keys} from "./Keys";
 
 

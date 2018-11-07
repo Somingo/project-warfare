@@ -1,9 +1,9 @@
-import {Sprite} from './Sprite';
-import {UpdateEvent} from './UpdateEvent';
+import {Sprite} from '../Sprite';
+import {UpdateEvent} from '../UpdateEvent';
 import {DisplayText} from './DisplayText';
 import {TextBaseLine} from './TextBaseLine';
 import {TextAlign} from './TextAlign';
-import {Vector} from './Vector';
+import {Vector} from '../Vector';
 
 export class FpsMeter implements Sprite {
 

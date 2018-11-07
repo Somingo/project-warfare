@@ -1,6 +1,6 @@
-import {Sprite} from './Sprite';
-import {UpdateEvent} from './UpdateEvent';
-import {Vector} from './Vector';
+import {Sprite} from '../Sprite';
+import {UpdateEvent} from '../UpdateEvent';
+import {Vector} from '../Vector';
 import {TextBaseLine} from './TextBaseLine';
 import {TextAlign} from './TextAlign';
 

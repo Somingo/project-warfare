@@ -1,8 +1,8 @@
 import {Game} from './Game';
 import {UpdateEvent} from './engine/UpdateEvent';
-import {KeyboardInputHandler} from './engine/KeyboardInputHandler';
+import {KeyboardInputHandler} from './engine/keyboard/KeyboardInputHandler';
 import './index.css';
-import {KeyMap} from "./engine/KeyMap";
+import {KeyMap} from "./engine/keyboard/KeyMap";
 
 
 const GAME_WIDTH = 800;
