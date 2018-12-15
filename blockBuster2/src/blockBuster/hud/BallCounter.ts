@@ -1,6 +1,6 @@
-import {Sprite} from '../engine/Sprite';
+import {Sprite} from '../../engine/Sprite';
 import {Game} from '../Game';
-import {UpdateEvent} from '../engine/UpdateEvent';
+import {UpdateEvent} from '../../engine/UpdateEvent';
 
 export class BallCounter implements Sprite {
 

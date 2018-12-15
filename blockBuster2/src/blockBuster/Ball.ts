@@ -1,10 +1,10 @@
-import {Circle} from './engine/collision/Circle';
-import {Sprite} from './engine/Sprite';
-import {UpdateEvent} from './engine/UpdateEvent';
+import {Circle} from '../engine/collision/Circle';
+import {Sprite} from '../engine/Sprite';
+import {UpdateEvent} from '../engine/UpdateEvent';
 import {Game} from './Game';
-import {Vector} from './engine/Vector';
-import {Point} from './engine/collision/Point';
-import {Collision} from './engine/collision/Collision';
+import {Vector} from '../engine/Vector';
+import {Point} from '../engine/collision/Point';
+import {Collision} from '../engine/collision/Collision';
 import * as _ from 'lodash';
 import {EarnPoint} from './EarnPoint';
 import {Block} from './Block';

@@ -1,8 +1,8 @@
-import Container from '../engine/sprites/Container';
+import Container from '../../engine/sprites/Container';
 import {Game} from '../Game';
 import {BallCounter} from './BallCounter';
 import {ScoreDisplay} from './ScoreDisplay';
-import {FpsMeter} from '../engine/sprites/FpsMeter';
+import {FpsMeter} from '../../engine/sprites/FpsMeter';
 
 export default class HUD extends Container {
 

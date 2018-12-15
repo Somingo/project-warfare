@@ -1,17 +1,17 @@
-import {Sprite} from './engine/Sprite';
-import {UpdateEvent} from './engine/UpdateEvent';
+import {Sprite} from '../engine/Sprite';
+import {UpdateEvent} from '../engine/UpdateEvent';
 import {Paddle} from './Paddle';
 import {Ball} from './Ball';
-import {Rectangle} from './engine/collision/Rectangle';
-import {Vector} from './engine/Vector';
+import {Rectangle} from '../engine/collision/Rectangle';
+import {Vector} from '../engine/Vector';
 import {Block} from './Block';
-import {Keys} from './engine/keyboard/Keys';
-import {Point} from './engine/collision/Point';
+import {Keys} from '../engine/keyboard/Keys';
+import {Point} from '../engine/collision/Point';
 import {LevelText} from './LevelText';
 import * as _ from 'lodash';
-import {DisplayText} from './engine/sprites/DisplayText';
-import {TextAlign} from './engine/sprites/TextAlign';
-import {TextBaseLine} from './engine/sprites/TextBaseLine';
+import {DisplayText} from '../engine/sprites/DisplayText';
+import {TextAlign} from '../engine/sprites/TextAlign';
+import {TextBaseLine} from '../engine/sprites/TextBaseLine';
 import HUD from './hud/HUD';
 import Score from './Score';
 import Map from './Map';
@@ -19,6 +19,9 @@ import {Maps} from './Maps';
 import Pause from "./Pause";
 
 export class Game implements Sprite {
+
+    static GAME_WIDTH = 800;
+    static GAME_HEIGHT = 600;
 
     renderHitBoxes: boolean = false;
 
@@ -53,7 +56,7 @@ export class Game implements Sprite {
         return new Vector(this.width / 2, this.height / 2);
     }
 
-    constructor(width: number, height: number) {
+    constructor(width: number = Game.GAME_WIDTH, height: number = Game.GAME_HEIGHT) {
         this.width = width;
         this.height = height;
         this.ballLost = new LevelText(`Ball lost!`);

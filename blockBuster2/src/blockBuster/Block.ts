@@ -1,10 +1,10 @@
-import {Rectangle} from './engine/collision/Rectangle';
-import {Sprite} from './engine/Sprite';
-import {UpdateEvent} from './engine/UpdateEvent';
+import {Rectangle} from '../engine/collision/Rectangle';
+import {Sprite} from '../engine/Sprite';
+import {UpdateEvent} from '../engine/UpdateEvent';
 import BlockColors from './BlockColors';
 import {Game} from './Game';
-import {Vector} from './engine/Vector';
-import DrawLibrary from "./engine/DrawLibrary";
+import {Vector} from '../engine/Vector';
+import DrawLibrary from "../engine/DrawLibrary";
 
 export class Block extends Rectangle implements Sprite {
 

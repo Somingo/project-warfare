@@ -1,10 +1,10 @@
-import {Sprite} from './engine/Sprite';
-import {UpdateEvent} from './engine/UpdateEvent';
-import {DisplayText} from './engine/sprites/DisplayText';
-import {Vector} from './engine/Vector';
-import {TextBaseLine} from './engine/sprites/TextBaseLine';
-import {TextAlign} from './engine/sprites/TextAlign';
-import {Colors} from './engine/Colors';
+import {Sprite} from '../engine/Sprite';
+import {UpdateEvent} from '../engine/UpdateEvent';
+import {DisplayText} from '../engine/sprites/DisplayText';
+import {Vector} from '../engine/Vector';
+import {TextBaseLine} from '../engine/sprites/TextBaseLine';
+import {TextAlign} from '../engine/sprites/TextAlign';
+import {Colors} from '../engine/Colors';
 import {Game} from './Game';
 
 export class EarnPoint implements Sprite {

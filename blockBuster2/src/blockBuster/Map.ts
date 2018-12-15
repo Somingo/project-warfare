@@ -1,6 +1,6 @@
 import {Block} from './Block';
 import {Game} from './Game';
-import {Vector} from './engine/Vector';
+import {Vector} from '../engine/Vector';
 import * as _ from 'lodash';
 
 export default class Map {
