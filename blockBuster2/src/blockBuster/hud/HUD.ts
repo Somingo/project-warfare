@@ -1,12 +1,12 @@
 import Container from '../../engine/sprites/Container';
-import {Game} from '../Game';
+import {BlockBuster} from '../BlockBuster';
 import {BallCounter} from './BallCounter';
 import {ScoreDisplay} from './ScoreDisplay';
 import {FpsMeter} from '../../engine/sprites/FpsMeter';
 
 export default class HUD extends Container {
 
-    constructor(game:Game) {
+    constructor(game:BlockBuster) {
         super();
         this.push(new FpsMeter());
         this.push(new BallCounter(game));

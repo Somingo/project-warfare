@@ -1,7 +1,7 @@
 import {Circle} from '../engine/collision/Circle';
 import {Sprite} from '../engine/Sprite';
 import {UpdateEvent} from '../engine/UpdateEvent';
-import {Game} from './Game';
+import {BlockBuster} from './BlockBuster';
 import {Vector} from '../engine/Vector';
 import {Point} from '../engine/collision/Point';
 import {Collision} from '../engine/collision/Collision';
@@ -13,10 +13,10 @@ export class Ball extends Circle implements Sprite {
 
     speed: number;
     speedVector: Vector;
-    game: Game;
+    game: BlockBuster;
     image: HTMLImageElement;
 
-    constructor(game: Game, startPoint: Point) {
+    constructor(game: BlockBuster, startPoint: Point) {
         super(startPoint, 8);
         this.speed = 100 + game.level;
         this.speedVector = Vector.getRandomVector().getUnit().divideWithConst(3 / this.speed);

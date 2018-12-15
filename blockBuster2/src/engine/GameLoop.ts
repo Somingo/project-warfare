@@ -1,7 +1,6 @@
 import {UpdateEvent} from './UpdateEvent';
 import {Sprite} from './Sprite';
 import {GameCanvas} from './GameCanvas';
-import {Game} from '../blockBuster/Game';
 import {KeyboardInputHandler} from './keyboard/KeyboardInputHandler';
 
 export class GameLoop2D {
@@ -12,14 +11,20 @@ export class GameLoop2D {
     gameContext: CanvasRenderingContext2D;
     keyboardInputHandler = new KeyboardInputHandler();
 
-    constructor(game: Sprite) {
+    isStopped = false;
+
+    constructor(game: Sprite, width: number, height: number) {
         this.game = game;
-        this.gameCanvas = GameCanvas.getCanvas(Game.GAME_WIDTH, Game.GAME_HEIGHT);
+        this.gameCanvas = GameCanvas.getCanvas(width, height);
         this.gameContext = this.gameCanvas.getContext("2d");
     }
 
     start = () => {
         requestAnimationFrame(this.gameLoop);
+    };
+
+    stop = () => {
+        this.isStopped = true;
     };
 
     gameLoop = (timeStamp: number) => {
@@ -30,6 +35,7 @@ export class GameLoop2D {
         this.game.update(new UpdateEvent(deltaTime, this.keyboardInputHandler.updatedKeyMaps));
         this.game.draw(this.gameContext);
 
+        if (this.isStopped) return;
         requestAnimationFrame(this.gameLoop);
     };
 

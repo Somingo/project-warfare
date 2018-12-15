@@ -1,16 +1,16 @@
 import {Sprite} from '../../engine/Sprite';
 import {UpdateEvent} from '../../engine/UpdateEvent';
-import {Game} from '../Game';
+import {BlockBuster} from '../BlockBuster';
 import {DisplayText} from '../../engine/sprites/DisplayText';
 import {TextAlign} from '../../engine/sprites/TextAlign';
 import {TextBaseLine} from '../../engine/sprites/TextBaseLine';
 import {Vector} from '../../engine/Vector';
 
 export class ScoreDisplay implements Sprite {
-    private game: Game;
+    private game: BlockBuster;
     private scoreDisplay: DisplayText;
 
-    constructor(game: Game) {
+    constructor(game: BlockBuster) {
         this.game = game;
         this.scoreDisplay = new DisplayText();
     }

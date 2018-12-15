@@ -4,15 +4,15 @@ import {DisplayText} from "../engine/sprites/DisplayText";
 import {TextAlign} from "../engine/sprites/TextAlign";
 import {TextBaseLine} from "../engine/sprites/TextBaseLine";
 import {Vector} from "../engine/Vector";
-import {Game} from "./Game";
+import {BlockBuster} from "./BlockBuster";
 
 export default class Pause implements Sprite {
 
-    game: Game;
+    game: BlockBuster;
     pauseText: DisplayText;
 
 
-    constructor(game: Game) {
+    constructor(game: BlockBuster) {
         this.game = game;
         this.pauseText = new DisplayText();
         this.pauseText.setAlign(TextAlign.CENTER)

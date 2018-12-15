@@ -2,16 +2,16 @@ import {Rectangle} from '../engine/collision/Rectangle';
 import {Sprite} from '../engine/Sprite';
 import {UpdateEvent} from '../engine/UpdateEvent';
 import BlockColors from './BlockColors';
-import {Game} from './Game';
+import {BlockBuster} from './BlockBuster';
 import {Vector} from '../engine/Vector';
 import DrawLibrary from "../engine/DrawLibrary";
 
 export class Block extends Rectangle implements Sprite {
 
     color: string;
-    game: Game;
+    game: BlockBuster;
 
-    constructor(position: Vector, size: Vector, game: Game, color?: string) {
+    constructor(position: Vector, size: Vector, game: BlockBuster, color?: string) {
         super(position, size);
         this.game = game;
         this.color = color || BlockColors.getRandomColor();

@@ -18,7 +18,7 @@ import Map from './Map';
 import {Maps} from './Maps';
 import Pause from "./Pause";
 
-export class Game implements Sprite {
+export class BlockBuster implements Sprite {
 
     static GAME_WIDTH = 800;
     static GAME_HEIGHT = 600;
@@ -56,7 +56,7 @@ export class Game implements Sprite {
         return new Vector(this.width / 2, this.height / 2);
     }
 
-    constructor(width: number = Game.GAME_WIDTH, height: number = Game.GAME_HEIGHT) {
+    constructor(width: number = BlockBuster.GAME_WIDTH, height: number = BlockBuster.GAME_HEIGHT) {
         this.width = width;
         this.height = height;
         this.ballLost = new LevelText(`Ball lost!`);

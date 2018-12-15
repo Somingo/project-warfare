@@ -2,14 +2,14 @@ import {Sprite} from '../engine/Sprite';
 import {Rectangle} from '../engine/collision/Rectangle';
 import {UpdateEvent} from '../engine/UpdateEvent';
 import {Vector} from '../engine/Vector';
-import {Game} from './Game';
+import {BlockBuster} from './BlockBuster';
 import {Keys} from '../engine/keyboard/Keys';
 import DrawLibrary from "../engine/DrawLibrary";
 
 export class Paddle extends Rectangle implements Sprite {
 
     speed: number;
-    game: Game;
+    game: BlockBuster;
 
     get hitBox(): Rectangle {
         const r = this.game.ball.radius;
@@ -22,7 +22,7 @@ export class Paddle extends Rectangle implements Sprite {
         return new Rectangle(topleft, size);
     }
 
-    constructor(game: Game) {
+    constructor(game: BlockBuster) {
         const size = new Vector(130, 15);
         super(new Vector(game.width / 2 - size.x / 2, game.height - size.y - 10), size);
         this.speed = 200;

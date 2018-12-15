@@ -1,14 +1,14 @@
 import {Sprite} from '../../engine/Sprite';
-import {Game} from '../Game';
+import {BlockBuster} from '../BlockBuster';
 import {UpdateEvent} from '../../engine/UpdateEvent';
 
 export class BallCounter implements Sprite {
 
-    private game: Game;
+    private game: BlockBuster;
     image: HTMLImageElement;
 
 
-    constructor(game: Game) {
+    constructor(game: BlockBuster) {
         this.game = game;
     }
 

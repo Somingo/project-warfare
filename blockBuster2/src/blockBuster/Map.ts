@@ -1,5 +1,5 @@
 import {Block} from './Block';
-import {Game} from './Game';
+import {BlockBuster} from './BlockBuster';
 import {Vector} from '../engine/Vector';
 import * as _ from 'lodash';
 
@@ -22,7 +22,7 @@ export default class Map {
         this.map = map;
     }
 
-    static loadMap(game: Game, map: Map): Block[] {
+    static loadMap(game: BlockBuster, map: Map): Block[] {
         const blocks: Block[] = [];
         let lastBlock: Block;
         map.map.forEach((v: any, j: number) => {

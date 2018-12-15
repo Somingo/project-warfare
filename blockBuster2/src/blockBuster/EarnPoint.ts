@@ -5,7 +5,7 @@ import {Vector} from '../engine/Vector';
 import {TextBaseLine} from '../engine/sprites/TextBaseLine';
 import {TextAlign} from '../engine/sprites/TextAlign';
 import {Colors} from '../engine/Colors';
-import {Game} from './Game';
+import {BlockBuster} from './BlockBuster';
 
 export class EarnPoint implements Sprite {
 
@@ -14,11 +14,11 @@ export class EarnPoint implements Sprite {
     color: string = '#fff';
     elapsedTime = 0;
 
-    game:Game;
+    game:BlockBuster;
 
     pointDisplay: DisplayText;
 
-    constructor(game:Game, pos: Vector, point: number) {
+    constructor(game:BlockBuster, pos: Vector, point: number) {
         this.game = game;
         this.pointDisplay = new DisplayText();
         this.pointDisplay.setPosition(pos).setText(`${point}`).setBaseLine(TextBaseLine.MIDDLE).setAlign(TextAlign.CENTER).setFontFace('spaceFont').setFontSize(1);
