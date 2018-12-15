@@ -12,10 +12,10 @@ export class GameCanvas {
             // @ts-ignore
             gameCanvas = document.createElement('canvas');
             gameCanvas.id = GameCanvas.CANVAS_ID;
-            gameCanvas.width = width;
-            gameCanvas.height = height;
             document.body.appendChild(gameCanvas);
         }
+        gameCanvas.width = width;
+        gameCanvas.height = height;
         return gameCanvas;
     }
 }
