@@ -5,13 +5,13 @@ import {Platformer} from './platformer/Platformer';
 
 let gameLoop2D: GameLoop2D = null;
 
-function startBlockbuster(){
+function startBlockbuster() {
     if (gameLoop2D != null) gameLoop2D.stop();
     gameLoop2D = new GameLoop2D(new BlockBuster(), BlockBuster.GAME_WIDTH, BlockBuster.GAME_HEIGHT);
     gameLoop2D.start();
 }
 
-function startPlatformer(){
+function startPlatformer() {
     if (gameLoop2D != null) gameLoop2D.stop();
     gameLoop2D = new GameLoop2D(new Platformer(), BlockBuster.GAME_WIDTH, BlockBuster.GAME_HEIGHT);
     gameLoop2D.start();
@@ -21,3 +21,7 @@ function startPlatformer(){
 window['startBlockbuster'] = startBlockbuster;
 // @ts-ignore
 window['startPlatformer'] = startPlatformer;
+
+
+// set Platformer as default game to run
+startPlatformer();
