@@ -9,7 +9,7 @@ export class GameLoop2D {
     game: Sprite = null;
     gameCanvas: HTMLCanvasElement;
     gameContext: CanvasRenderingContext2D;
-    keyboardInputHandler = new KeyboardInputHandler();
+    static keyboardInputHandler = new KeyboardInputHandler();
 
     isStopped = false;
 
@@ -17,6 +17,7 @@ export class GameLoop2D {
         this.game = game;
         this.gameCanvas = GameCanvas.getCanvas(width, height);
         this.gameContext = this.gameCanvas.getContext("2d");
+        game.init();
     }
 
     start = () => {
@@ -32,7 +33,7 @@ export class GameLoop2D {
         const deltaTime = timeStamp - this.lastUpdated;
         this.lastUpdated = timeStamp;
 
-        this.game.update(new UpdateEvent(deltaTime, this.keyboardInputHandler.updatedKeyMaps));
+        this.game.update(new UpdateEvent(deltaTime, GameLoop2D.keyboardInputHandler.updatedKeyMaps));
         this.game.draw(this.gameContext);
 
         if (this.isStopped) return;

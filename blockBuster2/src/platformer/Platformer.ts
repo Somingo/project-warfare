@@ -1,7 +1,7 @@
 import {Sprite} from '../engine/Sprite';
 import {UpdateEvent} from '../engine/UpdateEvent';
 
-export class PlatformerGame implements Sprite {
+export class Platformer implements Sprite {
     draw(ctx: CanvasRenderingContext2D): void {
     }
 

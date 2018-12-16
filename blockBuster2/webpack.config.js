@@ -27,7 +27,7 @@ module.exports = {
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
-        new HtmlWebpackPlugin({title: 'Block BUSTER!'}),
+        new HtmlWebpackPlugin({title: 'Block BUSTER!', template: './src/index.html'}),
         new CopyWebpackPlugin([{from: 'assets/**/*', to: './', force: true}])
     ],
     output: {

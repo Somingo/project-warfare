@@ -2,6 +2,7 @@
     font-family: spaceFont;
     src: url(/assets/Red_Seven.otf);
 }
+
 @font-face {
     font-family: monoFont;
     src: url(/assets/NotoMono-Regular.ttf);
@@ -13,7 +14,41 @@ body {
 }
 
 canvas {
-    display:inline-block;
+    display: inline-block;
     margin: auto;
     border: solid 1px #444;
+}
+
+.menuRoot {
+    padding: 1em;
+    font-family: monoFont, monospace;
+    text-align: left;
+}
+
+.menuRoot > * {
+    display: inline-block;
+}
+
+.menuRoot .menuLogo {
+    color: #ff0000;
+    text-transform: uppercase;
+}
+
+.menuRoot .menuItem {
+    color: #0000ff;
+    cursor: pointer;
+}
+
+.menuRoot .menuItem:before {
+    content: '[';
+    padding: 0 .5em;
+}
+
+.menuRoot .menuItem:after {
+    content: ']';
+    padding: 0 .5em;
+}
+
+.menuRoot .menuItem:hover {
+    color: #4444ff;
 }
