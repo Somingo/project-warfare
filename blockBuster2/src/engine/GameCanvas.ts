@@ -18,4 +18,11 @@ export class GameCanvas {
         gameCanvas.height = height;
         return gameCanvas;
     }
+
+    static removeGameCanvas() {
+        const gameCanvas = document.getElementById(GameCanvas.CANVAS_ID);
+        if (gameCanvas) {
+            document.body.removeChild(gameCanvas);
+        }
+    }
 }

@@ -1213,4 +1213,6 @@ const mapTileSet = {
     tiles: tiles
 };
 
-export const MAP_TILE_SET = new TileSet(TileSetOptions.fromObject(mapTileSet));
+export const MAP_TILE_SET_OPTIONS = TileSetOptions.fromObject(mapTileSet);
+
+export const MAP_TILE_SET = new TileSet(MAP_TILE_SET_OPTIONS);

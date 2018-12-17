@@ -1,0 +1,28 @@
+#MapEditor {
+    background: whitesmoke;
+    font-family: monoFont;
+}
+
+#MapEditor {
+    display: flex;
+    max-height: 800px;
+}
+
+#MapEditor .leftPane {
+    flex: 1 1;
+}
+
+#MapEditor .rightPane {
+    background-color: antiquewhite;
+    flex: 0 0 400px;
+    overflow: auto;
+}
+
+.selectTile {
+    display: flex;
+}
+
+.selectTile > span {
+    margin: 5px;
+    overflow: hidden;
+}
