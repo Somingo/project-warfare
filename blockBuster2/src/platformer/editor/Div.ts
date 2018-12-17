@@ -9,23 +9,23 @@ export class Div {
         return div;
     }
 
-    id(id:string): Div {
+    id(id: string): Div {
         this.element.id = id;
         return this;
     }
 
-    content(html:string): Div {
+    content(html: string): Div {
         this.element.innerHTML = html;
         return this;
     }
 
-    className(className:string): Div {
+    className(className: string): Div {
         this.element.className = className;
         return this;
     }
 
-    onClick(onClick:(e:MouseEvent)=>void): Div {
-        this.element.onclick = onClick;
+    onClick(onClick: (e: MouseEvent, d: Div) => void): Div {
+        this.element.onclick = (e: MouseEvent) => onClick(e, this);
         return this;
     }
 }

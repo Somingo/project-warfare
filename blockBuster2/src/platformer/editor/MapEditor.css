@@ -4,12 +4,21 @@
 }
 
 #MapEditor {
+    display: block;
+}
+
+#MapEditor .topPane {
+    background-color: burlywood;
+}
+
+#MapEditor .middlePane {
     display: flex;
     max-height: 800px;
 }
 
 #MapEditor .leftPane {
     flex: 1 1;
+    overflow: auto;
 }
 
 #MapEditor .rightPane {
@@ -22,7 +31,16 @@
     display: flex;
 }
 
+.selectTile:hover {
+    background-color: wheat
+}
+
+.selectTile.selected {
+    background-color: cornflowerblue;
+}
+
 .selectTile > span {
     margin: 5px;
     overflow: hidden;
+    background-repeat: no-repeat;
 }

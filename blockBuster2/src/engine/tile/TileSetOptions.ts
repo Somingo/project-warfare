@@ -15,4 +15,8 @@ export class TileSetOptions {
             o['tiles'].map((t: any) => TileOptions.fromObject(t))
         );
     }
+
+    getTileOptionByName(name: string): TileOptions {
+        return this.tileOptions.filter(t => t.name === name)[0];
+    }
 }

@@ -3,6 +3,13 @@ import {TileSet} from '../engine/tile/TileSet';
 
 const tiles = [
     {
+        "n": "CLEAR",
+        "x": 1000,
+        "y": 1000,
+        "w": 70,
+        "h": 70
+    },
+    {
         "n": "box",
         "x": 0,
         "y": 864,
