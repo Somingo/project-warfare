@@ -78,7 +78,7 @@ export class MapEditor {
         }));
 
         x.forEach(v => {
-            this.mapElements[v.x][v.y].name = v.name;
+            this.mapElements[v.y][v.x].name = v.name;
             const target = this.table.getCell(v.y, v.x);
             const tileOption = MAP_TILE_SET_OPTIONS.getTileOptionByName(v.name);
             target.style.backgroundImage = `url(${MAP_TILE_SET_OPTIONS.url})`;
