@@ -3,6 +3,8 @@ import {UpdateEvent} from '../UpdateEvent';
 import {Keys} from '../keyboard/Keys';
 import {ParallaxLayerOptions} from './ParallaxLayerOptions';
 
+const HEIGHT = 700;
+
 export class ParallaxLayer implements Sprite {
     posX = 0;
     options: ParallaxLayerOptions;
@@ -13,11 +15,11 @@ export class ParallaxLayer implements Sprite {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        const w = (600 * this.options.aspectRatio);
+        const w = (HEIGHT * this.options.aspectRatio);
         const px = this.posX % w;
-        ctx.drawImage(this.image, px, 0, w, 600);
-        ctx.drawImage(this.image, px - w, 0, w, 600);
-        ctx.drawImage(this.image, px + w, 0, w, 600);
+        ctx.drawImage(this.image, px, 0, w, HEIGHT);
+        ctx.drawImage(this.image, px - w, 0, w, HEIGHT);
+        ctx.drawImage(this.image, px + w, 0, w, HEIGHT);
     }
 
     init(): void {
