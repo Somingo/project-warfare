@@ -24,13 +24,17 @@ export class MapEditor {
     constructor() {
         // @ts-ignore
         this.element = document.getElementById(MapEditor.ID);
-        if (this.element) {
-            document.body.removeChild(this.element);
-        }
+       this.closeMapEditor();
         this.element = document.createElement('div');
         this.element.id = MapEditor.ID;
         document.body.appendChild(this.element);
         this.init();
+    }
+
+    closeMapEditor(){
+        if (this.element) {
+            document.body.removeChild(this.element);
+        }
     }
 
     selectTile(tileOptions: TileOptions, d: Div) {
