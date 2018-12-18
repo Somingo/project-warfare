@@ -2,29 +2,32 @@ import {Sprite} from '../engine/Sprite';
 import {UpdateEvent} from '../engine/UpdateEvent';
 import {Parallax} from '../engine/parallax/Parallax';
 import {CITY} from './Paralaxes';
-import {TileSet} from '../engine/tile/TileSet';
-import {MAP_TILE_SET} from './MapTileSet';
 import {PlatformerMap} from './PlatformerMap';
+import {Player} from './Player';
+import {MAP_TILE_SET} from './MapTileSet';
 
 export class Platformer implements Sprite {
 
     bg: Parallax = new Parallax(CITY.layerOptions);
-    tileSet: TileSet = MAP_TILE_SET;
     map: PlatformerMap = new PlatformerMap();
+    player = new Player();
+
+    sprites: Sprite[];
+
+    constructor() {
+        this.sprites = [this.bg, this.map, this.player];
+    }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        this.bg.draw(ctx);
-        this.map.draw(ctx);
+        this.sprites.forEach(s => s.draw(ctx));
     }
 
     init(): void {
-        this.bg.init();
-        this.tileSet.init();
-        this.map.init();
+        MAP_TILE_SET.init();
+        this.sprites.forEach(s => s.init());
     }
 
     update(e: UpdateEvent): void {
-        this.bg.update(e);
-        this.map.update(e);
+        this.sprites.forEach(s => s.update(e));
     }
 }
