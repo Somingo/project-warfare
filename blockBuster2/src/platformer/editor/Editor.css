@@ -1,27 +1,27 @@
-#MapEditor {
+#Editor {
     background: whitesmoke;
     font-family: monoFont;
 }
 
-#MapEditor {
+#Editor {
     display: block;
 }
 
-#MapEditor .topPane {
+#Editor .topPane {
     background-color: burlywood;
 }
 
-#MapEditor .middlePane {
+#Editor .middlePane {
     display: flex;
     max-height: 800px;
 }
 
-#MapEditor .leftPane {
+#Editor .leftPane {
     flex: 1 1;
     overflow: auto;
 }
 
-#MapEditor .rightPane {
+#Editor .rightPane {
     background-color: antiquewhite;
     flex: 0 0 400px;
     overflow: auto;

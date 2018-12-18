@@ -1,17 +1,13 @@
-import './MapEditor.css';
-import {Div} from './Div';
 import {TileOptions} from '../../engine/tile/TileOptions';
+import {Div} from './Div';
+import {Table} from './Table';
 import {MAP_TILE_SET_OPTIONS} from '../MapTileSet';
 import {TileSetOptions} from '../../engine/tile/TileSetOptions';
-import {Table} from './Table';
+import {Menu} from './Menu';
 
 type MapElement = { x: number, y: number, name: string };
 
 export class MapEditor {
-    static ID = 'MapEditor';
-
-    element: HTMLDivElement;
-
     selectedTile: TileOptions;
     selectedDiv: Div;
 
@@ -19,23 +15,10 @@ export class MapEditor {
 
     mapElements: MapElement[][];
 
-    //map: EditorMap = new EditorMap();
+    mapEditorMenu: HTMLDivElement | HTMLBodyElement;
+    mapEditorPane: HTMLDivElement | HTMLBodyElement;
 
-    constructor() {
-        // @ts-ignore
-        this.element = document.getElementById(MapEditor.ID);
-       this.closeMapEditor();
-        this.element = document.createElement('div');
-        this.element.id = MapEditor.ID;
-        document.body.appendChild(this.element);
-        this.init();
-    }
-
-    closeMapEditor(){
-        if (this.element) {
-            document.body.removeChild(this.element);
-        }
-    }
+    parent: HTMLDivElement;
 
     selectTile(tileOptions: TileOptions, d: Div) {
         if (this.selectedDiv != null) {
@@ -91,13 +74,10 @@ export class MapEditor {
         });
     }
 
-    init() {
-        const top = Div.build(this.element).className('topPane menuRoot').element;
-        const load = Div.build(top).className('menuItem').content('Load...').onClick(() => this.load()).element;
-        const save = Div.build(top).className('menuItem').content('Save...').onClick(() => this.save()).element;
-        const middle = Div.build(this.element).className('middlePane').element;
+    initEditorPane(parent: HTMLDivElement) {
+        const pane = Div.build(parent).className('middlePane').element;
 
-        const left = Div.build(middle).className('leftPane').element;
+        const left = Div.build(pane).className('leftPane').element;
         this.table = Table.build(left, 20, 10, (x, y) => this.cellClick(x, y));
         this.mapElements = [];
         for (let i = 0; i < 10; i++) {
@@ -107,7 +87,28 @@ export class MapEditor {
             }
         }
 
-        const right = Div.build(middle).className('rightPane').element;
+        const right = Div.build(pane).className('rightPane').element;
         MAP_TILE_SET_OPTIONS.tileOptions.map(t => this.tileSelector(t, right, MAP_TILE_SET_OPTIONS));
+        return pane;
+    }
+
+    init(parent: HTMLDivElement) {
+        this.parent = parent;
+        this.mapEditorMenu = Menu.build(parent)
+            .add('Load...', () => this.load())
+            .add('Save...', () => this.save())
+            .element;
+        this.mapEditorPane = this.initEditorPane(parent);
+    }
+
+    hide() {
+        this.parent.removeChild(this.mapEditorPane);
+        this.parent.removeChild(this.mapEditorMenu);
+    }
+
+    show() {
+        this.hide();
+        this.parent.appendChild(this.mapEditorPane);
+        this.parent.appendChild(this.mapEditorMenu);
     }
 }

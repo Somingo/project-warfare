@@ -3,10 +3,10 @@ import './index.css';
 import {GameLoop2D} from './engine/GameLoop';
 import {Platformer} from './platformer/Platformer';
 import {GameCanvas} from './engine/GameCanvas';
-import {MapEditor} from './platformer/editor/MapEditor';
+import {Editor} from './platformer/editor/Editor';
 
 let gameLoop2D: GameLoop2D = null;
-let mapEditor: MapEditor = null;
+let mapEditor: Editor = null;
 
 function startBlockbuster() {
     if (mapEditor) mapEditor.closeMapEditor(), mapEditor = null;
@@ -25,7 +25,7 @@ function startPlatformer() {
 function startPlatformerMapEditor() {
     if (gameLoop2D != null) gameLoop2D.stop();
     GameCanvas.removeGameCanvas();
-    mapEditor = new MapEditor();
+    mapEditor = new Editor();
 }
 
 // @ts-ignore
@@ -36,6 +36,6 @@ window['startPlatformer'] = startPlatformer;
 window['startPlatformerMapEditor'] = startPlatformerMapEditor;
 
 // set Platformer as default game to run
-//startPlatformer();
-
+// startPlatformer();
+// set Platformer map editor as default
 startPlatformerMapEditor();
