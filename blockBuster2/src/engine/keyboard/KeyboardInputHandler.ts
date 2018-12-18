@@ -16,7 +16,7 @@ export class KeyboardInputHandler {
     }
 
     keyDownHandler = (e: KeyboardEvent) => {
-        this.keyMap[e.keyCode] = 1;
+        if (!this.keyMap[e.keyCode]) this.keyMap[e.keyCode] = 1;
         if (e.keyCode === Keys.f5) return;
         e.preventDefault();
         e.stopImmediatePropagation();
