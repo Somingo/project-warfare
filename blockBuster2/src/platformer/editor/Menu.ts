@@ -1,4 +1,5 @@
 import {Div} from './Div';
+import {MenuItem} from './MenuItem';
 
 export class Menu {
     element: HTMLDivElement | HTMLBodyElement;
@@ -8,7 +9,7 @@ export class Menu {
     }
 
     add(title: string, onClick: (e: MouseEvent) => void): Menu {
-        Div.build(this.element).className('menuItem').content(title).onClick((e) => onClick(e));
+        MenuItem.build(this.element).content(title).onClick(onClick);
         return this;
     }
 

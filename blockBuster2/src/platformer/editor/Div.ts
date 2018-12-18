@@ -1,6 +1,8 @@
+export type DivClickEvent = (e: MouseEvent, d: Div) => void;
+
 export class Div {
 
-    element: HTMLDivElement | HTMLBodyElement;
+    element: HTMLDivElement;
 
     static build(parent: HTMLDivElement | HTMLBodyElement): Div {
         const div = new Div();
@@ -24,7 +26,7 @@ export class Div {
         return this;
     }
 
-    onClick(onClick: (e: MouseEvent, d: Div) => void): Div {
+    onClick(onClick: DivClickEvent): Div {
         this.element.onclick = (e: MouseEvent) => onClick(e, this);
         return this;
     }

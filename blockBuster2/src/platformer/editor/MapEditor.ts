@@ -15,10 +15,11 @@ export class MapEditor {
 
     mapElements: MapElement[][];
 
-    mapEditorMenu: HTMLDivElement | HTMLBodyElement;
-    mapEditorPane: HTMLDivElement | HTMLBodyElement;
+    menuElement: HTMLDivElement | HTMLBodyElement;
+    editorElement: HTMLDivElement | HTMLBodyElement;
 
     parent: HTMLDivElement;
+    rootDiv: Div;
 
     selectTile(tileOptions: TileOptions, d: Div) {
         if (this.selectedDiv != null) {
@@ -94,21 +95,19 @@ export class MapEditor {
 
     init(parent: HTMLDivElement) {
         this.parent = parent;
-        this.mapEditorMenu = Menu.build(parent)
+        this.rootDiv = Div.build(parent);
+        this.menuElement = Menu.build(this.rootDiv.element)
             .add('Load...', () => this.load())
             .add('Save...', () => this.save())
             .element;
-        this.mapEditorPane = this.initEditorPane(parent);
+        this.editorElement = this.initEditorPane(this.rootDiv.element);
     }
 
     hide() {
-        this.parent.removeChild(this.mapEditorPane);
-        this.parent.removeChild(this.mapEditorMenu);
+        this.rootDiv.className('hidden');
     }
 
     show() {
-        this.hide();
-        this.parent.appendChild(this.mapEditorPane);
-        this.parent.appendChild(this.mapEditorMenu);
+        this.rootDiv.className('')
     }
 }

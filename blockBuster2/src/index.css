@@ -52,3 +52,15 @@ canvas {
 .menuRoot .menuItem:hover {
     color: #4444ff;
 }
+
+.right {
+    float: right;
+}
+
+.hidden {
+    display: none;
+}
+
+.relative {
+    position: relative;
+}
