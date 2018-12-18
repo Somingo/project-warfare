@@ -10,6 +10,7 @@ export class Tile implements Sprite {
     height: number;
     tileSet: TileSet;
     options: TileOptions;
+    image: HTMLImageElement;
 
 
     constructor(tileSet: TileSet, options: TileOptions, x: number, y: number) {
@@ -22,13 +23,19 @@ export class Tile implements Sprite {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        ctx.drawImage(this.tileSet.spriteSheet,
+        ctx.drawImage(this.image,
             this.options.x, this.options.y, this.options.width, this.options.height,
             this.x, this.y, this.width, this.height
         );
     }
 
     init(): void {
+        if (this.options.url) {
+            this.image = new Image();
+            this.image.src = this.options.url;
+        } else {
+            this.image = this.tileSet.spriteSheet;
+        }
     }
 
     update(e: UpdateEvent): void {
