@@ -15,15 +15,23 @@ function getTiles(pref: string, til: number): Tile[] {
 }
 
 export class Player implements Sprite {
-    frameTime = 200;
+    frameTime = 150;
     keyFrames = {
         l: {
             idle: getTiles('R_IDLE', 5),
-            run: getTiles('R_RUN', 5)
+            run: getTiles('R_RUN', 5),
+            jump: getTiles('R_JUMP', 5),
+            attack: getTiles('R_ATTACK', 5),
+            hurt: getTiles('R_HURT', 5),
+            die: getTiles('R_DIE', 5)
         },
         r: {
             idle: getTiles('L_IDLE', 5),
-            run: getTiles('L_RUN', 5)
+            run: getTiles('L_RUN', 5),
+            jump: getTiles('L_JUMP', 5),
+            attack: getTiles('L_ATTACK', 5),
+            hurt: getTiles('L_HURT', 5),
+            die: getTiles('L_DIE', 5)
         }
     };
     activeFrames: Tile[] = this.keyFrames.r.idle;
@@ -38,8 +46,16 @@ export class Player implements Sprite {
         ACTIVE_TILE_SET.init();
         this.keyFrames.r.idle.forEach(t => t.init());
         this.keyFrames.r.run.forEach(t => t.init());
+        this.keyFrames.r.jump.forEach(t => t.init());
+        this.keyFrames.r.attack.forEach(t => t.init());
+        this.keyFrames.r.hurt.forEach(t => t.init());
+        this.keyFrames.r.die.forEach(t => t.init());
         this.keyFrames.l.idle.forEach(t => t.init());
         this.keyFrames.l.run.forEach(t => t.init());
+        this.keyFrames.l.jump.forEach(t => t.init());
+        this.keyFrames.l.attack.forEach(t => t.init());
+        this.keyFrames.l.hurt.forEach(t => t.init());
+        this.keyFrames.l.die.forEach(t => t.init());
     }
 
     update(e: UpdateEvent): void {
@@ -65,6 +81,23 @@ export class Player implements Sprite {
             this.activeFrames = this.keyFrames.r.idle;
             this.activeFrame = 0;
         }
+        if (e.keyDown[Keys.upArrow]) {
+            this.activeFrames = this.keyFrames.r.jump;
+            this.activeFrame = 0;
+        }
+        if (e.keyDown[Keys.space]) {
+            this.activeFrames = this.keyFrames.r.attack;
+            this.activeFrame = 0;
+        }
+        if (e.keyDown[Keys.a]) {
+            this.activeFrames = this.keyFrames.r.hurt;
+            this.activeFrame = 0;
+        }
+        if (e.keyDown[Keys.s]) {
+            this.activeFrames = this.keyFrames.r.die;
+            this.activeFrame = 0;
+        }
+
 
     }
 }
