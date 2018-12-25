@@ -14,9 +14,11 @@ function getTiles(pref: string, til: number): Tile[] {
     return res;
 }
 
+type KeyFrames = { idle: Tile[], run: Tile[], jump: Tile[], attack: Tile[], hurt: Tile[], die: Tile[] };
+
 export class Player implements Sprite {
     frameTime = 150;
-    keyFrames = {
+    keyFrames: { l: KeyFrames, r: KeyFrames } = {
         l: {
             idle: getTiles('R_IDLE', 5),
             run: getTiles('R_RUN', 5),
@@ -34,8 +36,12 @@ export class Player implements Sprite {
             die: getTiles('L_DIE', 5)
         }
     };
-    activeFrames: Tile[] = this.keyFrames.r.idle;
+    renderDirection: KeyFrames = this.keyFrames.r;
+    activeFrames: Tile[] = this.renderDirection.idle;
     activeFrame: number = 0;
+
+    isRunning = false;
+
 
     draw(ctx: CanvasRenderingContext2D): void {
         this.activeFrames[Math.floor(this.activeFrame)].draw(ctx);
@@ -58,6 +64,32 @@ export class Player implements Sprite {
         this.keyFrames.l.die.forEach(t => t.init());
     }
 
+    push(e: UpdateEvent, key: number, tiles: Tile[]) {
+        if (e.keyMap[key]) {
+            this.activeFrames = tiles;
+        }
+        if (e.keyDown[key]) {
+            this.activeFrame = 0;
+        }
+    }
+
+    selectDirection(e: UpdateEvent, key: number, keyFrames: KeyFrames, otherKey: number, otherKeyFrames: KeyFrames) {
+        if (e.keyDown[key]) {
+            this.renderDirection = keyFrames;
+            this.isRunning = true;
+            this.activeFrame = 0;
+        }
+        if (e.keyUp[key]) {
+            if (e.keyMap[otherKey]) {
+                this.renderDirection = otherKeyFrames;
+                this.activeFrame = 0;
+            } else {
+                this.isRunning = false;
+                this.activeFrame = 0;
+            }
+        }
+    }
+
     update(e: UpdateEvent): void {
 
         this.activeFrame += e.deltaTime / this.frameTime;
@@ -65,38 +97,20 @@ export class Player implements Sprite {
             this.activeFrame -= this.activeFrames.length;
         }
 
-        if (e.keyDown[Keys.leftArrow]) {
-            this.activeFrames = this.keyFrames.l.run;
-            this.activeFrame = 0;
+        this.selectDirection(e, Keys.leftArrow, this.keyFrames.l, Keys.rightArrow, this.keyFrames.r);
+        this.selectDirection(e, Keys.rightArrow, this.keyFrames.r, Keys.leftArrow, this.keyFrames.l);
+
+
+        if (this.isRunning) {
+            this.activeFrames = this.renderDirection.run;
+        } else {
+            this.activeFrames = this.renderDirection.idle;
         }
-        if (e.keyUp[Keys.leftArrow]) {
-            this.activeFrames = this.keyFrames.l.idle;
-            this.activeFrame = 0;
-        }
-        if (e.keyDown[Keys.rightArrow]) {
-            this.activeFrames = this.keyFrames.r.run;
-            this.activeFrame = 0;
-        }
-        if (e.keyUp[Keys.rightArrow]) {
-            this.activeFrames = this.keyFrames.r.idle;
-            this.activeFrame = 0;
-        }
-        if (e.keyDown[Keys.upArrow]) {
-            this.activeFrames = this.keyFrames.r.jump;
-            this.activeFrame = 0;
-        }
-        if (e.keyDown[Keys.space]) {
-            this.activeFrames = this.keyFrames.r.attack;
-            this.activeFrame = 0;
-        }
-        if (e.keyDown[Keys.a]) {
-            this.activeFrames = this.keyFrames.r.hurt;
-            this.activeFrame = 0;
-        }
-        if (e.keyDown[Keys.s]) {
-            this.activeFrames = this.keyFrames.r.die;
-            this.activeFrame = 0;
-        }
+
+        this.push(e, Keys.upArrow, this.renderDirection.jump);
+        this.push(e, Keys.space, this.renderDirection.attack);
+        this.push(e, Keys.a, this.renderDirection.hurt);
+        this.push(e, Keys.s, this.renderDirection.die);
 
 
     }
