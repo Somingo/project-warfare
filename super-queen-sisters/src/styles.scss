@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+  font-family: "PV";
+  src: url("/assets/PrinceValiant.ttf");
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  font-size: 13px;
+  line-height: 1.6em;
+  font-family: PV, arial, serif;
+}
