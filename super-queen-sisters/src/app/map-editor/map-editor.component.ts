@@ -3,7 +3,8 @@ import {TileSetOptions} from "../engine/tile/TileSetOptions";
 // @ts-ignore
 import tileSet from '../game/tileset.json';
 import {TileOptions} from "../engine/tile/TileOptions";
-import {times, map, reduce, filter, forEach} from 'lodash';
+import {filter, forEach, times} from 'lodash';
+import {loadMapFromLocalStorage, SavableMap, SavableTile, saveMapToLocalStorage} from "../game/MultiLayerMap";
 
 @Component({
   selector: 'app-map-editor',
@@ -28,29 +29,29 @@ export class MapEditorComponent implements OnInit {
   }
 
   save() {
-    const savedMap = {layers: this.layers, height: this.height, width: this.width, tiles: []};
+    const savedMap: SavableMap = {layers: this.layers, height: this.height, width: this.width, tiles: []};
 
     forEach(this.map, (layer: TileOptions[][], iLayer) =>
       forEach(layer, (row: TileOptions[], iRow) =>
-        forEach(filter(row, c=>c.name != 'CLEAN'), (cell: TileOptions, iCol) =>
+        forEach(filter(row, c => c.name != 'CLEAN'), (cell: TileOptions, iCol) =>
           savedMap.tiles.push({
             n: cell.name,
-            iLayer,
-            iRow,
-            iCol
+            l: iLayer,
+            y: iRow,
+            x: iCol
           })))
     );
 
-    localStorage.setItem('DefaultMap', JSON.stringify(savedMap));
+    saveMapToLocalStorage(savedMap);
   }
 
   load() {
-    const o = JSON.parse(localStorage.getItem('DefaultMap'));
+    const o = loadMapFromLocalStorage();
     this.layers = o.layers;
     this.width = o.width;
     this.height = o.height;
     this.initMap();
-    forEach(o.tiles, (item => this.map[item.iLayer][item.iRow][item.iCol] = this.tileSetOptions.getTileOptionByName(item.n)));
+    forEach(o.tiles, ((item: SavableTile) => this.map[item.l][item.y][item.x] = this.tileSetOptions.getTileOptionByName(item.n)));
   }
 
   selectLayer(index) {
