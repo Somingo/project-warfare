@@ -1,0 +1,18 @@
+$width: 70px;
+$height: 70px;
+:host {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: $width;
+  height: $height;
+  //flex: 0 0 $width;
+  .tile {
+    display: block;
+    width: $width;
+    height: $height;
+    background-repeat: no-repeat;
+    background-size: unset;
+  }
+}

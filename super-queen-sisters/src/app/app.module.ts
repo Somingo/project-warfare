@@ -9,6 +9,10 @@ import { MenuLogoComponent } from './menu/menu-logo/menu-logo.component';
 import { MapEditorComponent } from './map-editor/map-editor.component';
 import { SpriteEditorComponent } from './sprite-editor/sprite-editor.component';
 import { GameComponent } from './game/game.component';
+import { TileComponent } from './map-editor/tile/tile.component';
+import { TileListComponent } from './map-editor/tile-list/tile-list.component';
+import { MapComponent } from './map-editor/map/map.component';
+import {CommonModule} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -18,11 +22,15 @@ import { GameComponent } from './game/game.component';
     MenuLogoComponent,
     MapEditorComponent,
     SpriteEditorComponent,
-    GameComponent
+    GameComponent,
+    TileComponent,
+    TileListComponent,
+    MapComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,41 @@
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 800px;
+  .toolbar {
+    flex: 0 0 100%;
+    button {
+      display: inline-block;
+      margin: 0 1em 0 0;
+      padding: 0 1em;
+      line-height: 2em;
+      font-size: 1.6em;
+
+      &.active {
+
+      }
+    }
+  }
+  .map {
+    flex: 0 0 1280px;
+    overflow: scroll;
+    max-height: 800px;
+    table tr td {
+      position: relative;
+      width: 70px;
+      height: 70px;
+    }
+  }
+  .tileList {
+    display: block;
+    overflow: auto;
+    flex: 1 0 400px;
+    max-height: 800px;
+    .tileListItem {
+      position: relative;
+      display: inline-block;
+      width: 70px;
+      height: 70px;
+    }
+  }
+}
