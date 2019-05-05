@@ -4,8 +4,8 @@ import {TileSet} from './TileSet';
 import {TileOptions} from './TileOptions';
 
 export class Tile implements Sprite {
-    x: number;
-    y: number;
+    public x: number;
+    public y: number;
     width: number;
     height: number;
     tileSet: TileSet;
