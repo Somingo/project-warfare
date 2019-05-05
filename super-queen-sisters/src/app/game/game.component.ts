@@ -56,7 +56,7 @@ export class GameComponent implements OnInit, AfterViewInit, OnDestroy {
     const deltaTime = timeStamp - this.lastUpdated;
     this.lastUpdated = timeStamp;
 
-    this.game.update(new UpdateEvent(deltaTime, GameComponent.keyboardInputHandler.updatedKeyMaps));
+    this.game.update(new UpdateEvent(deltaTime, deltaTime/1000, GameComponent.keyboardInputHandler.updatedKeyMaps));
     this.game.draw(this.gameContext);
 
     requestAnimationFrame(this.gameLoop);
