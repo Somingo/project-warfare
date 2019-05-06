@@ -8,6 +8,9 @@ $height: 70px;
   width: $width;
   height: $height;
   //flex: 0 0 $width;
+  &.hidden {
+    display: none;
+  }
   .tile {
     display: block;
     width: $width;

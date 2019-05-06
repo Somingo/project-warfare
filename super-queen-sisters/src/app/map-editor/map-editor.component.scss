@@ -10,9 +10,12 @@
       padding: 0 1em;
       line-height: 2em;
       font-size: 1.6em;
+      background: antiquewhite;
+      cursor: pointer;
 
       &.active {
-
+        background: blue;
+        color: white;
       }
     }
   }

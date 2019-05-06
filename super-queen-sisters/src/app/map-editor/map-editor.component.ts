@@ -24,6 +24,7 @@ export class MapEditorComponent implements OnInit {
   public layers = 3;
   public height = 10;
   public width = 20;
+  public layerVisibility = {};
 
   constructor() {
   }
@@ -48,6 +49,7 @@ export class MapEditorComponent implements OnInit {
   load() {
     const o = loadMapFromLocalStorage();
     this.layers = o.layers;
+    times(this.layers, i => this.layerVisibility[i] = true);
     this.width = o.width;
     this.height = o.height;
     this.initMap();
@@ -73,5 +75,9 @@ export class MapEditorComponent implements OnInit {
 
   setTile(iLayer: number, iRow: number, iCell: number, selectedTile: TileOptions) {
     this.map[iLayer][iRow][iCell] = selectedTile;
+  }
+
+  setLayerVisibility(i: number) {
+    this.layerVisibility[i] = !this.layerVisibility[i];
   }
 }
