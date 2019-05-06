@@ -13,6 +13,7 @@ import { TileComponent } from './map-editor/tile/tile.component';
 import { TileListComponent } from './map-editor/tile-list/tile-list.component';
 import { MapComponent } from './map-editor/map/map.component';
 import {CommonModule} from "@angular/common";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import {CommonModule} from "@angular/common";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
