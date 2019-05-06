@@ -23,6 +23,7 @@ export class MultiLayerMap implements Sprite {
   private tileSet: TileSet;
   private layerCount: number;
   public layers: Tile[][];
+  public width: number = 0;
 
   draw(ctx: CanvasRenderingContext2D): void {
     this.layers.forEach(layer => layer.forEach(tile => tile.draw(ctx)));
@@ -31,6 +32,7 @@ export class MultiLayerMap implements Sprite {
   init(): void {
     const savedMap: SavableMap = loadMapFromLocalStorage();
     const tileSetOptions = TileSetOptions.fromObject(tileSet);
+    this.width = savedMap.width*this.raster;
     this.tileSet = new TileSet(tileSetOptions);
     this.tileSet.init();
     this.layerCount = savedMap.layers;

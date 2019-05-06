@@ -19,21 +19,26 @@ type Player = { tile: Tile, speed: number, velocity: number }
 
 const gravity = 1000;
 
+const WIDTH = 1280;
+
 export class SuperQueenSisters implements Sprite {
   parallax: Parallax = null;
   map: MultiLayerMap = new MultiLayerMap();
   private tileSet: TileSet;
   private player: Player;
 
+  private viewPortX = 0;
+
   draw(ctx: CanvasRenderingContext2D): void {
     if (this.parallax) this.parallax.draw(ctx);
+    ctx.translate(this.viewPortX, 0);
     this.map.draw(ctx);
     this.player.tile.draw(ctx);
-    ctx.fillText('Hello World!', 50, 50);
+    ctx.fillText(`Map W: ${this.map.width} R: ${this.map.raster}`, 50, 50);
+    ctx.resetTransform();
   }
 
   init(): void {
-    console.log('loaded?', parallaxes);
     let parallaxOptions = ParallaxOptions.fromObject(parallaxes[0]);
     this.parallax = new Parallax(parallaxOptions.layerOptions);
     this.parallax.init();
@@ -74,7 +79,7 @@ export class SuperQueenSisters implements Sprite {
     if (collapse.length == 0) {
       this.player.tile.y = newY;
     } else {
-      this.player.velocity = pY<0?0.1:0;
+      this.player.velocity = pY < 0 ? 0.1 : 0;
     }
 
     newX = this.player.tile.x + pX;
@@ -85,6 +90,8 @@ export class SuperQueenSisters implements Sprite {
     if (collapse.length == 0) {
       this.player.tile.x = newX;
     }
+
+    this.viewPortX = 0 - Math.min(Math.max(0, this.player.tile.x - 450), this.map.width - WIDTH);
 
     //if (this.parallax) this.parallax.update(e);
     this.map.update(e);
