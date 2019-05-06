@@ -74,7 +74,7 @@ export class SuperQueenSisters implements Sprite {
     if (collapse.length == 0) {
       this.player.tile.y = newY;
     } else {
-      this.player.velocity = 0;
+      this.player.velocity = pY<0?0.1:0;
     }
 
     newX = this.player.tile.x + pX;
