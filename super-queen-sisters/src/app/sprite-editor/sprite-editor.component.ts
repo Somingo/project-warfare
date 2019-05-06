@@ -12,9 +12,6 @@ export class SpriteEditorComponent implements OnInit, AfterViewInit {
   public spriteElement: HTMLCanvasElement;
   public spriteContext: CanvasRenderingContext2D;
 
-  @ViewChild('images') imagesDiv: ElementRef;
-  public imagesElement: HTMLDivElement;
-
   public imageList = [];
   public size = 70;
   public spritePNG: SafeUrl;
@@ -31,14 +28,15 @@ export class SpriteEditorComponent implements OnInit, AfterViewInit {
     for (let i = 0; i < input.files.length; i++) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageList.push(reader.result);
+        const img = new Image;
+        img.src = <string>reader.result;
+        this.imageList.push({name: input.files[i].name, url: reader.result, image: img});
       };
       reader.readAsDataURL(input.files[i]);
     }
   }
 
   ngAfterViewInit(): void {
-    this.imagesElement = (<HTMLDivElement>this.imagesDiv.nativeElement);
     this.spriteElement = (<HTMLCanvasElement>this.spriteCanvas.nativeElement);
     this.spriteElement.width = 0;
     this.spriteElement.height = 0;
@@ -49,37 +47,17 @@ export class SpriteEditorComponent implements OnInit, AfterViewInit {
     let spriteSheet = [];
 
 
-    this.spriteElement.width = this.imagesElement.clientWidth;
-    this.spriteElement.height = this.imagesElement.clientHeight;
-    this.spriteContext.clearRect(0, 0, this.imagesElement.clientWidth, this.imagesElement.clientHeight);
+    this.spriteElement.width = this.imageList.length * this.size;
+    this.spriteElement.height = this.size;
+    this.spriteContext.clearRect(0, 0, this.spriteElement.width, this.spriteElement.height);
 
-    this.imagesElement.childNodes.forEach(j => {
-        if (j.nodeName == 'IMG') {
-          const i = <HTMLImageElement>j;
-          const x = {
-            x: i.offsetLeft,
-            y: i.offsetTop,
-            w: i.width,
-            h: i.height,
-            n: i.src
-          };
-          spriteSheet.push(x);
-          const img = new Image;
-          img.width = this.size;
-          img.height = this.size;
-          img.onload = () => {
-            console.log('Done.');
-            this.spriteContext.drawImage(img, i.offsetLeft, i.offsetTop, this.size, this.size); // Or at whatever offset you like
-            this.spritePNG = this.sanitizer.bypassSecurityTrustUrl(this.spriteElement.toDataURL('image/png'));
-          };
-          img.onerror = () => {
-            console.error('Error.');
-          };
-          img.src = i.src;
-        }
-      }
-    );
+    this.imageList.forEach((image, index) => {
+      const desc = {x: index * this.size, y: 0, w: this.size, h: this.size, n: image.name};
+      spriteSheet.push(desc);
+      this.spriteContext.drawImage(image.image, desc.x, desc.y, desc.w, desc.h);
+    });
 
+    this.spritePNG = this.sanitizer.bypassSecurityTrustUrl(this.spriteElement.toDataURL('image/png'));
     this.spriteJSON = this.sanitizer.bypassSecurityTrustUrl('data:text/json,' + JSON.stringify(spriteSheet));
   }
 }

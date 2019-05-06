@@ -5,11 +5,7 @@
   <button (click)="save()">Save</button>
   <a [href]="spritePNG" download="sprite.png">IMAGE</a>
   <a [href]="spriteJSON" download="sprite.json">JSON</a>
-  <section>
-    <div #images [ngClass]="'imageWrapper'">
-      <img *ngFor="let url of imageList" [src]="url" [height]="size"/>
-    </div>
-  </section>
+
   <section>
     <canvas #spriteCanvas></canvas>
   </section>
