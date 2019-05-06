@@ -22,7 +22,7 @@ export class MultiLayerMap implements Sprite {
   raster= 70;
   private tileSet: TileSet;
   private layerCount: number;
-  private layers: Tile[][];
+  public layers: Tile[][];
 
   draw(ctx: CanvasRenderingContext2D): void {
     this.layers.forEach(layer => layer.forEach(tile => tile.draw(ctx)));
@@ -37,7 +37,7 @@ export class MultiLayerMap implements Sprite {
     this.layers = savedMap.tiles.reduce((prevValue: Tile[][], value: SavableTile) => {
       prevValue[value.l].push(this.tileSet.getTile(value.n, value.x * this.raster, value.y * this.raster));
       return prevValue;
-    }, times(this.layerCount, () => []))
+    }, times(this.layerCount, () => [])).map(layer=> layer.filter(tile => tile.options.name !== 'CLEAR'));
     this.layers.forEach(layer => layer.forEach(tile => tile.init()));
 
   }

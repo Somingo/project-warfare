@@ -11,6 +11,9 @@ import tileSet from "./player.json";
 import {TileSet} from "../engine/tile/TileSet";
 import {Tile} from "../engine/tile/Tile";
 import {Keys} from "../engine/keyboard/Keys";
+import {Rectangle} from "../engine/collision/Rectangle";
+import {Collision} from "../engine/collision/Collision";
+import {Vector} from "../engine/Vector";
 
 type Player = { tile: Tile, speed: number, velocity: number }
 
@@ -44,25 +47,45 @@ export class SuperQueenSisters implements Sprite {
 
   update(e: UpdateEvent): void {
     // gravity
-
+    let pX = 0;
+    let pY = 0;
     if (e.keyMap[Keys.leftArrow]) {
-      this.player.tile.x -= e.deltaSec * this.player.speed;
+      pX -= e.deltaSec * this.player.speed;
     }
     if (e.keyMap[Keys.rightArrow]) {
-      this.player.tile.x += e.deltaSec * this.player.speed;
+      pX += e.deltaSec * this.player.speed;
     }
     if (e.keyMap[Keys.upArrow] && this.player.velocity == 0) {
       this.player.velocity = -700;
     }
-    if (e.keyMap[Keys.downArrow]) {
-      this.player.tile.y += e.deltaSec * this.player.speed;
-    }
-    this.player.tile.y += e.deltaSec * (this.player.velocity + e.deltaSec * gravity / 2);
+    // if (e.keyMap[Keys.downArrow]) {
+    //   pY += e.deltaSec * this.player.speed;
+    // }
+    pY += e.deltaSec * (this.player.velocity + e.deltaSec * gravity / 2);
     this.player.velocity += e.deltaSec * gravity;
-    if (this.player.tile.y > 660) {
+
+    let newX = this.player.tile.x;
+    let newY = this.player.tile.y + pY;
+    const w = this.player.tile.width;
+    const h = this.player.tile.height;
+    this.player.tile.bounds = new Rectangle(new Vector(newX, newY), new Vector(w, h));
+
+    let collapse = this.map.layers[this.map.layers.length - 1].filter(tile => Collision.collisionRectangleToRectangle(tile.bounds, this.player.tile.bounds));
+    if (collapse.length == 0) {
+      this.player.tile.y = newY;
+    } else {
       this.player.velocity = 0;
-      this.player.tile.y = 660;
     }
+
+    newX = this.player.tile.x + pX;
+    newY = this.player.tile.y;
+    this.player.tile.bounds = new Rectangle(new Vector(newX, newY), new Vector(w, h));
+
+    collapse = this.map.layers[this.map.layers.length - 1].filter(tile => Collision.collisionRectangleToRectangle(tile.bounds, this.player.tile.bounds));
+    if (collapse.length == 0) {
+      this.player.tile.x = newX;
+    }
+
     //if (this.parallax) this.parallax.update(e);
     this.map.update(e);
   }
