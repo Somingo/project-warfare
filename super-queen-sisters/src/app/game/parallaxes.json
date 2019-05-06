@@ -10,37 +10,37 @@
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_07_1920 x 1080.png",
-        "speed": 100,
+        "speed": 0,
         "aspectRatio": 1.7777777777777777
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_06_1920 x 1080.png",
-        "speed": 300,
+        "speed": 30,
         "aspectRatio": 1.7777777777777777
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_05_1920 x 1080.png",
-        "speed": 500,
+        "speed": 50,
         "aspectRatio": 1.7777777777777777
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_04_1920 x 1080.png",
-        "speed": 1000,
+        "speed": 100,
         "aspectRatio": 1.7777777777777777
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_03_1920 x 1080.png",
-        "speed": 1500,
+        "speed": 250,
         "aspectRatio": 1.7777777777777777
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_02_1920 x 1080.png",
-        "speed": 2000,
+        "speed": 400,
         "aspectRatio": 1.7777777777777777
       },
       {
         "imageUrl": "/assets/parallax/px4/layer_01_1920 x 1080.png",
-        "speed": 5000,
+        "speed": 700,
         "aspectRatio": 1.7777777777777777
       }
     ]

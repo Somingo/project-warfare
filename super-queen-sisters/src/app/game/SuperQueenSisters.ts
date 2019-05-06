@@ -93,7 +93,8 @@ export class SuperQueenSisters implements Sprite {
 
     this.viewPortX = 0 - Math.min(Math.max(0, this.player.tile.x - 450), this.map.width - WIDTH);
 
-    //if (this.parallax) this.parallax.update(e);
+    this.parallax.viewPortX = this.viewPortX;
+    this.parallax.update(e);
     this.map.update(e);
   }
 
