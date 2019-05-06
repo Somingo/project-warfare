@@ -7,7 +7,9 @@ import {ParallaxOptions} from "../engine/parallax/ParallaxOptions";
 import {MultiLayerMap} from "./MultiLayerMap";
 import {TileSetOptions} from "../engine/tile/TileSetOptions";
 // @ts-ignore
-import tileSet from "./player.json";
+import playerTileSet from "./player.json";
+// @ts-ignore
+import enemyTileSet from "./enemy.json";
 import {TileSet} from "../engine/tile/TileSet";
 import {Tile} from "../engine/tile/Tile";
 import {Keys} from "../engine/keyboard/Keys";
@@ -16,6 +18,7 @@ import {Collision} from "../engine/collision/Collision";
 import {Vector} from "../engine/Vector";
 
 type Player = { tile: Tile, speed: number, velocity: number }
+type Enemy = { tile: Tile, spawn: { x: number, y: number }[] }
 
 const gravity = 1000;
 
@@ -24,8 +27,10 @@ const WIDTH = 1280;
 export class SuperQueenSisters implements Sprite {
   parallax: Parallax = null;
   map: MultiLayerMap = new MultiLayerMap();
-  private tileSet: TileSet;
+  private playerTileSet: TileSet;
+  private enemyTileSet: TileSet;
   private player: Player;
+  private enemy: Enemy;
 
   private viewPortX = 0;
 
@@ -33,20 +38,39 @@ export class SuperQueenSisters implements Sprite {
     if (this.parallax) this.parallax.draw(ctx);
     ctx.translate(this.viewPortX, 0);
     this.map.draw(ctx);
+    this.enemy.tile.draw(ctx);
     this.player.tile.draw(ctx);
     ctx.fillText(`Map W: ${this.map.width} R: ${this.map.raster}`, 50, 50);
     ctx.resetTransform();
+  }
+
+  enemySpawnPos = 0;
+
+  spawnNextEnemy() {
+    this.enemySpawnPos++;
+    if (this.enemySpawnPos >= this.enemy.spawn.length) {
+      this.enemySpawnPos = 0;
+    }
+    this.enemy.tile.x = this.enemy.spawn[this.enemySpawnPos].x;
+    this.enemy.tile.y = this.enemy.spawn[this.enemySpawnPos].y;
+    this.enemy.tile.updateBounds();
   }
 
   init(): void {
     let parallaxOptions = ParallaxOptions.fromObject(parallaxes[0]);
     this.parallax = new Parallax(parallaxOptions.layerOptions);
     this.parallax.init();
-    const tileSetOptions = TileSetOptions.fromObject(tileSet);
-    this.tileSet = new TileSet(tileSetOptions);
-    this.tileSet.init();
-    this.player = {tile: this.tileSet.getTile('L_IDLE_0', 100, 100), speed: 345, velocity: 0};
+    const playerTileSetOptions = TileSetOptions.fromObject(playerTileSet);
+    this.playerTileSet = new TileSet(playerTileSetOptions);
+    this.playerTileSet.init();
+    this.player = {tile: this.playerTileSet.getTile('L_IDLE_0', 100, 100), speed: 345, velocity: 0};
     this.player.tile.init();
+    const enemyTileSetOptions = TileSetOptions.fromObject(enemyTileSet);
+    this.enemyTileSet = new TileSet(enemyTileSetOptions);
+    this.enemyTileSet.init();
+    this.enemy = {tile: null, spawn: [{x: 70, y: 8 * 70}, {x: 6 * 70, y: 5 * 70}]};
+    this.enemy.tile = this.enemyTileSet.getTile('0_Golem_Idle_000.png', this.enemy.spawn[0].x, this.enemy.spawn[0].y);
+    this.enemy.tile.init();
     this.map.init();
   }
 
@@ -95,6 +119,16 @@ export class SuperQueenSisters implements Sprite {
       this.player.tile.x = 100;
       this.player.tile.y = 100;
       this.player.velocity = 0;
+    }
+
+    if (Collision.collisionRectangleToRectangle(this.player.tile.bounds, this.enemy.tile.bounds)) {
+      if (this.enemy.tile.y > this.player.tile.y + 50) {
+        this.spawnNextEnemy();
+      } else {
+        this.player.tile.x = 100;
+        this.player.tile.y = 100;
+        this.player.velocity = 0;
+      }
     }
 
     this.viewPortX = 0 - Math.min(Math.max(0, this.player.tile.x - 450), this.map.width - WIDTH);

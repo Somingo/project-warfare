@@ -23,7 +23,7 @@ export class Tile implements Sprite {
     this.height = this.options.height;
     this.x = x;
     this.y = y;
-    this.bounds = new Rectangle(new Vector(x,y), new Vector(this.width, this.height));
+    this.updateBounds();
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
@@ -31,7 +31,7 @@ export class Tile implements Sprite {
       this.options.x, this.options.y, this.options.width, this.options.height,
       this.x, this.y, this.width, this.height
     );
-    ctx.strokeRect(this.bounds.x,this.bounds.y, this.bounds.width, this.bounds.height);
+    ctx.strokeRect(this.bounds.x, this.bounds.y, this.bounds.width, this.bounds.height);
   }
 
   init(): void {
@@ -46,5 +46,8 @@ export class Tile implements Sprite {
   update(e: UpdateEvent): void {
   }
 
+  updateBounds(): void {
+    this.bounds = new Rectangle(new Vector(this.x, this.y), new Vector(this.width, this.height));
+  }
 }
 
