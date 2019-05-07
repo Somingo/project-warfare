@@ -26,9 +26,13 @@ export class Collision {
 
   static collisionRectangleToRectangle(rect1: Rectangle, rect2: Rectangle): boolean {
     return Collision.collisionRectangleToVector(rect1, rect2.bottomLeft) ||
-      this.collisionRectangleToVector(rect1, rect2.bottomRight) ||
-      this.collisionRectangleToVector(rect1, rect2.topLeft) ||
-      this.collisionRectangleToVector(rect1, rect2.topRight);
+      Collision.collisionRectangleToVector(rect1, rect2.bottomRight) ||
+      Collision.collisionRectangleToVector(rect1, rect2.topLeft) ||
+      Collision.collisionRectangleToVector(rect1, rect2.topRight) ||
+      Collision.collisionRectangleToVector(rect2, rect1.bottomLeft) ||
+      Collision.collisionRectangleToVector(rect2, rect1.bottomRight) ||
+      Collision.collisionRectangleToVector(rect2, rect1.topLeft) ||
+      Collision.collisionRectangleToVector(rect2, rect1.topRight);
   }
 
   static collisionCircleToCircle(circle1: Circle, circle2: Circle): boolean {
