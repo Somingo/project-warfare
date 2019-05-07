@@ -1,0 +1,26 @@
+$input-color-bg: #E1BEE7;
+$input-color: #000000;
+$input-border: 1px solid #4A148C;
+
+:host {
+  display: flex;
+  > * {
+    flex: 1 1;
+  }
+  span {
+    padding: 0 1em;
+  }
+  input {
+    color: $input-color;
+    background-color: $input-color-bg;
+    border: $input-border;
+    border-radius: .3em;
+    margin-right: .3em;
+    width: 100%;
+    padding: 0 1em;
+    font-size: 12px;
+    font-family: Unispace, Arial, serif;
+    line-height: 2.5em;
+  }
+
+}

@@ -1,0 +1,29 @@
+$button-color-bg: #6A1B9A;
+$button-color: #ffffff;
+$button-color-bg-light: #7B1FA2;
+$button-color-light: #ffffff;
+$button-color-bg-active: #8E24AA;
+$button-color-active: #ffffff;
+$button-border: 1px solid #4A148C;
+
+:host {
+  flex: 0 0;
+  padding: 0 1em;
+  background-color: $button-color-bg;
+  color: $button-color;
+  cursor: pointer;
+  border: $button-border;
+  border-radius: .3em;
+  margin-right: .3em;
+
+  &.active{
+    background-color: $button-color-bg-active;
+    color: $button-color-active;
+  }
+
+  &:hover {
+    background-color: $button-color-bg-light;
+    color: $button-color-light;
+  }
+
+}

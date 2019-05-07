@@ -5,6 +5,34 @@
   src: url("/assets/PrinceValiant.ttf");
 }
 
+@font-face {
+  font-family: "Unispace";
+  src: url("/assets/unispace.ttf");
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Unispace";
+  src: url("/assets/unispace_i.ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+
+
+@font-face {
+  font-family: "Unispace";
+  src: url("/assets/unispace_b.ttf");
+  font-weight: bold;
+}
+
+
+@font-face {
+  font-family: "Unispace";
+  src: url("/assets/unispace_b_i.ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -14,11 +42,13 @@
 
 a {
   text-decoration: none;
+  color: inherit;
+  background-color: inherit;
 }
 
 body {
   font-size: 13px;
   line-height: 1.6em;
-  font-family: PV, arial, serif;
+  font-family: Unispace, arial, serif;
   background-color: #000000;
 }

@@ -1,11 +1,13 @@
-<div [ngClass]="'toolbar'">
-  <button (click)="save()">Save</button>
-  <button (click)="load()">Load</button>
-  <button *ngFor="let layer of map; let i = index" (click)="selectLayer(i)"
-          [ngClass]="selectedLayer===i?'active':''">{{i + 1}}</button>
-  <button *ngFor="let layer of map; let i = index" (click)="setLayerVisibility(i)"
-          [ngClass]="layerVisibility[i]?'active':''">{{i + 1}}</button>
-</div>
+<app-tool-bar>
+  <app-tool-bar-button (click)="save()">Save</app-tool-bar-button>
+  <app-tool-bar-button (click)="load()">Load</app-tool-bar-button>
+  <app-tool-bar-separator></app-tool-bar-separator>
+  <app-tool-bar-button *ngFor="let layer of map; let i = index" (click)="selectLayer(i)"
+          [ngClass]="selectedLayer===i?'active':''">{{i + 1}}</app-tool-bar-button>
+  <app-tool-bar-separator></app-tool-bar-separator>
+  <app-tool-bar-button *ngFor="let layer of map; let i = index" (click)="setLayerVisibility(i)"
+          [ngClass]="layerVisibility[i]?'active':''">{{i + 1}}</app-tool-bar-button>
+</app-tool-bar>
 <div [ngClass]="'map'">
   <table [ngStyle]="{width: (width*70)+'px'}">
     <tr *ngFor="let row of map[0]; let iRow = index">

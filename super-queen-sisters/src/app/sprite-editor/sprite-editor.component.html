@@ -1,12 +1,10 @@
-<div>
-  sprite-editor works!
-  <input [type]="'file'" [multiple]="true" (change)="onInputChange($event)"/>
-  <input [(ngModel)]="size" [type]="'number'" (change)="save()"/>
-  <button (click)="save()">Save</button>
-  <a [href]="spritePNG" download="sprite.png">IMAGE</a>
-  <a [href]="spriteJSON" download="sprite.json">JSON</a>
-
-  <section>
-    <canvas #spriteCanvas></canvas>
-  </section>
-</div>
+<app-tool-bar>
+  <app-tool-bar-input [type]="'file'" [multiple]="true" (change)="onInputChange($event)">Add Sprite</app-tool-bar-input>
+  <app-tool-bar-input [(ngModel)]="size" [type]="'number'" (change)="save()">Size</app-tool-bar-input>
+  <app-tool-bar-button (click)="save()">Save</app-tool-bar-button>
+  <app-tool-bar-button><a [href]="spritePNG" download="sprite.png">IMAGE</a></app-tool-bar-button>
+  <app-tool-bar-button><a [href]="spriteJSON" download="sprite.json">JSON</a></app-tool-bar-button>
+</app-tool-bar>
+<section>
+  <canvas #spriteCanvas></canvas>
+</section>

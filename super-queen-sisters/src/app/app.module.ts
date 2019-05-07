@@ -14,6 +14,10 @@ import { TileListComponent } from './map-editor/tile-list/tile-list.component';
 import { MapComponent } from './map-editor/map/map.component';
 import {CommonModule} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import { ToolBarComponent } from './components/tool-bar/tool-bar.component';
+import { ToolBarButtonComponent } from './components/tool-bar/tool-bar-button/tool-bar-button.component';
+import { ToolBarInputComponent } from './components/tool-bar/tool-bar-input/tool-bar-input.component';
+import { ToolBarSeparatorComponent } from './components/tool-bar/tool-bar-separator/tool-bar-separator.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,11 @@ import {FormsModule} from "@angular/forms";
     GameComponent,
     TileComponent,
     TileListComponent,
-    MapComponent
+    MapComponent,
+    ToolBarComponent,
+    ToolBarButtonComponent,
+    ToolBarInputComponent,
+    ToolBarSeparatorComponent
   ],
   imports: [
     BrowserModule,
