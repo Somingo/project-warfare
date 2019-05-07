@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MenuComponent } from './menu/menu.component';
-import { MenuItemComponent } from './menu/menu-item/menu-item.component';
-import { MenuLogoComponent } from './menu/menu-logo/menu-logo.component';
+import { MenuComponent } from './components/menu/menu.component';
+import { MenuItemComponent } from './components/menu/menu-item/menu-item.component';
+import { MenuLogoComponent } from './components/menu/menu-logo/menu-logo.component';
 import { MapEditorComponent } from './map-editor/map-editor.component';
 import { SpriteEditorComponent } from './sprite-editor/sprite-editor.component';
 import { GameComponent } from './game/game.component';
