@@ -21,6 +21,6 @@ export class Circle implements Shape {
   }
 
   getType(): string {
-    return shapeName;
+    return Circle.shapeName;
   }
 }
