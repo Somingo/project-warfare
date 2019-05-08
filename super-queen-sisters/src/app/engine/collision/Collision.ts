@@ -3,8 +3,15 @@ import {Point} from './Point';
 import {Circle} from './Circle';
 import {Line} from './Line';
 import {Vector} from "../Vector";
+import {Shape} from "./Shape";
+import {get} from 'lodash';
 
 export class Collision {
+  static checkCollision(shape1: Shape, shape2: Shape): boolean {
+    const LUT = {[Rectangle.shapeName]: {[Rectangle.shapeName]: Collision.collisionRectangleToRectangle}};
+    if (!shape1 || !shape2) return false;
+    return get(LUT, `${shape1.getType()}.${shape1.getType()}`, () => false)(shape1, shape2);
+  }
 
   static isValueBetween(value: number, lowerNumber: number, upperNumber: number): boolean {
     return Math.min(lowerNumber, upperNumber) < value && value < Math.max(lowerNumber, upperNumber);
