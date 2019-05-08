@@ -12,6 +12,7 @@ export class ImageLoader {
                 path: path,
                 image: imageToLoad
             };
+            ImageLoader.loadedImages.push(res);
         }
         return res.image;
     }
