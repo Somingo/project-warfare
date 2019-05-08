@@ -16,26 +16,34 @@ import {Keys} from "../engine/keyboard/Keys";
 import {Rectangle} from "../engine/collision/Rectangle";
 import {Collision} from "../engine/collision/Collision";
 import {Vector} from "../engine/Vector";
+import {EnvironmentConfig} from "../engine/EnvironmentConfig";
+import Container from "../engine/sprites/Container";
+import {FpsMeter} from "../engine/sprites/FpsMeter";
 
 type Player = { tile: Tile, speed: number, velocity: number }
 type Enemy = { tile: Tile, spawn: { x: number, y: number }[] }
 
 const gravity = 1000;
 
-const WIDTH = 1280;
-
 export class SuperQueenSisters implements Sprite {
   parallax: Parallax = null;
   map: MultiLayerMap = new MultiLayerMap();
+  enemySpawnPos = 0;
   private playerTileSet: TileSet;
   private enemyTileSet: TileSet;
   private player: Player;
   private enemy: Enemy;
-
   private viewPortX = 0;
+  private HUD = new Container();
+
+  constructor() {
+    this.HUD.push(new FpsMeter());
+  }
 
   draw(ctx: CanvasRenderingContext2D): void {
     if (this.parallax) this.parallax.draw(ctx);
+    this.HUD.draw(ctx);
+
     ctx.translate(this.viewPortX, 0);
     this.map.draw(ctx);
     this.enemy.tile.draw(ctx);
@@ -43,8 +51,6 @@ export class SuperQueenSisters implements Sprite {
     ctx.fillText(`Map W: ${this.map.width} R: ${this.map.raster}`, 50, 50);
     ctx.resetTransform();
   }
-
-  enemySpawnPos = 0;
 
   spawnNextEnemy() {
     this.enemySpawnPos++;
@@ -72,6 +78,7 @@ export class SuperQueenSisters implements Sprite {
     this.enemy.tile = this.enemyTileSet.getTile('0_Golem_Idle_000.png', this.enemy.spawn[0].x, this.enemy.spawn[0].y);
     this.enemy.tile.init();
     this.map.init();
+    this.HUD.init();
   }
 
   update(e: UpdateEvent): void {
@@ -131,11 +138,12 @@ export class SuperQueenSisters implements Sprite {
       }
     }
 
-    this.viewPortX = 0 - Math.min(Math.max(0, this.player.tile.x - 450), this.map.width - WIDTH);
+    this.viewPortX = 0 - Math.min(Math.max(0, this.player.tile.x - (EnvironmentConfig.get().width/2 + this.player.tile.width)), this.map.width - EnvironmentConfig.get().width);
 
     this.parallax.viewPortX = this.viewPortX;
     this.parallax.update(e);
     this.map.update(e);
+    this.HUD.update(e);
   }
 
 }
