@@ -1,5 +1,7 @@
 import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import {ImageDescriptor} from '../engine/sprites/ImageSprite';
+import {SpriteSheetDescriptor} from '../engine/ImageSpriteSheet';
 
 @Component({
     selector: 'app-sprite-editor',
@@ -45,7 +47,7 @@ export class SpriteEditorComponent implements OnInit, AfterViewInit {
     }
 
     save() {
-        const spriteSheet = [];
+        const spriteSheet: SpriteSheetDescriptor = {imageDescriptors: {}, name: 'spriteName', imageUrl: 'url'};
 
 
         this.spriteElement.width = this.imageList.length * this.size;
@@ -53,9 +55,10 @@ export class SpriteEditorComponent implements OnInit, AfterViewInit {
         this.spriteContext.clearRect(0, 0, this.spriteElement.width, this.spriteElement.height);
 
         this.imageList.forEach((image, index) => {
-            const desc = {x: index * this.size, y: 0, w: this.size, h: this.size, n: image.name};
-            spriteSheet.push(desc);
-            this.spriteContext.drawImage(image.image, desc.x, desc.y, desc.w, desc.h);
+            const desc: ImageDescriptor = {offsetX: index * this.size, offsetY: 0, width: this.size, height: this.size};
+            const spriteName = (image.name as string).replace('.png', '');
+            spriteSheet.imageDescriptors[spriteName] = desc;
+            this.spriteContext.drawImage(image.image, desc.offsetX, desc.offsetY, desc.width, desc.height);
         });
 
         this.spritePNG = this.sanitizer.bypassSecurityTrustUrl(this.spriteElement.toDataURL('image/png'));
