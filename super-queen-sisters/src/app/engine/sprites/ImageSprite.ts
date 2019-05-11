@@ -1,6 +1,5 @@
 import {Sprite} from '../Sprite';
 import {UpdateEvent} from '../UpdateEvent';
-import {ImageLoader} from '../ImageLoader';
 
 export interface ImageDescriptor {
     offsetX: number;
@@ -12,6 +11,14 @@ export interface ImageDescriptor {
 export class ImageSprite implements Sprite {
     public positionX = 0;
     public positionY = 0;
+
+    public get width(): number {
+        return this.descriptor.width;
+    }
+
+    public get height(): number {
+        return this.descriptor.height;
+    }
 
     constructor(public descriptor: ImageDescriptor, private image: HTMLImageElement) {
     }

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {forEach, map, times} from 'lodash';
 import {loadMapFromLocalStorage, SavableMap, SavableTile, saveMapToLocalStorage} from '../game/MultiLayerMap';
-import {BASIC_MAP_TILE_SPRITE_SHEET} from '../game/basicMapTileSpriteSheet';
+import {BASIC_MAP_TILE_SPRITE_SHEET} from '../game/spriteSheets';
 
 @Component({
     selector: 'app-map-editor',

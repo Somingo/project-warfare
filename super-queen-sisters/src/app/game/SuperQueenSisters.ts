@@ -5,13 +5,6 @@ import parallaxes from './parallaxes.json';
 import {Parallax} from '../engine/parallax/Parallax';
 import {ParallaxOptions} from '../engine/parallax/ParallaxOptions';
 import {MultiLayerMap} from './MultiLayerMap';
-import {TileSetOptions} from '../engine/tile/TileSetOptions';
-// @ts-ignore
-import playerTileSet from './player.json';
-// @ts-ignore
-import enemyTileSet from './enemy.json';
-import {TileSet} from '../engine/tile/TileSet';
-import {Tile} from '../engine/tile/Tile';
 import {Keys} from '../engine/keyboard/Keys';
 import {Rectangle} from '../engine/collision/Rectangle';
 import {Collision} from '../engine/collision/Collision';
@@ -20,16 +13,19 @@ import {EnvironmentConfig} from '../engine/EnvironmentConfig';
 import Container from '../engine/sprites/Container';
 import {FpsMeter} from '../engine/sprites/FpsMeter';
 import {ImageSpriteSheet} from '../engine/ImageSpriteSheet';
-import {BASIC_MAP_TILE_SPRITE_SHEET} from './basicMapTileSpriteSheet';
+import {BASIC_MAP_TILE_SPRITE_SHEET, ENEMY_SPRITE_SHEET, PLAYER_SPRITE_SHEET} from './spriteSheets';
+import {ImageSprite} from '../engine/sprites/ImageSprite';
 
 interface Player {
-    tile: Tile;
+    sprite: ImageSprite;
+    hitBox: Rectangle;
     speed: number;
     velocity: number;
 }
 
 interface Enemy {
-    tile: Tile;
+    sprite: ImageSprite;
+    hitBox: Rectangle;
     spawn: { x: number, y: number }[];
 }
 
@@ -37,12 +33,12 @@ const gravity = 1000;
 
 export class SuperQueenSisters implements Sprite {
     private mapSpriteSheet = new ImageSpriteSheet(BASIC_MAP_TILE_SPRITE_SHEET);
+    private enemySpriteSheet = new ImageSpriteSheet(ENEMY_SPRITE_SHEET);
+    private playerSpriteSheet = new ImageSpriteSheet(PLAYER_SPRITE_SHEET);
 
     parallax: Parallax = null;
     map: MultiLayerMap = new MultiLayerMap(this.mapSpriteSheet);
     enemySpawnPos = 0;
-    private playerTileSet: TileSet;
-    private enemyTileSet: TileSet;
     private player: Player;
     private enemy: Enemy;
     private viewPortX = 0;
@@ -60,8 +56,8 @@ export class SuperQueenSisters implements Sprite {
 
         ctx.translate(this.viewPortX, this.viewPortY);
         this.map.draw(ctx);
-        this.enemy.tile.draw(ctx);
-        this.player.tile.draw(ctx);
+        this.enemy.sprite.draw(ctx);
+        this.player.sprite.draw(ctx);
         ctx.resetTransform();
         this.HUD.draw(ctx);
     }
@@ -71,26 +67,33 @@ export class SuperQueenSisters implements Sprite {
         if (this.enemySpawnPos >= this.enemy.spawn.length) {
             this.enemySpawnPos = 0;
         }
-        this.enemy.tile.x = this.enemy.spawn[this.enemySpawnPos].x;
-        this.enemy.tile.y = this.enemy.spawn[this.enemySpawnPos].y;
-        this.enemy.tile.updateBounds();
+        this.enemy.sprite.positionX = this.enemy.spawn[this.enemySpawnPos].x;
+        this.enemy.sprite.positionY = this.enemy.spawn[this.enemySpawnPos].y;
+        this.enemy.hitBox = Rectangle.fromNumbersWH(
+            this.enemy.sprite.positionX,
+            this.enemy.sprite.positionY,
+            this.enemy.sprite.width,
+            this.enemy.sprite.height);
     }
 
     init(): void {
         const parallaxOptions = ParallaxOptions.fromObject(parallaxes[0]);
         this.parallax = new Parallax(parallaxOptions.layerOptions);
         this.parallax.init();
-        const playerTileSetOptions = TileSetOptions.fromObject(playerTileSet);
-        this.playerTileSet = new TileSet(playerTileSetOptions);
-        this.playerTileSet.init();
-        this.player = {tile: this.playerTileSet.getTile('L_IDLE_0', 100, 100), speed: 345, velocity: 0};
-        this.player.tile.init();
-        const enemyTileSetOptions = TileSetOptions.fromObject(enemyTileSet);
-        this.enemyTileSet = new TileSet(enemyTileSetOptions);
-        this.enemyTileSet.init();
-        this.enemy = {tile: null, spawn: [{x: 70, y: 8 * 70}, {x: 6 * 70, y: 5 * 70}]};
-        this.enemy.tile = this.enemyTileSet.getTile('0_Golem_Idle_000.png', this.enemy.spawn[0].x, this.enemy.spawn[0].y);
-        this.enemy.tile.init();
+        this.player = {sprite: null, hitBox: null, speed: 345, velocity: 0};
+        this.player.sprite = this.playerSpriteSheet.get('L_IDLE_0', 100, 100);
+        this.player.hitBox = Rectangle.fromNumbersWH(
+            this.player.sprite.positionX,
+            this.player.sprite.positionY,
+            this.player.sprite.width,
+            this.player.sprite.height);
+        this.enemy = {sprite: null, hitBox: null, spawn: [{x: 70, y: 8 * 70}, {x: 6 * 70, y: 5 * 70}]};
+        this.enemy.sprite = this.enemySpriteSheet.get('Golem_Idle_000', this.enemy.spawn[0].x, this.enemy.spawn[0].y);
+        this.enemy.hitBox = Rectangle.fromNumbersWH(
+            this.enemy.sprite.positionX,
+            this.enemy.sprite.positionY,
+            this.enemy.sprite.width,
+            this.enemy.sprite.height);
         this.map.init();
         this.HUD.init();
     }
@@ -114,42 +117,42 @@ export class SuperQueenSisters implements Sprite {
         pY += e.deltaSec * (this.player.velocity + e.deltaSec * gravity / 2);
         this.player.velocity += e.deltaSec * gravity;
 
-        let newX = this.player.tile.x;
-        let newY = this.player.tile.y + pY;
-        const w = this.player.tile.width;
-        const h = this.player.tile.height;
-        this.player.tile.bounds = new Rectangle(new Vector(newX, newY), new Vector(w, h));
+        let newX = this.player.sprite.positionX;
+        let newY = this.player.sprite.positionY + pY;
+        const w = this.player.sprite.width;
+        const h = this.player.sprite.height;
+        this.player.hitBox = new Rectangle(new Vector(newX, newY), new Vector(w, h));
 
         let collapse = this.map.floorLayer
-            .filter(tile => Collision.collisionRectangleToRectangle(tile.hitBox, this.player.tile.bounds));
+            .filter(tile => Collision.collisionRectangleToRectangle(tile.hitBox, this.player.hitBox));
         if (collapse.length === 0) {
-            this.player.tile.y = newY;
+            this.player.sprite.positionY = newY;
         } else {
             this.player.velocity = pY < 0 ? 0.1 : 0;
         }
 
-        newX = this.player.tile.x + pX;
-        newY = this.player.tile.y;
-        this.player.tile.bounds = new Rectangle(new Vector(newX, newY), new Vector(w, h));
+        newX = this.player.sprite.positionX + pX;
+        newY = this.player.sprite.positionY;
+        this.player.hitBox = new Rectangle(new Vector(newX, newY), new Vector(w, h));
 
         collapse = this.map.floorLayer
-            .filter(tile => Collision.collisionRectangleToRectangle(tile.hitBox, this.player.tile.bounds));
+            .filter(tile => Collision.collisionRectangleToRectangle(tile.hitBox, this.player.hitBox));
         if (collapse.length === 0) {
-            this.player.tile.x = newX;
+            this.player.sprite.positionX = newX;
         }
 
-        if (this.player.tile.y > 720) {
-            this.player.tile.x = 100;
-            this.player.tile.y = 100;
+        if (this.player.sprite.positionY > 720) {
+            this.player.sprite.positionX = 100;
+            this.player.sprite.positionY = 100;
             this.player.velocity = 0;
         }
 
-        if (Collision.collisionRectangleToRectangle(this.player.tile.bounds, this.enemy.tile.bounds)) {
-            if (this.enemy.tile.y > this.player.tile.y + 50) {
+        if (Collision.collisionRectangleToRectangle(this.player.hitBox, this.enemy.hitBox)) {
+            if (this.enemy.sprite.positionY > this.player.sprite.positionY + 50) {
                 this.spawnNextEnemy();
             } else {
-                this.player.tile.x = 100;
-                this.player.tile.y = 100;
+                this.player.sprite.positionX = 100;
+                this.player.sprite.positionY = 100;
                 this.player.velocity = 0;
             }
         }
@@ -157,13 +160,13 @@ export class SuperQueenSisters implements Sprite {
         this.viewPortX = 0 - Math.min(
             Math.max(
                 0,
-                this.player.tile.x - (EnvironmentConfig.get().width / 2 + this.player.tile.width)),
+                this.player.sprite.positionX - (EnvironmentConfig.get().width / 2 + this.player.sprite.width)),
             this.map.width - EnvironmentConfig.get().width);
 
         this.viewPortY = 0 - Math.min(
             Math.max(
                 0,
-                this.player.tile.y - (EnvironmentConfig.get().height / 2 - this.player.tile.height)),
+                this.player.sprite.positionY - (EnvironmentConfig.get().height / 2 - this.player.sprite.height)),
             this.map.height - EnvironmentConfig.get().height);
 
         this.parallax.viewPortX = this.viewPortX;

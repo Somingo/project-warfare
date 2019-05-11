@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {TileOptions} from '../../engine/tile/TileOptions';
-import {BASIC_MAP_TILE_SPRITE_SHEET} from '../../game/basicMapTileSpriteSheet';
+import {BASIC_MAP_TILE_SPRITE_SHEET} from '../../game/spriteSheets';
 
 @Component({
     selector: 'app-tile',
