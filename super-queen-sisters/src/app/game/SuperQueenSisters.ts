@@ -57,7 +57,15 @@ export class SuperQueenSisters implements Sprite {
         ctx.translate(this.viewPortX, this.viewPortY);
         this.map.draw(ctx);
         this.enemy.sprite.draw(ctx);
+        if (EnvironmentConfig.get().hitBox) {
+            ctx.strokeStyle = '#aa0000';
+            ctx.strokeRect(this.enemy.hitBox.x, this.enemy.hitBox.y, this.enemy.hitBox.width, this.enemy.hitBox.height);
+        }
         this.player.sprite.draw(ctx);
+        if (EnvironmentConfig.get().hitBox) {
+            ctx.strokeStyle = '#0000aa';
+            ctx.strokeRect(this.player.hitBox.x, this.player.hitBox.y, this.player.hitBox.width, this.player.hitBox.height);
+        }
         ctx.resetTransform();
         this.HUD.draw(ctx);
     }
@@ -102,6 +110,9 @@ export class SuperQueenSisters implements Sprite {
         // gravity
         let pX = 0;
         let pY = 0;
+        if (e.keyDown[Keys.h]) {
+            EnvironmentConfig.get().hitBox = !EnvironmentConfig.get().hitBox;
+        }
         if (e.keyMap[Keys.leftArrow]) {
             pX -= e.deltaSec * this.player.speed;
         }

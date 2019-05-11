@@ -21,6 +21,7 @@ export class MapTile implements Sprite {
     draw(ctx: CanvasRenderingContext2D): void {
         this.imageSprite.draw(ctx);
         if (EnvironmentConfig.get().hitBox) {
+            ctx.strokeStyle = '#000000';
             ctx.strokeRect(this.hitBox.x, this.hitBox.y, this.hitBox.width, this.hitBox.height);
         }
     }
