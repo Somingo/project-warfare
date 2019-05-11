@@ -18,6 +18,6 @@ export class TileOptions {
     }
 
     static fromObject(o: any) {
-        return new TileOptions(o['n'], o['x'], o['y'], o['w'], o['h'], o['u'], o['c']);
+        return new TileOptions(o.n, o.x, o.y, o.w, o.h, o.u, o.c);
     }
 }

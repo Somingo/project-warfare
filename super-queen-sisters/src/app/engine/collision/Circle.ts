@@ -2,25 +2,25 @@ import {Shape} from './Shape';
 import {Point} from './Point';
 
 export class Circle implements Shape {
-  static shapeName = "CIRCLE";
+    static shapeName = 'CIRCLE';
 
-  center: Point;
-  radius: number;
+    center: Point;
+    radius: number;
 
-  get x(): number {
-    return this.center.x;
-  }
+    constructor(center: Point, radius: number) {
+        this.center = center;
+        this.radius = radius;
+    }
 
-  get y(): number {
-    return this.center.y;
-  }
+    get x(): number {
+        return this.center.x;
+    }
 
-  constructor(center: Point, radius: number) {
-    this.center = center;
-    this.radius = radius;
-  }
+    get y(): number {
+        return this.center.y;
+    }
 
-  getType(): string {
-    return Circle.shapeName;
-  }
+    getType(): string {
+        return Circle.shapeName;
+    }
 }

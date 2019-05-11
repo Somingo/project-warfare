@@ -11,8 +11,8 @@ export class TileSetOptions {
 
     static fromObject(o: any): TileSetOptions {
         return new TileSetOptions(
-            o['url'],
-            o['tiles'].map((t: any) => TileOptions.fromObject({u: o['url'],...t}))
+            o.url,
+            o.tiles.map((t: any) => TileOptions.fromObject({u: o.url, ...t}))
         );
     }
 

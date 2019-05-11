@@ -1,24 +1,24 @@
-import {ImageSprite, ImageDescriptor} from "./sprites/ImageSprite";
+import {ImageDescriptor, ImageSprite} from './sprites/ImageSprite';
 import {get, reduce} from 'lodash';
 
 
-export type SpriteSheetDescriptor = { imageDescriptors: { [name: string]: ImageDescriptor } }
-type ImageSet = { [name: string]: ImageSprite };
+export interface SpriteSheetDescriptor { imageDescriptors: { [name: string]: ImageDescriptor }; }
+interface ImageSet { [name: string]: ImageSprite; }
 
 export class SpriteSheet {
-  images: ImageSet = {};
+    images: ImageSet = {};
 
-  constructor(public spriteSheetDescriptor: SpriteSheetDescriptor) {
-  }
+    constructor(public spriteSheetDescriptor: SpriteSheetDescriptor) {
+    }
 
-  init(): void {
-    this.images = reduce(this.spriteSheetDescriptor.imageDescriptors, (memo: ImageSet, value: ImageDescriptor, key: string) => {
-      memo[key] = new ImageSprite(value);
-      return memo;
-    }, {});
-  }
+    init(): void {
+        this.images = reduce(this.spriteSheetDescriptor.imageDescriptors, (memo: ImageSet, value: ImageDescriptor, key: string) => {
+            memo[key] = new ImageSprite(value);
+            return memo;
+        }, {});
+    }
 
-  get(name: String): ImageSprite {
-    return get(this.images, name, null).clone();
-  }
+    get(name: string): ImageSprite {
+        return get(this.images, name, null).clone();
+    }
 }

@@ -13,9 +13,9 @@ export class ParallaxOptions {
 
     static fromObject(o: any): ParallaxOptions {
         return new ParallaxOptions(
-            o['id'],
-            o['name'],
-            o['layers'].map((x: any) => ParallaxLayerOptions.fromObject(x)));
+            o.id,
+            o.name,
+            o.layers.map((x: any) => ParallaxLayerOptions.fromObject(x)));
     }
 
 }

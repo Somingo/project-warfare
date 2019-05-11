@@ -1,1 +1,2 @@
-<span><ng-content></ng-content></span><input [type]="type" [multiple]="multiple" [(ngModel)]="model" (change)="onChange.emit($event)" [disabled]="isDisabled"/>
+<span><ng-content></ng-content></span><input (change)="change.emit($event)" [(ngModel)]="model" [disabled]="isDisabled"
+                                             [multiple]="multiple" [type]="type"/>

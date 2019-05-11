@@ -18,6 +18,6 @@ export class TileSet {
     }
 
     getTile(name: string, x: number, y: number): Tile {
-        return new Tile(this, this.tileSetOptions.tileOptions.filter(x => x.name === name)[0], x, y);
+        return new Tile(this, this.tileSetOptions.tileOptions.filter(tile => tile.name === name)[0], x, y);
     }
 }

@@ -1,1 +1,1 @@
-export type KeyMap = {[key:number]:boolean};
+export interface KeyMap { [key: number]: boolean; }

@@ -1,51 +1,51 @@
-import {Sprite} from "../engine/Sprite";
-import {UpdateEvent} from "../engine/UpdateEvent";
-import {TileSetOptions} from "../engine/tile/TileSetOptions";
+import {Sprite} from '../engine/Sprite';
+import {UpdateEvent} from '../engine/UpdateEvent';
+import {TileSetOptions} from '../engine/tile/TileSetOptions';
 // @ts-ignore
-import tileSet from "./tileset.json";
-import {TileSet} from "../engine/tile/TileSet";
-import {Tile} from "../engine/tile/Tile";
+import tileSet from './tileset.json';
+import {TileSet} from '../engine/tile/TileSet';
+import {Tile} from '../engine/tile/Tile';
 import {times} from 'lodash';
 
-export type SavableTile = { n: string, l: number, x: number, y: number };
-export type SavableMap = { tiles: SavableTile[]; layers: number; width: number; height: number };
+export interface SavableTile { n: string; l: number; x: number; y: number; }
+export interface SavableMap { tiles: SavableTile[]; layers: number; width: number; height: number; }
 
 export function saveMapToLocalStorage(map: SavableMap, name = 'DefaultMapName') {
-  localStorage.setItem(name, JSON.stringify(map));
+    localStorage.setItem(name, JSON.stringify(map));
 }
 
 export function loadMapFromLocalStorage(name = 'DefaultMapName'): SavableMap {
-  return <SavableMap>JSON.parse(localStorage.getItem(name));
+    return JSON.parse(localStorage.getItem(name)) as SavableMap;
 }
 
 export class MultiLayerMap implements Sprite {
-  raster= 70;
-  private tileSet: TileSet;
-  private layerCount: number;
-  public layers: Tile[][];
-  public width: number = 0;
+    raster = 70;
+    public layers: Tile[][];
+    public width = 0;
+    private tileSet: TileSet;
+    private layerCount: number;
 
-  draw(ctx: CanvasRenderingContext2D): void {
-    this.layers.forEach(layer => layer.forEach(tile => tile.draw(ctx)));
-  }
+    draw(ctx: CanvasRenderingContext2D): void {
+        this.layers.forEach(layer => layer.forEach(tile => tile.draw(ctx)));
+    }
 
-  init(): void {
-    const savedMap: SavableMap = loadMapFromLocalStorage();
-    const tileSetOptions = TileSetOptions.fromObject(tileSet);
-    this.width = savedMap.width*this.raster;
-    this.tileSet = new TileSet(tileSetOptions);
-    this.tileSet.init();
-    this.layerCount = savedMap.layers;
-    this.layers = savedMap.tiles.reduce((prevValue: Tile[][], value: SavableTile) => {
-      prevValue[value.l].push(this.tileSet.getTile(value.n, value.x * this.raster, value.y * this.raster));
-      return prevValue;
-    }, times(this.layerCount, () => [])).map(layer=> layer.filter(tile => tile.options.name !== 'CLEAR'));
-    this.layers.forEach(layer => layer.forEach(tile => tile.init()));
+    init(): void {
+        const savedMap: SavableMap = loadMapFromLocalStorage();
+        const tileSetOptions = TileSetOptions.fromObject(tileSet);
+        this.width = savedMap.width * this.raster;
+        this.tileSet = new TileSet(tileSetOptions);
+        this.tileSet.init();
+        this.layerCount = savedMap.layers;
+        this.layers = savedMap.tiles.reduce((prevValue: Tile[][], value: SavableTile) => {
+            prevValue[value.l].push(this.tileSet.getTile(value.n, value.x * this.raster, value.y * this.raster));
+            return prevValue;
+        }, times(this.layerCount, () => [])).map(layer => layer.filter(tile => tile.options.name !== 'CLEAR'));
+        this.layers.forEach(layer => layer.forEach(tile => tile.init()));
 
-  }
+    }
 
-  update(e: UpdateEvent): void {
-    this.layers.forEach(layer => layer.forEach(tile => tile.update(e)));
-  }
+    update(e: UpdateEvent): void {
+        this.layers.forEach(layer => layer.forEach(tile => tile.update(e)));
+    }
 
 }

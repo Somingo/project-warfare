@@ -1,15 +1,14 @@
-
-
 export class EnvironmentConfig {
 
-  private static config = new EnvironmentConfig();
+    private static config = new EnvironmentConfig();
 
-  width = 1280;
-  height = 720;
+    width = 1280;
+    height = 720;
 
-  private constructor() {}
+    private constructor() {
+    }
 
-  static get():EnvironmentConfig {
-    return EnvironmentConfig.config;
-  }
+    static get(): EnvironmentConfig {
+        return EnvironmentConfig.config;
+    }
 }

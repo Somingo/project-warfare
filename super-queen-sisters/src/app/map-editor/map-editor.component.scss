@@ -1,42 +1,41 @@
 :host {
-  display: flex;
-  flex-wrap: wrap;
-  max-height: 800px;
-
-  .map {
-    flex: 0 0 1280px;
-    overflow: scroll;
+    display: flex;
+    flex-wrap: wrap;
     max-height: 800px;
 
-    table {
-      background-image:
-        linear-gradient(45deg, #ddd 25%, transparent 25%),
-        linear-gradient(-45deg, #ddd 25%, transparent 25%),
-        linear-gradient(45deg, transparent 75%, #ddd 75%),
-        linear-gradient(-45deg, transparent 75%, #ddd 75%);
-      background-size: 20px 20px;
-      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
-      background-color: #eee;
+    .map {
+        flex: 0 0 1280px;
+        overflow: scroll;
+        max-height: 800px;
 
-      tr td {
-        position: relative;
-        width: 70px;
-        height: 70px;
-      }
+        table {
+            background-image: linear-gradient(45deg, #ddd 25%, transparent 25%),
+            linear-gradient(-45deg, #ddd 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, #ddd 75%),
+            linear-gradient(-45deg, transparent 75%, #ddd 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+            background-color: #eee;
+
+            tr td {
+                position: relative;
+                width: 70px;
+                height: 70px;
+            }
+        }
     }
-  }
 
-  .tileList {
-    display: block;
-    overflow: auto;
-    flex: 1 0 400px;
-    max-height: 800px;
+    .tileList {
+        display: block;
+        overflow: auto;
+        flex: 1 0 400px;
+        max-height: 800px;
 
-    .tileListItem {
-      position: relative;
-      display: inline-block;
-      width: 70px;
-      height: 70px;
+        .tileListItem {
+            position: relative;
+            display: inline-block;
+            width: 70px;
+            height: 70px;
+        }
     }
-  }
 }

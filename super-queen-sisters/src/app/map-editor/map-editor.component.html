@@ -1,29 +1,29 @@
 <app-tool-bar>
-  <app-tool-bar-button (click)="save()">Save</app-tool-bar-button>
-  <app-tool-bar-button (click)="load()">Load</app-tool-bar-button>
-  <app-tool-bar-separator></app-tool-bar-separator>
-  <app-tool-bar-button *ngFor="let layer of map; let i = index" (click)="selectLayer(i)"
-          [ngClass]="selectedLayer===i?'active':''">{{i + 1}}</app-tool-bar-button>
-  <app-tool-bar-separator></app-tool-bar-separator>
-  <app-tool-bar-button *ngFor="let layer of map; let i = index" (click)="setLayerVisibility(i)"
-          [ngClass]="layerVisibility[i]?'active':''">{{i + 1}}</app-tool-bar-button>
+    <app-tool-bar-button (click)="save()">Save</app-tool-bar-button>
+    <app-tool-bar-button (click)="load()">Load</app-tool-bar-button>
+    <app-tool-bar-separator></app-tool-bar-separator>
+    <app-tool-bar-button (click)="selectLayer(i)" *ngFor="let layer of map; let i = index"
+                         [ngClass]="selectedLayer===i?'active':''">{{i + 1}}</app-tool-bar-button>
+    <app-tool-bar-separator></app-tool-bar-separator>
+    <app-tool-bar-button (click)="setLayerVisibility(i)" *ngFor="let layer of map; let i = index"
+                         [ngClass]="layerVisibility[i]?'active':''">{{i + 1}}</app-tool-bar-button>
 </app-tool-bar>
 <div [ngClass]="'map'">
-  <table [ngStyle]="{width: (width*70)+'px'}">
-    <tr *ngFor="let row of map[0]; let iRow = index">
-      <td *ngFor="let cell of row; let iCell = index" (click)="setTile(selectedLayer, iRow, iCell, selectedTile)">
-        <app-tile *ngFor="let layer of map; let iLayer = index" [tileOption]="map[iLayer][iRow][iCell]"
-                  [ngClass]="layerVisibility[iLayer]?'':'hidden'"></app-tile>
-      </td>
-    </tr>
-  </table>
+    <table [ngStyle]="{width: (width*70)+'px'}">
+        <tr *ngFor="let row of map[0]; let iRow = index">
+            <td (click)="setTile(selectedLayer, iRow, iCell, selectedTile)" *ngFor="let cell of row; let iCell = index">
+                <app-tile *ngFor="let layer of map; let iLayer = index" [ngClass]="layerVisibility[iLayer]?'':'hidden'"
+                          [tileOption]="map[iLayer][iRow][iCell]"></app-tile>
+            </td>
+        </tr>
+    </table>
 </div>
 <div [ngClass]="'tileList'">
-  <div [ngClass]="'tileListItem'">
-    <app-tile [tileOption]="selectedTile"></app-tile>
-  </div>
-  <div [ngClass]="'tileListItem'" *ngFor="let tileOption of tileSetOptions.tileOptions">
-    <app-tile [tileOption]="tileOption"
-              (click)="selectTile(tileOption)"></app-tile>
-  </div>
+    <div [ngClass]="'tileListItem'">
+        <app-tile [tileOption]="selectedTile"></app-tile>
+    </div>
+    <div *ngFor="let tileOption of tileSetOptions.tileOptions" [ngClass]="'tileListItem'">
+        <app-tile (click)="selectTile(tileOption)"
+                  [tileOption]="tileOption"></app-tile>
+    </div>
 </div>

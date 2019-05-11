@@ -1,10 +1,11 @@
 <app-tool-bar>
-  <app-tool-bar-input [type]="'file'" [multiple]="true" (change)="onInputChange($event)">Add Sprite</app-tool-bar-input>
-  <app-tool-bar-input [(ngModel)]="size" [type]="'number'" (change)="save()">Size</app-tool-bar-input>
-  <app-tool-bar-button (click)="save()">Save</app-tool-bar-button>
-  <app-tool-bar-button><a [href]="spritePNG" download="sprite.png">IMAGE</a></app-tool-bar-button>
-  <app-tool-bar-button><a [href]="spriteJSON" download="sprite.json">JSON</a></app-tool-bar-button>
+    <app-tool-bar-input (change)="onInputChange($event)" [multiple]="true" [type]="'file'">Add Sprite
+    </app-tool-bar-input>
+    <app-tool-bar-input (change)="save()" [(ngModel)]="size" [type]="'number'">Size</app-tool-bar-input>
+    <app-tool-bar-button (click)="save()">Save</app-tool-bar-button>
+    <app-tool-bar-button><a [href]="spritePNG" download="sprite.png">IMAGE</a></app-tool-bar-button>
+    <app-tool-bar-button><a [href]="spriteJSON" download="sprite.json">JSON</a></app-tool-bar-button>
 </app-tool-bar>
 <section>
-  <canvas #spriteCanvas></canvas>
+    <canvas #spriteCanvas></canvas>
 </section>

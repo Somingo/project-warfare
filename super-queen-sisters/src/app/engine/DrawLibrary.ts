@@ -1,4 +1,4 @@
-export default class DrawLibrary{
+export default class DrawLibrary {
     static roundedRect(ctx: CanvasRenderingContext2D, x1: number, y1: number, w: number, h: number, r = 5) {
         const x2 = x1 + w;
         const y2 = y1 + h;

@@ -1,54 +1,58 @@
 import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
-import {ControlValueAccessor, NG_VALUE_ACCESSOR} from "@angular/forms";
+import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
-  selector: 'app-tool-bar-input',
-  templateUrl: './tool-bar-input.component.html',
-  styleUrls: ['./tool-bar-input.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => ToolBarInputComponent),
-    multi: true
-  }]
+    selector: 'app-tool-bar-input',
+    templateUrl: './tool-bar-input.component.html',
+    styleUrls: ['./tool-bar-input.component.scss'],
+    providers: [{
+        provide: NG_VALUE_ACCESSOR,
+        useExisting: forwardRef(() => ToolBarInputComponent),
+        multi: true
+    }]
 })
 export class ToolBarInputComponent implements ControlValueAccessor {
-  @Input('type')
-  public type: string = 'text';
-  @Input('multiple')
-  public multiple: boolean;
+    @Input()
+    public type = 'text';
+    @Input()
+    public multiple: boolean;
 
-  @Output('onChange')
-  public onChange: EventEmitter<Event> = new EventEmitter(false);
+    @Output()
+    public change: EventEmitter<Event> = new EventEmitter(false);
+    public isDisabled = false;
 
-  private _model: any = null;
-  public get model():any {
-    return this._model;
-  }
-  public set model(v:any){
-    this._model = v;
-    this.onChangeModel(v);
-  }
-  public onChangeModel: any = () => null;
-  public onTouched: any = () => null;
-  public isDisabled: boolean = false;
+    constructor() {
+    }
 
-  constructor() {
-  }
+    private modelPrivate: any = null;
 
-  registerOnChange(fn: any): void {
-    this.onChangeModel = fn;
-  }
+    public get model(): any {
+        return this.modelPrivate;
+    }
 
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
+    public set model(v: any) {
+        this.modelPrivate = v;
+        this.onChangeModel(v);
+    }
 
-  setDisabledState(isDisabled: boolean): void {
-    this.isDisabled = isDisabled;
-  }
+    public onChangeModel: any = () => null;
 
-  writeValue(obj: any): void {
-    this.model = obj;
-  }
+    public onTouched: any = () => null;
+
+    registerOnChange(fn: any): void {
+        this.onChangeModel = fn;
+    }
+
+    registerOnTouched(fn: any): void {
+        this.onTouched = fn;
+    }
+
+    setDisabledState(isDisabled: boolean): void {
+        this.isDisabled = isDisabled;
+    }
+
+    writeValue(obj: any): void {
+        this.model = obj;
+    }
 
 }

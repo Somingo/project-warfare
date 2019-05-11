@@ -7,23 +7,23 @@ $button-color-active: #ffffff;
 $button-border: 1px solid #4A148C;
 
 :host {
-  flex: 0 0;
-  padding: 0 1em;
-  background-color: $button-color-bg;
-  color: $button-color;
-  cursor: pointer;
-  border: $button-border;
-  border-radius: .3em;
-  margin-right: .3em;
+    flex: 0 0;
+    padding: 0 1em;
+    background-color: $button-color-bg;
+    color: $button-color;
+    cursor: pointer;
+    border: $button-border;
+    border-radius: .3em;
+    margin-right: .3em;
 
-  &.active{
-    background-color: $button-color-bg-active;
-    color: $button-color-active;
-  }
+    &.active {
+        background-color: $button-color-bg-active;
+        color: $button-color-active;
+    }
 
-  &:hover {
-    background-color: $button-color-bg-light;
-    color: $button-color-light;
-  }
+    &:hover {
+        background-color: $button-color-bg-light;
+        color: $button-color-light;
+    }
 
 }

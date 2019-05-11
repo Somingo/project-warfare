@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-tool-bar-button',
-  templateUrl: './tool-bar-button.component.html',
-  styleUrls: ['./tool-bar-button.component.scss']
+    selector: 'app-tool-bar-button',
+    templateUrl: './tool-bar-button.component.html',
+    styleUrls: ['./tool-bar-button.component.scss']
 })
 export class ToolBarButtonComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

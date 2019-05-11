@@ -7,28 +7,30 @@ import {TextAlign} from './TextAlign';
 export class DisplayText implements Sprite {
 
     position: Vector = new Vector(0, 0);
-    color: string = '#fff';
-    protected _font: string = '';
-    text: string = '';
+    color = '#fff';
+    text = '';
     align: TextAlign = TextAlign.CENTER;
     baseLine: TextBaseLine = TextBaseLine.MIDDLE;
-    private _fontFace: string = 'spaceFont';
-    private _fontSize: number = 11;
+    protected fontPrivate = '';
+
+    private fontFacePrivate = 'spaceFont';
 
     get fontFace(): string {
-        return this._fontFace;
+        return this.fontFacePrivate;
     }
+
+    private fontSizePrivate = 11;
 
     get fontSize(): number {
-        return this._fontSize;
+        return this.fontSizePrivate;
     }
 
-    setColor(color:string):DisplayText {
+    setColor(color: string): DisplayText {
         this.color = color;
         return this;
     }
 
-    setPosition(pos:Vector):DisplayText {
+    setPosition(pos: Vector): DisplayText {
         this.position = pos;
         return this;
     }
@@ -49,26 +51,30 @@ export class DisplayText implements Sprite {
     }
 
     setFontFace(value: string): DisplayText {
-        this._fontFace = value;
-        this._font = `${this._fontSize}px ${this._fontFace}`;
+        this.fontFacePrivate = value;
+        this.fontPrivate = `${this.fontSizePrivate}px ${this.fontFacePrivate}`;
         return this;
     }
 
     setFontSize(value: number): DisplayText {
-        this._fontSize = value;
-        this._font = `${this._fontSize}px ${this._fontFace}`;
+        this.fontSizePrivate = value;
+        this.fontPrivate = `${this.fontSizePrivate}px ${this.fontFacePrivate}`;
         return this;
     }
 
 
     draw(ctx: CanvasRenderingContext2D): void {
         ctx.textBaseline = this.baseLine;
-        ctx.font = this._font;
+        ctx.font = this.fontPrivate;
         ctx.fillStyle = this.color;
         const width = ctx.measureText(this.text).width;
         let x = this.position.x;
-        if (this.align === TextAlign.CENTER) x -= width / 2;
-        if (this.align === TextAlign.RIGHT) x -= width;
+        if (this.align === TextAlign.CENTER) {
+            x -= width / 2;
+        }
+        if (this.align === TextAlign.RIGHT) {
+            x -= width;
+        }
         ctx.fillText(this.text, x, this.position.y);
     }
 

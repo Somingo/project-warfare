@@ -10,6 +10,6 @@ export class ParallaxLayerOptions {
     }
 
     static fromObject(o: any): ParallaxLayerOptions {
-        return new ParallaxLayerOptions(o['imageUrl'], o['aspectRatio'], o['speed']);
+        return new ParallaxLayerOptions(o.imageUrl, o.aspectRatio, o.speed);
     }
 }

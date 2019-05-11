@@ -1,1 +1,1 @@
-export type KeyMapState = { [key: number]: number };
+export interface KeyMapState { [key: number]: number; }

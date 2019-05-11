@@ -1,21 +1,22 @@
 $width: 70px;
 $height: 70px;
 :host {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: block;
-  width: $width;
-  height: $height;
-  //flex: 0 0 $width;
-  &.hidden {
-    display: none;
-  }
-  .tile {
+    position: absolute;
+    left: 0;
+    top: 0;
     display: block;
     width: $width;
     height: $height;
-    background-repeat: no-repeat;
-    background-size: unset;
-  }
+    //flex: 0 0 $width;
+    &.hidden {
+        display: none;
+    }
+
+    .tile {
+        display: block;
+        width: $width;
+        height: $height;
+        background-repeat: no-repeat;
+        background-size: unset;
+    }
 }
