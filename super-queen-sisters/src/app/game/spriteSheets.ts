@@ -267,3 +267,20 @@ export const ENEMY_SPRITE_SHEET: SpriteSheetDescriptor = {
     }
 
 };
+
+export const GOLD_SPRITE_SHEET: SpriteSheetDescriptor = {
+    name: 'GOLD_SPRITE_SHEET',
+    imageUrl: '/assets/gold_spritesheet.png',
+    imageDescriptors: {
+        Gold_star_0: {offsetX: 340, offsetY: 0, width: 34, height: 34},
+        Gold_star_1: {offsetX: 374, offsetY: 0, width: 34, height: 34},
+        Gold_star_2: {offsetX: 408, offsetY: 0, width: 34, height: 34},
+        Gold_star_3: {offsetX: 442, offsetY: 0, width: 34, height: 34},
+        Gold_star_4: {offsetX: 476, offsetY: 0, width: 34, height: 34},
+        Gold_star_5: {offsetX: 510, offsetY: 0, width: 34, height: 34},
+        Gold_star_6: {offsetX: 544, offsetY: 0, width: 34, height: 34},
+        Gold_star_7: {offsetX: 578, offsetY: 0, width: 34, height: 34},
+        Gold_star_8: {offsetX: 612, offsetY: 0, width: 34, height: 34},
+        Gold_star_9: {offsetX: 646, offsetY: 0, width: 34, height: 34}
+    }
+};
