@@ -3,7 +3,6 @@ import {UpdateEvent} from '../UpdateEvent';
 import {ImageLoader} from '../ImageLoader';
 
 export interface ImageDescriptor {
-    url: string;
     offsetX: number;
     offsetY: number;
     width: number;
@@ -13,9 +12,8 @@ export interface ImageDescriptor {
 export class ImageSprite implements Sprite {
     public positionX = 0;
     public positionY = 0;
-    private image: HTMLImageElement;
 
-    constructor(public descriptor: ImageDescriptor) {
+    constructor(public descriptor: ImageDescriptor, private image: HTMLImageElement) {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
@@ -26,14 +24,13 @@ export class ImageSprite implements Sprite {
     }
 
     init(): void {
-        this.image = ImageLoader.getInstance().loadImage(this.descriptor.url);
     }
 
     update(e: UpdateEvent): void {
     }
 
     clone(): ImageSprite {
-        const result = new ImageSprite(this.descriptor);
+        const result = new ImageSprite(this.descriptor, this.image);
         result.positionX = this.positionX;
         result.positionY = this.positionY;
         return result;

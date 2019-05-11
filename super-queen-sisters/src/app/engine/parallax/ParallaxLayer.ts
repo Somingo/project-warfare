@@ -1,8 +1,8 @@
 import {Sprite} from '../Sprite';
 import {UpdateEvent} from '../UpdateEvent';
 import {ParallaxLayerOptions} from './ParallaxLayerOptions';
+import {EnvironmentConfig} from '../EnvironmentConfig';
 
-const HEIGHT = 700;
 
 export class ParallaxLayer implements Sprite {
     posX = 0;
@@ -15,11 +15,11 @@ export class ParallaxLayer implements Sprite {
     }
 
     draw(ctx: CanvasRenderingContext2D): void {
-        const w = (HEIGHT * this.options.aspectRatio);
+        const w = (EnvironmentConfig.get().height * this.options.aspectRatio);
         const px = this.posX % w;
-        ctx.drawImage(this.image, px, 0, w, HEIGHT);
-        ctx.drawImage(this.image, px - w, 0, w, HEIGHT);
-        ctx.drawImage(this.image, px + w, 0, w, HEIGHT);
+        ctx.drawImage(this.image, px, 0, w, EnvironmentConfig.get().height);
+        ctx.drawImage(this.image, px - w, 0, w, EnvironmentConfig.get().height);
+        ctx.drawImage(this.image, px + w, 0, w, EnvironmentConfig.get().height);
     }
 
     init(): void {

@@ -1,6 +1,6 @@
 <div [ngClass]="'tile'"
      [ngStyle]="{
-     backgroundImage: 'url('+tileOption.url+')',
-     backgroundPositionX: '-'+tileOption.x+'px',
-     backgroundPositionY: '-'+tileOption.y+'px'
+     backgroundImage: 'url('+spriteSheetDescriptor.imageUrl+')',
+     backgroundPositionX: '-'+spriteSheetDescriptor.imageDescriptors[tileOption].offsetX+'px',
+     backgroundPositionY: '-'+spriteSheetDescriptor.imageDescriptors[tileOption].offsetY+'px'
      }"></div>

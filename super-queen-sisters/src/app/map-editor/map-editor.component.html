@@ -22,7 +22,7 @@
     <div [ngClass]="'tileListItem'">
         <app-tile [tileOption]="selectedTile"></app-tile>
     </div>
-    <div *ngFor="let tileOption of tileSetOptions.tileOptions" [ngClass]="'tileListItem'">
+    <div *ngFor="let tileOption of spriteNames" [ngClass]="'tileListItem'">
         <app-tile (click)="selectTile(tileOption)"
                   [tileOption]="tileOption"></app-tile>
     </div>

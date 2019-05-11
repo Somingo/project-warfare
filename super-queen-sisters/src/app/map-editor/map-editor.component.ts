@@ -1,10 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {TileSetOptions} from '../engine/tile/TileSetOptions';
-// @ts-ignore
-import tileSet from '../game/tileset.json';
-import {TileOptions} from '../engine/tile/TileOptions';
-import {filter, forEach, times} from 'lodash';
+import {forEach, map, times} from 'lodash';
 import {loadMapFromLocalStorage, SavableMap, SavableTile, saveMapToLocalStorage} from '../game/MultiLayerMap';
+import {BASIC_MAP_TILE_SPRITE_SHEET} from '../game/basicMapTileSpriteSheet';
 
 @Component({
     selector: 'app-map-editor',
@@ -13,11 +10,12 @@ import {loadMapFromLocalStorage, SavableMap, SavableTile, saveMapToLocalStorage}
 })
 export class MapEditorComponent implements OnInit {
 
-    public selectedTile: TileOptions = null;
+    public selectedTile: string = null;
 
-    public tileSetOptions = TileSetOptions.fromObject(tileSet);
+    public spriteSheetDescriptor = BASIC_MAP_TILE_SPRITE_SHEET;
+    public spriteNames = map(this.spriteSheetDescriptor.imageDescriptors, (v, k) => k);
 
-    public map: TileOptions[][][] = null;
+    public map: string[][][] = null;
 
     public selectedLayer = 0;
 
@@ -30,17 +28,29 @@ export class MapEditorComponent implements OnInit {
     }
 
     save() {
-        const savedMap: SavableMap = {layers: this.layers, height: this.height, width: this.width, tiles: []};
+        const savedMap: SavableMap = {
+            layers: this.layers,
+            height: this.height,
+            width: this.width,
+            tiles: [],
+            charLayerIndex: 0,
+            collectibleLayerIndex: 0,
+            floorLayerIndex: 2,
+            raster: 70
+        };
 
-        forEach(this.map, (layer: TileOptions[][], iLayer) =>
-            forEach(layer, (row: TileOptions[], iRow) =>
-                forEach(filter(row, c => c.name !== 'CLEAN'), (cell: TileOptions, iCol) =>
-                    savedMap.tiles.push({
-                        n: cell.name,
-                        l: iLayer,
-                        y: iRow,
-                        x: iCol
-                    })))
+        forEach(this.map, (layer: string[][], iLayer) =>
+            forEach(layer, (row: string[], iRow) =>
+                forEach(row, (cell: string, iCol) => {
+                    if (cell !== 'CLEAR') {
+                        savedMap.tiles.push({
+                            n: cell,
+                            l: iLayer,
+                            y: iRow,
+                            x: iCol
+                        });
+                    }
+                }))
         );
 
         saveMapToLocalStorage(savedMap);
@@ -53,7 +63,7 @@ export class MapEditorComponent implements OnInit {
         this.width = o.width;
         this.height = o.height;
         this.initMap();
-        forEach(o.tiles, ((item: SavableTile) => this.map[item.l][item.y][item.x] = this.tileSetOptions.getTileOptionByName(item.n)));
+        forEach(o.tiles, (item: SavableTile) => this.map[item.l][item.y][item.x] = item.n);
     }
 
     selectLayer(index) {
@@ -62,18 +72,19 @@ export class MapEditorComponent implements OnInit {
 
     ngOnInit() {
         this.initMap();
+        this.load();
     }
 
     initMap() {
-        this.selectedTile = this.tileSetOptions.tileOptions[0];
+        this.selectedTile = 'CLEAR';
         this.map = times(this.layers, () => times(this.height, () => times(this.width, () => this.selectedTile)));
     }
 
-    selectTile(tileOption: TileOptions) {
+    selectTile(tileOption: string) {
         this.selectedTile = tileOption;
     }
 
-    setTile(iLayer: number, iRow: number, iCell: number, selectedTile: TileOptions) {
+    setTile(iLayer: number, iRow: number, iCell: number, selectedTile: string) {
         this.map[iLayer][iRow][iCell] = selectedTile;
     }
 

@@ -55,6 +55,10 @@ export class Rectangle implements Shape {
         return new Rectangle(new Vector(Math.min(x1, x2), Math.min(y1, y2)), new Vector(Math.max(x1, x2), Math.max(y1, y2)));
     }
 
+    static fromNumbersWH(x: number, y: number, w: number, h: number): Rectangle {
+        return new Rectangle(new Vector(x, y), new Vector(w, h));
+    }
+
     getType(): string {
         return Rectangle.shapeName;
     }

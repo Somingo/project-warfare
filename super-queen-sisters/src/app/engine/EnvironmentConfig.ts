@@ -4,6 +4,7 @@ export class EnvironmentConfig {
 
     width = 1280;
     height = 720;
+    hitBox = true;
 
     private constructor() {
     }

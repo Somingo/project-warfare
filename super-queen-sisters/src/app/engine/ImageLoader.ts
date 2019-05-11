@@ -26,12 +26,12 @@ export class ImageLoader {
 
 
     loadImage(path: string): HTMLImageElement {
-        let res = this.loadedImages.filter(x => x.path === path)[0];
+        let res: LoadedImage = this.loadedImages.filter((image: LoadedImage) => image.path === path)[0];
         if (res === undefined) {
             const imageToLoad = new Image();
-            imageToLoad.src = path;
             imageToLoad.onloadend = () => this.onFinished();
             imageToLoad.onloadstart = () => this.onStart();
+            imageToLoad.src = path;
             res = {
                 path,
                 image: imageToLoad

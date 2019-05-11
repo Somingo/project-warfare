@@ -19,6 +19,8 @@ import {Vector} from '../engine/Vector';
 import {EnvironmentConfig} from '../engine/EnvironmentConfig';
 import Container from '../engine/sprites/Container';
 import {FpsMeter} from '../engine/sprites/FpsMeter';
+import {ImageSpriteSheet} from '../engine/ImageSpriteSheet';
+import {BASIC_MAP_TILE_SPRITE_SHEET} from './basicMapTileSpriteSheet';
 
 interface Player {
     tile: Tile;
@@ -34,14 +36,17 @@ interface Enemy {
 const gravity = 1000;
 
 export class SuperQueenSisters implements Sprite {
+    private mapSpriteSheet = new ImageSpriteSheet(BASIC_MAP_TILE_SPRITE_SHEET);
+
     parallax: Parallax = null;
-    map: MultiLayerMap = new MultiLayerMap();
+    map: MultiLayerMap = new MultiLayerMap(this.mapSpriteSheet);
     enemySpawnPos = 0;
     private playerTileSet: TileSet;
     private enemyTileSet: TileSet;
     private player: Player;
     private enemy: Enemy;
     private viewPortX = 0;
+    private viewPortY = 0;
     private HUD = new Container();
 
     constructor() {
@@ -52,14 +57,13 @@ export class SuperQueenSisters implements Sprite {
         if (this.parallax) {
             this.parallax.draw(ctx);
         }
-        this.HUD.draw(ctx);
 
-        ctx.translate(this.viewPortX, 0);
+        ctx.translate(this.viewPortX, this.viewPortY);
         this.map.draw(ctx);
         this.enemy.tile.draw(ctx);
         this.player.tile.draw(ctx);
-        ctx.fillText(`Map W: ${this.map.width} R: ${this.map.raster}`, 50, 50);
         ctx.resetTransform();
+        this.HUD.draw(ctx);
     }
 
     spawnNextEnemy() {
@@ -116,8 +120,8 @@ export class SuperQueenSisters implements Sprite {
         const h = this.player.tile.height;
         this.player.tile.bounds = new Rectangle(new Vector(newX, newY), new Vector(w, h));
 
-        let collapse = this.map.layers[this.map.layers.length - 1]
-            .filter(tile => Collision.collisionRectangleToRectangle(tile.bounds, this.player.tile.bounds));
+        let collapse = this.map.floorLayer
+            .filter(tile => Collision.collisionRectangleToRectangle(tile.hitBox, this.player.tile.bounds));
         if (collapse.length === 0) {
             this.player.tile.y = newY;
         } else {
@@ -128,8 +132,8 @@ export class SuperQueenSisters implements Sprite {
         newY = this.player.tile.y;
         this.player.tile.bounds = new Rectangle(new Vector(newX, newY), new Vector(w, h));
 
-        collapse = this.map.layers[this.map.layers.length - 1]
-            .filter(tile => Collision.collisionRectangleToRectangle(tile.bounds, this.player.tile.bounds));
+        collapse = this.map.floorLayer
+            .filter(tile => Collision.collisionRectangleToRectangle(tile.hitBox, this.player.tile.bounds));
         if (collapse.length === 0) {
             this.player.tile.x = newX;
         }
@@ -155,6 +159,12 @@ export class SuperQueenSisters implements Sprite {
                 0,
                 this.player.tile.x - (EnvironmentConfig.get().width / 2 + this.player.tile.width)),
             this.map.width - EnvironmentConfig.get().width);
+
+        this.viewPortY = 0 - Math.min(
+            Math.max(
+                0,
+                this.player.tile.y - (EnvironmentConfig.get().height / 2 - this.player.tile.height)),
+            this.map.height - EnvironmentConfig.get().height);
 
         this.parallax.viewPortX = this.viewPortX;
         this.parallax.update(e);
