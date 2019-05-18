@@ -13,18 +13,19 @@ import {EnvironmentConfig} from '../engine/EnvironmentConfig';
 import Container from '../engine/sprites/Container';
 import {FpsMeter} from '../engine/sprites/FpsMeter';
 import {ImageSpriteSheet} from '../engine/ImageSpriteSheet';
-import {BASIC_MAP_TILE_SPRITE_SHEET, ENEMY_SPRITE_SHEET, GOLD_SPRITE_SHEET, PLAYER_SPRITE_SHEET} from './spriteSheets';
+import {BASIC_MAP_TILE_SPRITE_SHEET, ENEMY_SPRITE_SHEET, GOLD_SPRITE_SHEET} from './spriteSheets';
 import {ImageSprite} from '../engine/sprites/ImageSprite';
 import {AnimatedImageSprite} from '../engine/sprites/AnimatedImageSprite';
+import {Player} from './Player';
 
-interface Player {
-    sprite: ImageSprite;
+interface PlayerDesc {
+    sprite: Player;
     hitBox: Rectangle;
     speed: number;
     velocity: number;
 }
 
-interface Enemy {
+interface NpcDesc {
     sprite: ImageSprite;
     hitBox: Rectangle;
     spawn: { x: number, y: number }[];
@@ -35,7 +36,6 @@ const gravity = 1000;
 export class SuperQueenSisters implements Sprite {
     private mapSpriteSheet = new ImageSpriteSheet(BASIC_MAP_TILE_SPRITE_SHEET);
     private enemySpriteSheet = new ImageSpriteSheet(ENEMY_SPRITE_SHEET);
-    private playerSpriteSheet = new ImageSpriteSheet(PLAYER_SPRITE_SHEET);
     private goldSpriteSheet = new ImageSpriteSheet(GOLD_SPRITE_SHEET);
 
     private goldCoin: AnimatedImageSprite;
@@ -43,8 +43,8 @@ export class SuperQueenSisters implements Sprite {
     parallax: Parallax = null;
     map: MultiLayerMap = new MultiLayerMap(this.mapSpriteSheet);
     enemySpawnPos = 0;
-    private player: Player;
-    private enemy: Enemy;
+    private player: PlayerDesc;
+    private enemy: NpcDesc;
     private viewPortX = 0;
     private viewPortY = 0;
     private HUD = new Container();
@@ -100,7 +100,10 @@ export class SuperQueenSisters implements Sprite {
         this.parallax = new Parallax(parallaxOptions.layerOptions);
         this.parallax.init();
         this.player = {sprite: null, hitBox: null, speed: 345, velocity: 0};
-        this.player.sprite = this.playerSpriteSheet.get('L_IDLE_0', 100, 100);
+        this.player.sprite = new Player();
+        this.player.sprite.init();
+        this.player.sprite.positionX = 100;
+        this.player.sprite.positionY = 100;
         this.player.hitBox = Rectangle.fromNumbersWH(
             this.player.sprite.positionX,
             this.player.sprite.positionY,
@@ -164,6 +167,7 @@ export class SuperQueenSisters implements Sprite {
             this.player.sprite.positionX = newX;
         }
 
+        // Fall out
         if (this.player.sprite.positionY > 720) {
             this.player.sprite.positionX = 100;
             this.player.sprite.positionY = 100;
@@ -179,6 +183,8 @@ export class SuperQueenSisters implements Sprite {
                 this.player.velocity = 0;
             }
         }
+
+        this.player.sprite.update(e);
 
         this.viewPortX = 0 - Math.min(
             Math.max(
