@@ -154,6 +154,13 @@ export class SuperQueenSisters implements Sprite {
         if (collapse.length === 0) {
             this.player.sprite.positionY = newY;
         } else {
+            if (pY > 0) {
+                // hit from above
+                this.player.sprite.positionY = collapse[0].hitBox.y - this.player.sprite.height ;
+            } else {
+                // hit from under
+                this.player.sprite.positionY = collapse[0].hitBox.y + collapse[0].hitBox.height ;
+            }
             this.player.velocity = pY < 0 ? 0.1 : 0;
         }
 
