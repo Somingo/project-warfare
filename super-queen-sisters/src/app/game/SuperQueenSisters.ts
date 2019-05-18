@@ -13,8 +13,9 @@ import {EnvironmentConfig} from '../engine/EnvironmentConfig';
 import Container from '../engine/sprites/Container';
 import {FpsMeter} from '../engine/sprites/FpsMeter';
 import {ImageSpriteSheet} from '../engine/ImageSpriteSheet';
-import {BASIC_MAP_TILE_SPRITE_SHEET, ENEMY_SPRITE_SHEET, PLAYER_SPRITE_SHEET} from './spriteSheets';
+import {BASIC_MAP_TILE_SPRITE_SHEET, ENEMY_SPRITE_SHEET, GOLD_SPRITE_SHEET, PLAYER_SPRITE_SHEET} from './spriteSheets';
 import {ImageSprite} from '../engine/sprites/ImageSprite';
+import {AnimatedImageSprite} from '../engine/sprites/AnimatedImageSprite';
 
 interface Player {
     sprite: ImageSprite;
@@ -35,6 +36,9 @@ export class SuperQueenSisters implements Sprite {
     private mapSpriteSheet = new ImageSpriteSheet(BASIC_MAP_TILE_SPRITE_SHEET);
     private enemySpriteSheet = new ImageSpriteSheet(ENEMY_SPRITE_SHEET);
     private playerSpriteSheet = new ImageSpriteSheet(PLAYER_SPRITE_SHEET);
+    private goldSpriteSheet = new ImageSpriteSheet(GOLD_SPRITE_SHEET);
+
+    private goldCoin: AnimatedImageSprite;
 
     parallax: Parallax = null;
     map: MultiLayerMap = new MultiLayerMap(this.mapSpriteSheet);
@@ -66,6 +70,7 @@ export class SuperQueenSisters implements Sprite {
             ctx.strokeStyle = '#0000aa';
             ctx.strokeRect(this.player.hitBox.x, this.player.hitBox.y, this.player.hitBox.width, this.player.hitBox.height);
         }
+        this.goldCoin.draw(ctx);
         ctx.resetTransform();
         this.HUD.draw(ctx);
     }
@@ -85,6 +90,12 @@ export class SuperQueenSisters implements Sprite {
     }
 
     init(): void {
+        this.goldCoin = new AnimatedImageSprite({
+            fps: 10,
+            autoRepeat: true,
+            autoStop: false
+        }, this.goldSpriteSheet.getMultipleByPattern('Gold_star_{}', 10), 100, 100);
+        this.goldCoin.start();
         const parallaxOptions = ParallaxOptions.fromObject(parallaxes[0]);
         this.parallax = new Parallax(parallaxOptions.layerOptions);
         this.parallax.init();
@@ -107,6 +118,7 @@ export class SuperQueenSisters implements Sprite {
     }
 
     update(e: UpdateEvent): void {
+        this.goldCoin.update(e);
         // gravity
         let pX = 0;
         let pY = 0;
